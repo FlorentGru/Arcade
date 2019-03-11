@@ -9,7 +9,7 @@
 #define __CORE_HPP__
 
 #include <string>
-#include "DLLoader.hpp"
+#include "dlLoader.hpp"
 
 class Core 
 {
@@ -19,7 +19,7 @@ private:
     IGameModule game;
     IDisplayModule graphical;
 public:
-    
+
 };
 
 #endif
