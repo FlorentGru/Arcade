@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-SRC_CORE			=	$(SRC_DIR_CORE)core.cpp	\
+SRC_CORE			=	$(SRC_DIR_CORE)Core.cpp	\
 
 NAME_CORE		=	arcade
 
@@ -24,7 +24,7 @@ MAKE 			= 	make -C
 all:		core game graphicals
 
 core:		$(OBJECTS_CORE)
-			$(CXX) -o $(NAME_CORE) $(OBJECTS_CORE)
+			$(CXX) -o $(NAME_CORE) $(OBJECTS_CORE) -ldl
 
 game:
 			$(MAKE) games/
