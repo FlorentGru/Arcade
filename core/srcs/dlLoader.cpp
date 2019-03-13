@@ -23,7 +23,11 @@ DLLoader::~DLLoader()
 
 void DLLoader::openLib(const std::string &libName)
 {
+    this->closeLib();
     this->lib = dlopen(libName.c_str(), RTLD_LAZY);
+    if (lib == NULL) {
+        return (84);
+    }
 }
 
 template<typename T>
@@ -34,7 +38,7 @@ T *DLLoader::getClass(const std::string &symbol) const
     if (this->lib == NULL) {
         return (NULL);
     }
-    classPtr = static_cast<T *> dlsym(this->lib, symbol);
+    classPtr = dynamic_cast<T *> dlsym(this->lib, symbol);
     if (dlerror != NULL) {
         return (NULL);
     }
