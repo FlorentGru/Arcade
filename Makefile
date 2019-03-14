@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-SRC_CORE			=	$(SRC_DIR_CORE)Core.cpp	\
+SRC_CORE			=	$(SRC_DIR_CORE)core.cpp	\
 
 NAME_CORE		=	arcade
 
