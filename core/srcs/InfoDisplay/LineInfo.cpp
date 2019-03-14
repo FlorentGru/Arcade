@@ -11,9 +11,9 @@
 ## GET TYPE
 ###############################*/
 
-const TypeInfoDisplay arcDisplay::LineInfo::getType() const
+const arcDisplay::TypeInfoDisplay arcDisplay::LineInfo::getType() const
 {
-    return (LINE);
+    return (arcDisplay::LINE);
 }
 
 /*###############################
@@ -27,5 +27,5 @@ void arcDisplay::LineInfo::setPosition2(const float x, const float y)
 
 const std::pair<float, float> &arcDisplay::LineInfo::getPosition2()
 {
-    return (this->_position);
+    return (this->_position2);
 }

@@ -17,7 +17,7 @@ namespace arcDisplay
     private:
         std::pair<float, float> _position2;
     public:
-        const TypeInfoDisplay getType();
+        const TypeInfoDisplay getType() const;
 
         const std::pair<float, float> &getPosition2();
         void setPosition2(const float, const float);

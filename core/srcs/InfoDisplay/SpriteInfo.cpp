@@ -13,7 +13,7 @@
 
 const arcDisplay::TypeInfoDisplay arcDisplay::SpriteInfo::getType() const
 {
-    return (SPRITE);
+    return (arcDisplay::SPRITE);
 }
 
 /*###############################

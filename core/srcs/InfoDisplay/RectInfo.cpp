@@ -11,7 +11,7 @@
 ## GET TYPE
 ###############################*/
 
-const TypeInfoDisplay arcDisplay::RectInfo::getType() const
+const arcDisplay::TypeInfoDisplay arcDisplay::RectInfo::getType() const
 {
-    return (RECT);
+    return (arcDisplay::RECT);
 }

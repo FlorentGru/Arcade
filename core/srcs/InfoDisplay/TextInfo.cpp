@@ -13,14 +13,14 @@
 
 const arcDisplay::TypeInfoDisplay arcDisplay::TextInfo::getType() const
 {
-    return (TEXT);
+    return (arcDisplay::TEXT);
 }
 
 /*###############################
 ## SETTER AND GETTER
 ###############################*/
 
-const std::string &arcDisplay::TextInfo::getText() const;
+const std::string &arcDisplay::TextInfo::getText() const
 {
     return (this->_text);
 }
