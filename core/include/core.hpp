@@ -23,7 +23,7 @@ private:
     int actualDisplay;
 
     IGameModule *game;
-    IDisplayModule *graphical;
+    arcDisplay::IDisplayModule *graphical;
 
     void setGameLibPath(const std::string &dirPath);
     void setDisplayLibPath(const std::string &dirPath);

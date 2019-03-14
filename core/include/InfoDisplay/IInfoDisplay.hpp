@@ -17,7 +17,8 @@ namespace arcDisplay
         RECT,
         CIRCLE,
         LINE,
-        SOUND
+        SOUND,
+        WINDOW
     };
 
     class IInfoDisplay

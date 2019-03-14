@@ -12,8 +12,8 @@ int main(int ac, char const *av[])
 {
     Core core;
 
-    if (ac < 2 || ac > 2) {
-        std::cout << "c pa com sa kon utilize le jeu" << std::endl;
+    if (ac != 2) {
+        std::cout << "c pa com sa kon utilize le jeu, Tocard" << std::endl;
         return (84);
     }
     return (core.run(av[1]));                                                                                                                                                                                                                                                                                                                                                                                                                                                                            

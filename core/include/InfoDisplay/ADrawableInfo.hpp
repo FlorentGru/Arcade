@@ -24,6 +24,8 @@ namespace arcDisplay
         char _ascii;
         std::string _texture;
     public:
+        ADrawableInfo();
+
         virtual const TypeInfoDisplay getType() const = 0;
 
         const std::pair<float, float> &getPos() const;
@@ -32,9 +34,9 @@ namespace arcDisplay
         char getAscii() const;
         const std::string &getTexture() const;
 
-        void setPos(const std::pair<float, float> &);
-        void setSize(const std::pair<float, float> &);
-        void setColor(const std::vector<unsigned char> &);
+        void setPos(float, float);
+        void setSize(float, float);
+        void setColor(unsigned char, unsigned char, unsigned char);
         void setAscii(char);
         void setTexture(const std::string &);
     };

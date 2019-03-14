@@ -10,7 +10,7 @@
 
 namespace arcDisplay
 {
-    enum Key
+    enum KeyID
     {
         UNKNOWN = -1,
         A, B, C, D,
@@ -33,7 +33,7 @@ namespace arcDisplay
 
     typedef struct s_InfoInput
     {
-        Key _id;
+        KeyID _id;
         bool _isPressed;
     } t_InfoInput;
     

@@ -17,7 +17,9 @@ namespace arcDisplay
     private:
         bool _close;
     public:
-        const TypeInfoDisplay getType();
+        WindowInfo();
+
+        const TypeInfoDisplay getType() const;
 
         bool isClosed() const;
         void setClose(bool);
