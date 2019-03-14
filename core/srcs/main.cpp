@@ -8,7 +8,7 @@
 #include <iostream>
 #include "core.hpp"
 
-int main(int argc, char const *argv[])
+int main(int ac, char const *av[])
 {
     Core core;
 
@@ -16,6 +16,5 @@ int main(int argc, char const *argv[])
         std::cout << "c pa com sa kon utilize le jeu" << std::endl;
         return (84);
     }
-
-    return 0;
+    return (core.run(av[1]));                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 }
