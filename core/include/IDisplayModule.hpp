@@ -8,16 +8,21 @@
 #ifndef IDISPLAYMODULE_HPP
 #define IDISPLAYMODULE_HPP
 
+#include "IInfoDisplay.hpp"
+#include "InfoInput.hpp"
 #include <vector>
 
-class IDisplayModule {
-private:
+namespace arcDisplay
+{
+    class IDisplayModule {
+    private:
 
-public:
-    bool initScreen();
-    bool close();
-    bool display(std::vector<std::reference_wrapper<Entity>>);
-    std::vector<std::reference_wrapper<InfoInput>> getInput() const;
-};
+    public:
+        bool initScreen();
+        bool close();
+        bool display(const std::vector<std::reference_wrapper<IInfoDisplay>> &);
+        std::vector<std::reference_wrapper<t_InfoInput>> getInput() const;
+    };
+} // arcDisplay
 
 #endif
