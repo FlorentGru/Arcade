@@ -17,6 +17,8 @@ namespace arcDisplay
     private:
 
     public:
+        CircleInfo() {};
+        ~CircleInfo() {};
         const TypeInfoDisplay getType() const;
     };
 }; // arcDisplay

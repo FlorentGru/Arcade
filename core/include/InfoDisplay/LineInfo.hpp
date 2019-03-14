@@ -20,7 +20,7 @@ namespace arcDisplay
         const TypeInfoDisplay getType();
 
         const std::pair<float, float> &getPosition2();
-        void setPosition2(const std::pair<float, float> &);
+        void setPosition2(const float, const float);
     };
 } // arcDisplay
 

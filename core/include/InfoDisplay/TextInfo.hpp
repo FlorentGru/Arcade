@@ -34,10 +34,9 @@ namespace arcDisplay
 
         void setText(const std::string &);
         void setSize(size_t);
-        void setColor(const std::vector<unsigned char> &);
+        void setColor(const unsigned char, const unsigned char, const unsigned char);
         void setFont(const std::string &);
-        void setPos(const std::pair<float, float> &);
-
+        void setPos(const float, const float);
     };
 } // arcDisplay
 
