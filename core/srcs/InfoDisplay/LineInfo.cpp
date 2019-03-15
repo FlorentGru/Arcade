@@ -25,7 +25,7 @@ void arcDisplay::LineInfo::setPosition2(const float x, const float y)
     this->_position2 = std::make_pair(x, y);
 }
 
-const std::pair<float, float> &arcDisplay::LineInfo::getPosition2()
+const std::pair<float, float> &arcDisplay::LineInfo::getPosition2() const
 {
     return (this->_position2);
 }

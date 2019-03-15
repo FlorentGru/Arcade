@@ -10,6 +10,7 @@
 
 #include "IInfoDisplay.hpp"
 #include "InfoInput.hpp"
+#include <functional>
 #include <vector>
 
 namespace arcDisplay
@@ -18,10 +19,10 @@ namespace arcDisplay
     private:
 
     public:
-        bool initScreen();
-        bool close();
-        bool display(const std::vector<std::reference_wrapper<IInfoDisplay>> &);
-        std::vector<std::reference_wrapper<t_InfoInput>> getInput() const;
+        virtual bool initScreen() = 0;
+        virtual bool close() = 0;
+        virtual bool display(const std::vector<std::reference_wrapper<IInfoDisplay>> &) = 0;
+        virtual std::vector<std::reference_wrapper<t_InfoInput>> getInput() const = 0;
     };
 } // arcDisplay
 

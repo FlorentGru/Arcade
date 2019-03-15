@@ -12,14 +12,14 @@
 
 namespace arcDisplay
 {
-    class LineInfo
+    class LineInfo : public ADrawableInfo
     {
     private:
         std::pair<float, float> _position2;
     public:
         const TypeInfoDisplay getType() const;
 
-        const std::pair<float, float> &getPosition2();
+        const std::pair<float, float> &getPosition2() const;
         void setPosition2(const float, const float);
     };
 } // arcDisplay
