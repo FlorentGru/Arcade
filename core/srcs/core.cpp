@@ -19,14 +19,130 @@ Core::Core()
 
 int Core::run(const std::string &libName)
 {
+    Outcome outcome = UNCHANGED;
+
     this->setDisplayLibPath("./lib");
     this->setGameLibPath("./games");
     try {
         this->setDisplayModule(libName);
-    } catch(const std::exception& e) {
+    } catch(const std::exception &e) {
         std::cerr << e.what() << '\n';
         return (84);
     }
+
+    while (outcome != QUIT) {
+        if (outcome == GAME) {
+            outcome = this->runGame();
+        } else {
+            outcome = this->runMenu();
+        }
+    }
+    return (0);
+}
+
+Core::Outcome Core::runMenu()
+{
+    Outcome outcome = UNCHANGED;
+    std::vector<arcDisplay::t_InfoInput &> inputs;
+
+    while (outcome == UNCHANGED) {
+        inputs = graphical->getInput();
+        outcome = menuEvent(inputs);
+        switch (outcome) {
+            case QUIT:
+                return (QUIT);
+            case LIB:
+                outcome = UNCHANGED;
+            case GAME:
+                return (GAME);
+            default:
+                break;
+        }
+    }
+    graphical->close();
+    return (UNCHANGED);
+}
+
+Core::Outcome Core::runGame()
+{
+    Outcome outcome = UNCHANGED;
+    std::vector<arcDisplay::t_InfoInput &> inputs;
+
+    while (outcome == UNCHANGED) {
+        outcome = gameLoop();
+        switch (outcome) {
+            case QUIT:
+                return (QUIT);
+            case LIB:
+                outcome = UNCHANGED;
+            case MENU:
+                return (MENU);
+            default:
+                break;
+        }
+    }
+    return (UNCHANGED);
+}
+
+void Core::initGame()
+{
+    this->graphical->initScreen(this->game->init());
+}
+
+Core::Outcome Core::gameLoop()
+{
+    std::vector<arcDisplay::t_InfoInput &> inputs;
+    Outcome outcome = UNCHANGED;
+
+    initGame();
+    while (outcome == UNCHANGED) {
+        inputs = graphical->getInput();
+        outcome = gameEvent(inputs);
+        game->playGame(inputs);
+        graphical->display(game->getInfoDisplay());
+    }
+    graphical->close();
+    return (outcome);
+}
+
+Core::Outcome Core::menuEvent(std::vector<arcDisplay::t_InfoInput &> inputs)
+{
+    for (auto &input : inputs) {
+        switch (input.id) {
+            case arcDisplay::ESCAPE:
+                return (QUIT);
+            default:
+                break;
+        }
+    }
+    return (UNCHANGED);
+}
+
+Core::Outcome Core::gameEvent(std::vector<arcDisplay::t_InfoInput &> inputs)
+{
+    for (auto &input : inputs) {
+        switch (input.id) {
+            case arcDisplay::ESCAPE:
+                return (QUIT);
+            case arcDisplay::M:
+                return (MENU);
+            case arcDisplay::UP:
+                this->setNextGameLib();
+                return (LIB);
+            case arcDisplay::DOWN:
+                this->setPreviousGameLib();
+                return (LIB);
+            case arcDisplay::RIGHT:
+                this->setNextDisplayLib();
+                return (LIB);
+            case arcDisplay::LEFT:
+                this->setPreviousDisplayLib();
+                return (LIB);
+            default:
+                break;
+        }
+    }
+    return (UNCHANGED);
 }
 
 void Core::setNextDisplayLib()
@@ -91,9 +207,8 @@ void Core::setDisplayModule(const std::string &libName)
 {
     size_t i = 0;
 
-    this->libLoader.openLib(libName);
-    this->graphical = this->libLoader.template getClass<IDisplayModule>("DisplayModule");
-    this->libLoader.closeLib();
+    this->libDisplay.openLib(libName);
+    this->graphical = this->libDisplay.getClass("create");
 
     for (auto &libname : this->gameLibPath) {
         if (libname == libName)
@@ -106,9 +221,8 @@ void Core::setGameModule(const std::string &libName)
 {
     size_t i = 0;
 
-    this->libLoader.openLib(libName);
-    this->game = this->libLoader.template getClass<IGameModule>("GameModule");
-    this->libLoader.closeLib();
+    this->libGame.openLib(libName);
+    this->game = this->libGame.getClass("create");
 
     for (auto &libname : this->displayLibPath) {
         if (libname == libName)

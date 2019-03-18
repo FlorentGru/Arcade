@@ -10,14 +10,15 @@
 
 #include "IInfoDisplay.hpp"
 #include "InfoInput.hpp"
+#include "InitWindow.hpp"
 #include <vector>
 
 class IGameModule {
 private:
 
 public:
-    bool init(std::reference_wrapper<arcDisplay::IDisplayModule>);
-    bool playGame(const std::vector<const arcDisplay::t_InfoInput &> &);
+    const InitWindow &init();
+    bool playGame(const std::vector<arcDisplay::t_InfoInput &> &);
     const std::vector<std::reference_wrapper<arcDisplay::IInfoDisplay>> &getInfoDisplay() const;
     long int getScore() const;
 };

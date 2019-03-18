@@ -6,6 +6,19 @@
 */
 
 #include "sfmlDisplayModule.hpp"
+#include <memory>
+
+extern "C" {
+    arcDisplay::sfmlDisplayModule create()
+    {
+        return (arcDisplay::sfmlDisplayModule());
+    }
+}
+
+bool arcDisplay::sfmlDisplayModule::initScreen(InitWindow &info)
+{
+    window.create(sf::VideoMode(info.getWidth(), info.getHeight()), info.getName());
+}
 
 bool arcDisplay::sfmlDisplayModule::display(const std::vector<std::reference_wrapper<IInfoDisplay>> &info)
 {
@@ -17,24 +30,42 @@ bool arcDisplay::sfmlDisplayModule::display(const std::vector<std::reference_wra
         drawType(type, entity.get());
     }
     this->window.display();
+    return (true);
+}
+
+bool arcDisplay::sfmlDisplayModule::close()
+{
+    window.close();
+    return (true);
 }
 
 void arcDisplay::sfmlDisplayModule::drawType(TypeInfoDisplay type, std::reference_wrapper<IInfoDisplay> info)
 {
-    if (type == WINDOW)
-        draw(dynamic_cast<WindowInfo &>(info.get()));
-    if (type == SOUND)
-        draw(dynamic_cast<SoundInfo &>(info.get()));
-    if (type == TEXT)
-        draw(dynamic_cast<TextInfo &>(info.get()));
-    if (type == SPRITE)
-        draw(dynamic_cast<SpriteInfo &>(info.get()));
-    if (type == CIRCLE)
-        draw(dynamic_cast<CircleInfo &>(info.get()));
-    if (type == RECT)
-        draw(dynamic_cast<RectInfo &>(info.get()));
-    if (type == LINE)
-        draw(dynamic_cast<LineInfo &>(info.get()));
+    switch (type) {
+        case WINDOW:
+            draw(dynamic_cast<WindowInfo &>(info.get()));
+            break;
+        case SOUND:
+            draw(dynamic_cast<SoundInfo &>(info.get()));
+            break;
+        case TEXT:
+            draw(dynamic_cast<TextInfo &>(info.get()));
+            break;
+        case SPRITE:
+            draw(dynamic_cast<SpriteInfo &>(info.get()));
+            break;
+        case CIRCLE:
+            draw(dynamic_cast<CircleInfo &>(info.get()));
+            break;
+        case RECT:
+            draw(dynamic_cast<RectInfo &>(info.get()));
+            break;
+        case LINE:
+            draw(dynamic_cast<LineInfo &>(info.get()));
+            break;
+        default:
+            break;
+    }
 }
 
 void arcDisplay::sfmlDisplayModule::draw(const WindowInfo &info)
