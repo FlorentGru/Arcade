@@ -25,7 +25,7 @@ namespace arcDisplay
     class allegroDisplayModule : public IDisplayModule
     {
     private:
-        // sf::RenderWindow window;
+        ALLEGRO_DISPLAY *window;
         // sf::Text text;
         // sf::Sound sound;
         // sf::Sprite sprite;
@@ -38,8 +38,8 @@ namespace arcDisplay
         // std::map<std::string, sf::Font> font;
 
         void drawType(TypeInfoDisplay, std::reference_wrapper<IInfoDisplay>);
-        void draw(const WindowInfo &);
-        void draw(const SoundInfo&);
+        void draw(const WindowInfo &);  // Draw why not ? 
+        void draw(const SoundInfo&);    // Draw why not ?
         void draw(const TextInfo&);
         void draw(const SpriteInfo&);
         void draw(const CircleInfo&);
