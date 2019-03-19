@@ -33,8 +33,8 @@ namespace arcDisplay
 
     typedef struct s_InfoInput
     {
-        KeyID _id;
-        bool _isPressed;
+        KeyID id;
+        bool isPressed;
     } t_InfoInput;
     
 } // arcDisplay

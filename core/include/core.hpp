@@ -8,22 +8,33 @@
 #ifndef __CORE_HPP__
 #define __CORE_HPP__
 
-#include <string>
 #include "IDisplayModule.hpp"
 #include "IGameModule.hpp"
 #include "dlLoader.hpp"
+#include <string>
+#include <memory>
 
 class Core 
 {
 private:
-    DLLoader libLoader;
+    enum Outcome {
+        QUIT,
+        MENU,
+        UNCHANGED,
+        LIB,
+        GAME
+    };
+
+    DLLoader<IGameModule> libGame;
+    DLLoader<arcDisplay::IDisplayModule> libDisplay;
+
     std::vector<std::string> gameLibPath;
     int actualGame;
     std::vector<std::string> displayLibPath;
     int actualDisplay;
 
-    IGameModule *game;
-    arcDisplay::IDisplayModule *graphical;
+    std::unique_ptr<IGameModule> game;
+    std::unique_ptr<arcDisplay::IDisplayModule> graphical;
 
     void setGameLibPath(const std::string &dirPath);
     void setDisplayLibPath(const std::string &dirPath);
@@ -34,6 +45,14 @@ private:
     void setPreviousDisplayLib();
     void setNextGameLib();
     void setPreviousGameLib();
+
+    Outcome runMenu();
+    Outcome menuEvent(std::vector<arcDisplay::t_InfoInput &>);
+    void initGame();
+    Outcome gameLoop();
+    Outcome gameEvent(std::vector<arcDisplay::t_InfoInput &>);
+    Outcome runGame();
+
 public:
     Core();
 

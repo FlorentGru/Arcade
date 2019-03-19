@@ -39,20 +39,20 @@ namespace arcDisplay
 
         void drawType(TypeInfoDisplay, std::reference_wrapper<IInfoDisplay>);
         void draw(const WindowInfo &);
-        void draw(const SoundInfo&);
-        void draw(const TextInfo&);
-        void draw(const SpriteInfo&);
-        void draw(const CircleInfo&);
-        void draw(const RectInfo&);
-        void draw(const LineInfo&);
+        void draw(const SoundInfo &);
+        void draw(const TextInfo &);
+        void draw(const SpriteInfo &);
+        void draw(const CircleInfo &);
+        void draw(const RectInfo &);
+        void draw(const LineInfo &);
     public:
         sfmlDisplayModule();
         ~sfmlDisplayModule();
 
-        bool initScreen();
+        bool initScreen(InitWindow &info);
         bool close();
         bool display(const std::vector<std::reference_wrapper<IInfoDisplay>> &);
-        std::vector<std::reference_wrapper<t_InfoInput>> getInput() const;
+        std::vector<t_InfoInput &> getInput() const;
     };
 } // arcDisplay
 

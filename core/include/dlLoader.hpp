@@ -10,19 +10,16 @@
 
 #include <string>
 
+template<typename T>
 class DLLoader {
 private:
     void *lib;
 public:
-    DLLoader();
-    DLLoader(const std::string &libName);
     ~DLLoader();
 
     void openLib(const std::string &libName);
     void closeLib();
-    
-    template<typename T>
-    T *getClass(const std::string &symbol) const;
+    std::unique_ptr<T> getClass(const std::string &symbol) const;
 };
 
 #endif
