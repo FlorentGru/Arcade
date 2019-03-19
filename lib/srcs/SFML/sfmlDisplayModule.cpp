@@ -15,9 +15,29 @@ extern "C" {
     }
 }
 
-bool arcDisplay::sfmlDisplayModule::initScreen(InitWindow &info)
+bool arcDisplay::sfmlDisplayModule::initScreen(const InitWindow &info)
 {
     window.create(sf::VideoMode(info.getWidth(), info.getHeight()), info.getName());
+
+    this->soundbuffer.clear();
+    this->font.clear();
+    this->texture.clear();
+    for (auto &texture : info.getTextures()) {
+        this->texture.emplace(texture, sf::Texture());
+        if (!this->texture.at(texture).loadFromFile(texture))
+            return (false);
+    }
+    for (auto &sound : info.getSounds()) {
+        this->soundbuffer.emplace(sound, sf::SoundBuffer());
+        if (!this->soundbuffer.at(sound).loadFromFile(sound))
+            return (false);
+    }
+    for (auto &font : info.getFonts()) {
+        this->font.emplace(font, sf::Font());
+        if (!this->font.at(font).loadFromFile(font))
+            return (false);
+    }
+    return (true);
 }
 
 bool arcDisplay::sfmlDisplayModule::display(const std::vector<std::reference_wrapper<IInfoDisplay>> &info)

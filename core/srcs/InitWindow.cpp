@@ -7,7 +7,7 @@
 
 #include "InitWindow.hpp"
 
-InitWindow::InitWindow(size_t width, size_t height) : _width(width), _height(height)
+InitWindow::InitWindow(unsigned int width, unsigned int height) : _width(width), _height(height)
 {
 
 }
@@ -16,12 +16,12 @@ InitWindow::InitWindow(size_t width, size_t height) : _width(width), _height(hei
 ########### GETTER ##############
 ###############################*/
 
-size_t InitWindow::getWidth() const
+unsigned int InitWindow::getWidth() const
 {
     return (this->_width);
 }
 
-size_t InitWindow::getHeight() const
+unsigned int InitWindow::getHeight() const
 {
     return (this->_height);
 }

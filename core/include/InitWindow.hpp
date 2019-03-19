@@ -14,8 +14,8 @@
 class InitWindow
 {
 private:
-    size_t _width;
-    size_t _height;
+    unsigned int _width;
+    unsigned int _height;
     std::string _name;
     size_t _frame;
 
@@ -23,11 +23,10 @@ private:
     std::vector<std::string> _sounds;
     std::vector<std::string> _fonts;
 public:
-    InitWindow(size_t width, size_t height);
-    ~InitWindow();
+    InitWindow(unsigned int width, unsigned int height);
 
-    size_t getWidth() const;
-    size_t getHeight() const;
+    unsigned int getWidth() const;
+    unsigned int getHeight() const;
     const std::string &getName() const;
     size_t getFrame() const;
 

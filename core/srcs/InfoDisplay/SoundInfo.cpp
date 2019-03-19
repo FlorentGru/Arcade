@@ -11,7 +11,7 @@
 ## GET TYPE
 ###############################*/
 
-const arcDisplay::TypeInfoDisplay arcDisplay::SoundInfo::getType() const
+arcDisplay::TypeInfoDisplay arcDisplay::SoundInfo::getType() const
 {
     return (arcDisplay::SOUND);
 }

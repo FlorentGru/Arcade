@@ -7,7 +7,7 @@
 
 #include "CircleInfo.hpp"
 
-const arcDisplay::TypeInfoDisplay arcDisplay::CircleInfo::getType() const
+arcDisplay::TypeInfoDisplay arcDisplay::CircleInfo::getType() const
 {
     return (arcDisplay::CIRCLE);
 }

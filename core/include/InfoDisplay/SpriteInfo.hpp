@@ -18,7 +18,7 @@ namespace arcDisplay
         std::pair<int, int> _posRect;
         std::pair<int, int> _sizeRect;
     public:
-        const TypeInfoDisplay getType() const;
+        TypeInfoDisplay getType() const;
 
         const std::pair<int, int> getPosRect() const;
         const std::pair<int, int> getSizeRect() const;

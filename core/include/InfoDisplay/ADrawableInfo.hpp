@@ -26,7 +26,7 @@ namespace arcDisplay
     public:
         ADrawableInfo();
 
-        virtual const TypeInfoDisplay getType() const = 0;
+        virtual TypeInfoDisplay getType() const = 0;
 
         const std::pair<float, float> &getPos() const;
         const std::pair<float, float> &getSize() const;

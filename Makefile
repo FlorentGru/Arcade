@@ -24,7 +24,7 @@ MAKE 			= 	make -C
 all:		core game graphicals
 
 core:		$(OBJECTS_CORE)
-			$(CXX) -o $(NAME_CORE) $(OBJECTS_CORE) -ldl
+			$(CXX) -o $(NAME_CORE) $(OBJECTS_CORE) -ldl -lstdc++fs
 
 game:
 			$(MAKE) games/

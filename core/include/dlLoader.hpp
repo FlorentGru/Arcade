@@ -8,6 +8,7 @@
 #ifndef DLLOARDER_HPP
 #define DLLOARDER_HPP
 
+#include <memory>
 #include <string>
 
 template<typename T>

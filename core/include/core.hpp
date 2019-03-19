@@ -11,6 +11,7 @@
 #include "IDisplayModule.hpp"
 #include "IGameModule.hpp"
 #include "dlLoader.hpp"
+#include "Menu.hpp"
 #include <string>
 #include <memory>
 
@@ -29,10 +30,11 @@ private:
     DLLoader<arcDisplay::IDisplayModule> libDisplay;
 
     std::vector<std::string> gameLibPath;
-    int actualGame;
+    size_t actualGame;
     std::vector<std::string> displayLibPath;
-    int actualDisplay;
+    size_t actualDisplay;
 
+    Menu menu;
     std::unique_ptr<IGameModule> game;
     std::unique_ptr<arcDisplay::IDisplayModule> graphical;
 
@@ -47,11 +49,13 @@ private:
     void setPreviousGameLib();
 
     Outcome runMenu();
+    Outcome menuLoop();
     Outcome menuEvent(std::vector<arcDisplay::t_InfoInput &>);
+
+    Outcome runGame();
     void initGame();
     Outcome gameLoop();
     Outcome gameEvent(std::vector<arcDisplay::t_InfoInput &>);
-    Outcome runGame();
 
 public:
     Core();

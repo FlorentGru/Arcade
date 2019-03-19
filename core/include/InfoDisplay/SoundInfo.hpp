@@ -21,7 +21,7 @@ namespace arcDisplay
         bool _loop;
         bool _start;
     public:
-        const TypeInfoDisplay getType() const;
+        TypeInfoDisplay getType() const;
 
         const std::string &getSound() const;
         size_t getVolume() const;

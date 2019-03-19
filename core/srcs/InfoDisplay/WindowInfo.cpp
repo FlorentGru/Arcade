@@ -22,7 +22,7 @@ void arcDisplay::WindowInfo::setClose(bool close)
     this->_close = close;
 }
 
-const arcDisplay::TypeInfoDisplay arcDisplay::WindowInfo::getType() const
+arcDisplay::TypeInfoDisplay arcDisplay::WindowInfo::getType() const
 {
     return (arcDisplay::WINDOW);
 }

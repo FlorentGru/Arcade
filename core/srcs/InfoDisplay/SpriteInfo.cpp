@@ -11,7 +11,7 @@
 ## GET TYPE
 ###############################*/
 
-const arcDisplay::TypeInfoDisplay arcDisplay::SpriteInfo::getType() const
+arcDisplay::TypeInfoDisplay arcDisplay::SpriteInfo::getType() const
 {
     return (arcDisplay::SPRITE);
 }
