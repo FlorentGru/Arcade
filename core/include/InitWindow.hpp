@@ -14,26 +14,31 @@
 class InitWindow
 {
 private:
-    int width;
-    int height;
-    std::string name;
-    int frame;
+    size_t _width;
+    size_t _height;
+    std::string _name;
+    size_t _frame;
 
-    std::vector<std::string> textures;
-    std::vector<std::string> sounds;
-    std::vector<std::string> fonts;
+    std::vector<std::string> _textures;
+    std::vector<std::string> _sounds;
+    std::vector<std::string> _fonts;
 public:
-    int getWidth() const;
-    int getHeight() const;
+    InitWindow(size_t width, size_t height);
+    ~InitWindow();
+
+    size_t getWidth() const;
+    size_t getHeight() const;
     const std::string &getName() const;
+    size_t getFrame() const;
 
     const std::vector<std::string> &getTextures() const;
     const std::vector<std::string> &getSounds() const;
     const std::vector<std::string> &getFonts() const;
 
-    void setWidth(int);
-    void setHeight(int);
+    void setWidth(size_t);
+    void setHeight(size_t);
     void setName(const std::string &);
+    void setFrame(size_t);
 
     void setTextures(const std::vector<std::string> &);
     void setSounds(const std::vector<std::string> &);

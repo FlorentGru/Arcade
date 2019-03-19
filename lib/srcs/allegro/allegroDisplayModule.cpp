@@ -7,12 +7,12 @@
 
 #include "allegroDisplayModule.hpp"
 
-bool arcDisplay::sfmlDisplayModule::display(const std::vector<std::reference_wrapper<IInfoDisplay>> &info)
+bool arcDisplay::allegroDisplayModule::display(const std::vector<std::reference_wrapper<IInfoDisplay>> &info)
 {
 
 }
 
-bool initScreen()
+bool arcDisplay::allegroDisplayModule::initScreen(InitWindow &info)
 {
     
 }
