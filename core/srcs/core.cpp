@@ -11,10 +11,10 @@
 
 Core::Core()
 {
-    this->graphical = NULL;
-    this->game = NULL;
-    this->actualDisplay = -1;
-    this->actualGame = -1;
+    this->graphical = nullptr;
+    this->game = nullptr;
+    this->actualDisplay = 0;
+    this->actualGame = 0;
 }
 
 int Core::run(const std::string &libName)
@@ -30,6 +30,9 @@ int Core::run(const std::string &libName)
         return (84);
     }
 
+    menu.initGames(this->gameLibPath);
+    menu.initLibs(this->displayLibPath);
+
     while (outcome != QUIT) {
         if (outcome == GAME) {
             outcome = this->runGame();
@@ -43,30 +46,27 @@ int Core::run(const std::string &libName)
 Core::Outcome Core::runMenu()
 {
     Outcome outcome = UNCHANGED;
-    std::vector<arcDisplay::t_InfoInput &> inputs;
 
     while (outcome == UNCHANGED) {
-        inputs = graphical->getInput();
-        outcome = menuEvent(inputs);
+        outcome = menuLoop();
         switch (outcome) {
             case QUIT:
                 return (QUIT);
             case LIB:
                 outcome = UNCHANGED;
+                break;
             case GAME:
                 return (GAME);
             default:
                 break;
         }
     }
-    graphical->close();
     return (UNCHANGED);
 }
 
 Core::Outcome Core::runGame()
 {
     Outcome outcome = UNCHANGED;
-    std::vector<arcDisplay::t_InfoInput &> inputs;
 
     while (outcome == UNCHANGED) {
         outcome = gameLoop();
@@ -75,6 +75,7 @@ Core::Outcome Core::runGame()
                 return (QUIT);
             case LIB:
                 outcome = UNCHANGED;
+                break;
             case MENU:
                 return (MENU);
             default:
@@ -84,9 +85,26 @@ Core::Outcome Core::runGame()
     return (UNCHANGED);
 }
 
+Core::Outcome Core::menuLoop()
+{
+    std::vector<arcDisplay::t_InfoInput &> inputs;
+    Outcome outcome = UNCHANGED;
+
+    graphical->initScreen(menu.init());
+    while (outcome == UNCHANGED) {
+        inputs = graphical->getInput();
+        outcome = menuEvent(inputs);
+        graphical->display(menu.getInfoDisplay());
+    }
+    graphical->close();
+    return (outcome);
+}
+
 void Core::initGame()
 {
-    this->graphical->initScreen(this->game->init());
+    if (!graphical->initScreen(game->init())) {
+//        throw ();
+    }
 }
 
 Core::Outcome Core::gameLoop()
@@ -111,6 +129,12 @@ Core::Outcome Core::menuEvent(std::vector<arcDisplay::t_InfoInput &> inputs)
         switch (input.id) {
             case arcDisplay::ESCAPE:
                 return (QUIT);
+            case arcDisplay::UP:
+                this->setNextGameLib();
+                return (LIB);
+            case arcDisplay::DOWN:
+                this->setPreviousGameLib();
+                return (LIB);
             default:
                 break;
         }
@@ -183,7 +207,7 @@ void Core::setDisplayLibPath(const std::string &dirPath)
 
     for (auto &filepath : std::experimental::filesystem::directory_iterator(dirPath)) {
         filename = filepath.path().string();
-        if (std::experimental::filesystem::is_regular_file(filepath.path()) 
+        if (std::experimental::filesystem::is_regular_file(filepath.path())
         && filename.rfind(".so") == filename.size() - 3) {
             this->displayLibPath.push_back(filename);
         }
@@ -196,7 +220,7 @@ void Core::setGameLibPath(const std::string &dirPath)
 
     for (auto &filepath : std::experimental::filesystem::directory_iterator(dirPath)) {
         filename = filepath.path().string();
-        if (std::experimental::filesystem::is_regular_file(filepath.path()) 
+        if (std::experimental::filesystem::is_regular_file(filepath.path())
         && filename.rfind(".so") == filename.size() - 3) {
             this->gameLibPath.push_back(filename);
         }

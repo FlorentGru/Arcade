@@ -19,6 +19,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <map>
+#include <functional>
 
 namespace arcDisplay
 {
@@ -49,7 +50,7 @@ namespace arcDisplay
         sfmlDisplayModule();
         ~sfmlDisplayModule();
 
-        bool initScreen(InitWindow &info);
+        bool initScreen(const InitWindow &info);
         bool close();
         bool display(const std::vector<std::reference_wrapper<IInfoDisplay>> &);
         std::vector<t_InfoInput &> getInput() const;

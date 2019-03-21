@@ -9,12 +9,12 @@
 
 arcDisplay::ADrawableInfo::ADrawableInfo()
 {
-    this->_pos = std::pair(0, 0);
-    this->_size = std::pair(0, 0);
+    this->_pos = std::pair<float, float>(0, 0);
+    this->_size = std::pair<float, float>(0, 0);
     this->_color.push_back(0);
     this->_color.push_back(0);
     this->_color.push_back(0);
-    this->_ascii = 0;
+    this->_ascii = '@';
     this->_texture = "";
 }
 

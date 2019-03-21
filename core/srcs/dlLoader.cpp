@@ -5,7 +5,7 @@
 ** DLLoader.cpp
 */
 
-#include "DLLoader.hpp"
+#include "dlLoader.hpp"
 #include <dlfcn.h>
 
 template<typename T>
@@ -26,11 +26,11 @@ std::unique_ptr<T> DLLoader<T>::getClass(const std::string &symbol) const
 {
     T (*create)();
 
-    if (this->lib == NULL) {
+    if (this->lib == nullptr) {
 //      throw
     }
-    create = static_cast<T (*)()> dlsym(this->lib, symbol);
-    if (dlerror != NULL) {
+    create = static_cast<T (*)()>(dlsym(this->lib, symbol));
+    if (dlerror() != nullptr) {
 //      throw
     }
     return (std::make_unique<T>(create()));

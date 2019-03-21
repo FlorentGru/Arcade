@@ -19,7 +19,7 @@ namespace arcDisplay
     public:
         WindowInfo();
 
-        const TypeInfoDisplay getType() const;
+        TypeInfoDisplay getType() const;
 
         bool isClosed() const;
         void setClose(bool);

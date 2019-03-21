@@ -7,11 +7,18 @@
 
 #include "TextInfo.hpp"
 
+arcDisplay::TextInfo::TextInfo()
+{
+    this->_text = "no_text";
+    setColor(255, 255, 255);
+    this->_size = 30;
+}
+
 /*###############################
 ## GET TYPE
 ###############################*/
 
-const arcDisplay::TypeInfoDisplay arcDisplay::TextInfo::getType() const
+arcDisplay::TypeInfoDisplay arcDisplay::TextInfo::getType() const
 {
     return (arcDisplay::TEXT);
 }

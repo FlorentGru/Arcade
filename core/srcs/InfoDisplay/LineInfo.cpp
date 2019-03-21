@@ -11,7 +11,7 @@
 ## GET TYPE
 ###############################*/
 
-const arcDisplay::TypeInfoDisplay arcDisplay::LineInfo::getType() const
+arcDisplay::TypeInfoDisplay arcDisplay::LineInfo::getType() const
 {
     return (arcDisplay::LINE);
 }
