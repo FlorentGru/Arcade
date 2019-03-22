@@ -24,6 +24,17 @@ namespace arcDisplay
     class ncursesDisplayModule : public IDisplayModule
     {
         private:
+        int maxheight;
+        int maxwidth;
+        char terminal;
+
+        void draw(const WindowInfo &);
+        void draw(const SoundInfo &);
+        void draw(const TextInfo &);
+        void draw(const SpriteInfo &);
+        void draw(const CircleInfo &);
+        void draw(const RectInfo &);
+        void draw(const LineInfo &);
             
         public:
             ncursesDisplayModule();
