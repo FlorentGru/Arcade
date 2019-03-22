@@ -17,10 +17,10 @@ class IGameModule {
 private:
 
 public:
-    const InitWindow &init();
-    bool playGame(const std::vector<arcDisplay::t_InfoInput &> &);
-    const std::vector<std::reference_wrapper<arcDisplay::IInfoDisplay>> &getInfoDisplay() const;
-    long int getScore() const;
+    virtual const InitWindow &init() = 0;
+    virtual bool playGame(const std::vector<arcDisplay::t_InfoInput > &) = 0;
+    virtual const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &getInfoDisplay() const = 0;
+    virtual long int getScore() const = 0;
 };
 
 #endif

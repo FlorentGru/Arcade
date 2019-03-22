@@ -38,7 +38,9 @@ namespace arcDisplay
         std::map<std::string, sf::SoundBuffer> soundbuffer;
         std::map<std::string, sf::Font> font;
 
-        void drawType(TypeInfoDisplay, std::reference_wrapper<IInfoDisplay>);
+        std::vector<arcDisplay::t_InfoInput> inputs;
+
+        void drawType(TypeInfoDisplay, std::reference_wrapper<const IInfoDisplay>);
         void draw(const WindowInfo &);
         void draw(const SoundInfo &);
         void draw(const TextInfo &);
@@ -47,13 +49,10 @@ namespace arcDisplay
         void draw(const RectInfo &);
         void draw(const LineInfo &);
     public:
-        sfmlDisplayModule();
-        ~sfmlDisplayModule();
-
-        bool initScreen(const InitWindow &info);
-        bool close();
-        bool display(const std::vector<std::reference_wrapper<IInfoDisplay>> &);
-        std::vector<t_InfoInput &> getInput() const;
+        bool initScreen(const InitWindow &info) override;
+        bool close() override;
+        bool display(const std::vector<std::reference_wrapper<const IInfoDisplay>> &) override;
+        const std::vector<t_InfoInput> &getInput() const override;
     };
 } // arcDisplay
 

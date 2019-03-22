@@ -20,7 +20,7 @@ namespace arcDisplay
     private:
         std::string _text;
         std::string _font;
-        size_t _size;
+        unsigned int _size;
         std::pair<float, float> _pos;
         std::vector<unsigned char> _color;
     public:
@@ -30,15 +30,15 @@ namespace arcDisplay
 
         const std::string &getText() const;
         const std::pair<float, float> &getPos() const;
-        size_t getSize() const;
+        unsigned int getSize() const;
         const std::vector<unsigned char> &getColor() const;
         const std::string &getFont() const;
 
         void setText(const std::string &);
-        void setSize(size_t);
-        void setColor(const unsigned char, const unsigned char, const unsigned char);
+        void setSize(unsigned int);
+        void setColor(unsigned char, unsigned char, unsigned char);
         void setFont(const std::string &);
-        void setPos(const float, const float);
+        void setPos(float, float);
     };
 } // arcDisplay
 

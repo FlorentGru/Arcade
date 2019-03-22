@@ -50,12 +50,12 @@ private:
 
     Outcome runMenu();
     Outcome menuLoop();
-    Outcome menuEvent(std::vector<arcDisplay::t_InfoInput &>);
+    Outcome menuEvent(const std::vector<arcDisplay::t_InfoInput> &);
 
     Outcome runGame();
     void initGame();
     Outcome gameLoop();
-    Outcome gameEvent(std::vector<arcDisplay::t_InfoInput &>);
+    Outcome gameEvent(const std::vector<arcDisplay::t_InfoInput> &);
 
 public:
     Core();

@@ -7,43 +7,48 @@
 
 #include "sfmlDisplayModule.hpp"
 #include <memory>
+#include <iostream>
 
 extern "C" {
-    arcDisplay::sfmlDisplayModule create()
+    arcDisplay::sfmlDisplayModule *create()
     {
-        return (arcDisplay::sfmlDisplayModule());
+        return (new arcDisplay::sfmlDisplayModule());
     }
 }
 
 bool arcDisplay::sfmlDisplayModule::initScreen(const InitWindow &info)
 {
-    window.create(sf::VideoMode(info.getWidth(), info.getHeight()), info.getName());
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
+
+    window.create(sf::VideoMode(info.getWidth(), info.getHeight()), info.getName(), sf::Style::Default, settings);
 
     this->soundbuffer.clear();
     this->font.clear();
     this->texture.clear();
-    for (auto &texture : info.getTextures()) {
-        this->texture.emplace(texture, sf::Texture());
-        if (!this->texture.at(texture).loadFromFile(texture))
+    for (auto &_texture : info.getTextures()) {
+        this->texture.emplace(_texture, sf::Texture());
+        if (!this->texture.at(_texture).loadFromFile(_texture))
             return (false);
     }
-    for (auto &sound : info.getSounds()) {
-        this->soundbuffer.emplace(sound, sf::SoundBuffer());
-        if (!this->soundbuffer.at(sound).loadFromFile(sound))
+    for (auto &_sound : info.getSounds()) {
+        this->soundbuffer.emplace(_sound, sf::SoundBuffer());
+        if (!this->soundbuffer.at(_sound).loadFromFile(_sound))
             return (false);
     }
-    for (auto &font : info.getFonts()) {
-        this->font.emplace(font, sf::Font());
-        if (!this->font.at(font).loadFromFile(font))
+    for (auto &_font : info.getFonts()) {
+        this->font.emplace(_font, sf::Font());
+        if (!this->font.at(_font).loadFromFile(_font))
             return (false);
     }
     return (true);
 }
 
-bool arcDisplay::sfmlDisplayModule::display(const std::vector<std::reference_wrapper<IInfoDisplay>> &info)
+bool arcDisplay::sfmlDisplayModule::display(const std::vector<std::reference_wrapper<const IInfoDisplay>> &info)
 {
     TypeInfoDisplay type;
 
+    std::cout << "new: " << std::endl;
     this->window.clear();
     for (auto &entity : info) {
         type = entity.get().getType();
@@ -53,35 +58,42 @@ bool arcDisplay::sfmlDisplayModule::display(const std::vector<std::reference_wra
     return (true);
 }
 
+const std::vector<arcDisplay::t_InfoInput> &arcDisplay::sfmlDisplayModule::getInput() const
+{
+    return (inputs);
+}
+
 bool arcDisplay::sfmlDisplayModule::close()
 {
     window.close();
     return (true);
 }
 
-void arcDisplay::sfmlDisplayModule::drawType(TypeInfoDisplay type, std::reference_wrapper<IInfoDisplay> info)
+void arcDisplay::sfmlDisplayModule::drawType(TypeInfoDisplay type, std::reference_wrapper<const IInfoDisplay> info)
 {
     switch (type) {
         case WINDOW:
-            draw(dynamic_cast<WindowInfo &>(info.get()));
+            draw(dynamic_cast<const WindowInfo &>(info.get()));
             break;
         case SOUND:
-            draw(dynamic_cast<SoundInfo &>(info.get()));
+            draw(dynamic_cast<const SoundInfo &>(info.get()));
             break;
         case TEXT:
-            draw(dynamic_cast<TextInfo &>(info.get()));
+            std::cout << "text" << std::endl;
+            draw(dynamic_cast<const TextInfo &>(info.get()));
             break;
         case SPRITE:
-            draw(dynamic_cast<SpriteInfo &>(info.get()));
+            draw(dynamic_cast<const SpriteInfo &>(info.get()));
             break;
         case CIRCLE:
-            draw(dynamic_cast<CircleInfo &>(info.get()));
+            draw(dynamic_cast<const CircleInfo &>(info.get()));
             break;
         case RECT:
-            draw(dynamic_cast<RectInfo &>(info.get()));
+            std::cout << "rect" << std::endl;
+            draw(dynamic_cast<const RectInfo &>(info.get()));
             break;
         case LINE:
-            draw(dynamic_cast<LineInfo &>(info.get()));
+            draw(dynamic_cast<const LineInfo &>(info.get()));
             break;
         default:
             break;
@@ -126,7 +138,7 @@ void arcDisplay::sfmlDisplayModule::draw(const SpriteInfo &info)
     std::vector<unsigned char> color = info.getColor();
 
     if (texture.find(info.getTexture()) != texture.end())
-        sprite.setTexture(texture.at(info.getTexture()));
+        sprite.setTexture(texture.at(info.getTexture()), true);
     sprite.setPosition(info.getPos().first, info.getPos().second);
     sprite.setTextureRect(sf::Rect<int>(info.getPosRect().first, info.getPosRect().second, info.getSizeRect().first, info.getSizeRect().second));
     sprite.setColor(sf::Color(color.at(0), color.at(1), color.at(2)));
@@ -138,7 +150,9 @@ void arcDisplay::sfmlDisplayModule::draw(const CircleInfo &info)
     std::vector<unsigned char> color = info.getColor();
 
     if (texture.find(info.getTexture()) != texture.end())
-        circle.setTexture(&texture.at(info.getTexture()));
+        circle.setTexture(&texture.at(info.getTexture()), true);
+    else
+        circle.setTexture(nullptr, true);
     circle.setRadius(info.getSize().first);
     circle.setPosition(info.getPos().first, info.getPos().second);
     circle.setFillColor(sf::Color(color.at(0), color.at(1), color.at(2)));
@@ -149,10 +163,15 @@ void arcDisplay::sfmlDisplayModule::draw(const RectInfo &info)
 {
     std::vector<unsigned char> color = info.getColor();
 
-    if (texture.find(info.getTexture()) != texture.end())
-        rect.setTexture(&texture.at(info.getTexture()));
+//    if (texture.find(info.getTexture()) != texture.end())
+//        rect.setTexture(&texture.at(info.getTexture()), true);
+//    else
+//        rect.setTexture(nullptr, true);
     rect.setSize(sf::Vector2<float>(info.getSize().first, info.getSize().second));
     rect.setPosition(info.getPos().first, info.getPos().second);
+    std::cout << "size: "<< info.getSize().first << " " << info.getSize().second << std::endl;
+    std::cout << "pos: "<< (int) info.getPos().first << " " << info.getPos().second << std::endl;
+    std::cout << "color: "<< (int) color.at(0) << " " << (int) color.at(1) << " " << (int) color.at(2) << std::endl;
     rect.setFillColor(sf::Color(color.at(0), color.at(1), color.at(2)));
     window.draw(rect);
 }

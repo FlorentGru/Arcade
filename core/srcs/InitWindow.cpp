@@ -55,12 +55,12 @@ const std::vector<std::string> &InitWindow::getFonts() const
 ########### SETTER ##############
 ###############################*/
 
-void InitWindow::setWidth(size_t width)
+void InitWindow::setWidth(unsigned int width)
 {
     this->_width = width;
 }
 
-void InitWindow::setHeight(size_t height)
+void InitWindow::setHeight(unsigned int height)
 {
     this->_height = height;
 }
@@ -82,7 +82,7 @@ void InitWindow::setTextures(const std::vector<std::string> &textures)
 
 void InitWindow::setSounds(const std::vector<std::string> &sounds)
 {
-    this->_sounds = sound;
+    this->_sounds = sounds;
 }
 
 void InitWindow::setFonts(const std::vector<std::string> &fonts)

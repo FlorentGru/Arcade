@@ -34,8 +34,8 @@ public:
     const std::vector<std::string> &getSounds() const;
     const std::vector<std::string> &getFonts() const;
 
-    void setWidth(size_t);
-    void setHeight(size_t);
+    void setWidth(unsigned int);
+    void setHeight(unsigned int);
     void setName(const std::string &);
     void setFrame(size_t);
 

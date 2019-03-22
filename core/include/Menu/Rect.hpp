@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2019
 ** OOP_arcade_2018
 ** File description:
-** LibRect.hpp
+** Rect.hpp
 */
 
 #ifndef OOP_ARCADE_2018_LIBRECT_HPP
@@ -25,7 +25,7 @@ public:
     void setAscii(char c);
     void setFont(const std::string &);
     void setPos(float, float, float, float);
-    void setSize(float, float, size_t);
+    void setSize(float, float, unsigned int);
 };
 
 #endif //OOP_ARCADE_2018_LIBRECT_HPP

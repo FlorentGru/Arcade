@@ -30,7 +30,7 @@ public:
 
     const InitWindow init();
 
-    const std::vector<std::reference_wrapper<arcDisplay::IInfoDisplay>> getInfoDisplay() const;
+    const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> getInfoDisplay() const;
 };
 
 #endif //OOP_ARCADE_2018_MENU_HPP

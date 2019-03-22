@@ -11,8 +11,6 @@
 
 Core::Core()
 {
-    this->graphical = nullptr;
-    this->game = nullptr;
     this->actualDisplay = 0;
     this->actualGame = 0;
 }
@@ -87,12 +85,11 @@ Core::Outcome Core::runGame()
 
 Core::Outcome Core::menuLoop()
 {
-    std::vector<arcDisplay::t_InfoInput &> inputs;
     Outcome outcome = UNCHANGED;
 
     graphical->initScreen(menu.init());
     while (outcome == UNCHANGED) {
-        inputs = graphical->getInput();
+        auto inputs = graphical->getInput();
         outcome = menuEvent(inputs);
         graphical->display(menu.getInfoDisplay());
     }
@@ -109,12 +106,11 @@ void Core::initGame()
 
 Core::Outcome Core::gameLoop()
 {
-    std::vector<arcDisplay::t_InfoInput &> inputs;
     Outcome outcome = UNCHANGED;
 
     initGame();
     while (outcome == UNCHANGED) {
-        inputs = graphical->getInput();
+        auto inputs = graphical->getInput();
         outcome = gameEvent(inputs);
         game->playGame(inputs);
         graphical->display(game->getInfoDisplay());
@@ -123,9 +119,9 @@ Core::Outcome Core::gameLoop()
     return (outcome);
 }
 
-Core::Outcome Core::menuEvent(std::vector<arcDisplay::t_InfoInput &> inputs)
+Core::Outcome Core::menuEvent(const std::vector<arcDisplay::t_InfoInput> &inputs)
 {
-    for (auto &input : inputs) {
+    for (auto input : inputs) {
         switch (input.id) {
             case arcDisplay::ESCAPE:
                 return (QUIT);
@@ -142,9 +138,9 @@ Core::Outcome Core::menuEvent(std::vector<arcDisplay::t_InfoInput &> inputs)
     return (UNCHANGED);
 }
 
-Core::Outcome Core::gameEvent(std::vector<arcDisplay::t_InfoInput &> inputs)
+Core::Outcome Core::gameEvent(const std::vector<arcDisplay::t_InfoInput> &inputs)
 {
-    for (auto &input : inputs) {
+    for (auto input : inputs) {
         switch (input.id) {
             case arcDisplay::ESCAPE:
                 return (QUIT);
@@ -179,9 +175,10 @@ void Core::setNextDisplayLib()
 
 void Core::setPreviousDisplayLib()
 {
-    this->actualDisplay -= 1;
-    if (this->actualDisplay < 0)
+    if (this->actualDisplay == 0)
         this->actualDisplay = this->displayLibPath.size() - 1;
+    else
+        this->actualDisplay -= 1;
     this->setDisplayModule(this->displayLibPath.at(this->actualDisplay));
 }
 
@@ -195,9 +192,10 @@ void Core::setNextGameLib()
 
 void Core::setPreviousGameLib()
 {
-    this->actualGame -= 1;
-    if (this->actualGame < 0)
+    if (this->actualGame == 0)
         this->actualGame = this->gameLibPath.size() - 1;
+    else
+        this->actualGame -= 1;
     this->setGameModule(this->gameLibPath.at(this->actualGame));
 }
 
@@ -230,9 +228,11 @@ void Core::setGameLibPath(const std::string &dirPath)
 void Core::setDisplayModule(const std::string &libName)
 {
     size_t i = 0;
+    arcDisplay::IDisplayModule *graph;
 
     this->libDisplay.openLib(libName);
-    this->graphical = this->libDisplay.getClass("create");
+    graph = this->libDisplay.getClass("create");
+    this->graphical.reset(graph);
 
     for (auto &libname : this->gameLibPath) {
         if (libname == libName)
@@ -246,7 +246,7 @@ void Core::setGameModule(const std::string &libName)
     size_t i = 0;
 
     this->libGame.openLib(libName);
-    this->game = this->libGame.getClass("create");
+    this->game.reset(this->libGame.getClass("create"));
 
     for (auto &libname : this->displayLibPath) {
         if (libname == libName)

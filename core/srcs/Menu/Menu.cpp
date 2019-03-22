@@ -6,6 +6,8 @@
 */
 
 #include "Menu.hpp"
+#include <functional>
+#include <iostream>
 
 Menu::Menu() : font("./rsc/font/WC_RoughTrad.ttf")
 {
@@ -13,46 +15,47 @@ Menu::Menu() : font("./rsc/font/WC_RoughTrad.ttf")
     this->height = 540;
 }
 
-void Menu::initGames(const std::vector<std::string> &games)
+void Menu::initGames(const std::vector<std::string> &_games)
 {
-    float width = this->width - 15;
-    float height = this->height;
+    float _width = this->width - 15;
+    float _height = this->height;
     float x = 10;
     float y = 5;
 
-    height = height / 2 - 15;
-    for (const auto &game : games) {
+    _height = height / 2 - 15;
+    for (const auto &game : _games) {
         this->games.emplace_back(Rect(game));
     }
-    width /= this->games.size() - 5;
+    _width /= this->games.size() - 5;
     for (auto &game : this->games) {
         game.setFont(this->font);
-        game.setSize(width, height, 30);
-        game.setPos(x, y, width / 2 + 30, height / 2 + 30);
+        game.setSize(_width, _height, 30);
+        game.setPos(x, y, _width / 2 + 30, _height / 2 + 30);
         game.setAscii('#');
-        x += width + 5;
+        x += _width + 5;
     }
 }
 
-void Menu::initLibs(const std::vector<std::string> &libs)
+void Menu::initLibs(const std::vector<std::string> &_libs)
 {
-    float width = this->width - 15;
-    float height = this->height;
+    float _width = this->width - 15;
+    float _height = this->height;
     float x = 10;
     float y;
 
-    height = height / 2 - 15;
-    y = height + 10;
-    for (const auto &lib : libs) {
+    _height = _height / 2 - 15;
+    y = _height + 10;
+    for (const auto &lib : _libs) {
         this->libs.emplace_back(Rect(lib));
     }
-    width /= this->games.size() - 5;
+    if (!this->games.empty())
+        _width = _width / this->games.size() - 5;
     for (auto &lib : this->libs) {
         lib.setFont(this->font);
-        lib.setSize(width, height, 30);
-        lib.setPos(x, y, width / 2 + 30, height / 2 + 30);
+        lib.setSize(_width, _height, 30);
+        lib.setPos(x, y, _width / 2 + 30, _height / 2 + 30);
         lib.setAscii('X');
-        x += width + 5;
+        x += _width + 5;
     }
 }
 
@@ -69,17 +72,17 @@ const InitWindow Menu::init()
     return (window);
 }
 
-const std::vector<std::reference_wrapper<arcDisplay::IInfoDisplay>> Menu::getInfoDisplay() const
+const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> Menu::getInfoDisplay() const
 {
-    std::vector<std::reference_wrapper<arcDisplay::IInfoDisplay>> infos;
+    std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> infos;
 
     for (auto &game : this->games) {
-        infos.emplace_back(game.getRect());
-        infos.emplace_back(game.getText());
+        infos.emplace_back(std::ref(game.getRect()));
+        infos.emplace_back(std::ref(game.getText()));
     }
     for (auto &lib : this->libs) {
-        infos.emplace_back(lib.getRect());
-        infos.emplace_back(lib.getText());
+        infos.emplace_back(std::ref(lib.getRect()));
+        infos.emplace_back(std::ref(lib.getText()));
     }
     return (infos);
 }

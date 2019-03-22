@@ -5,11 +5,20 @@
 ## Makefile
 ##
 
-SRC_LIB1		=	$(SRC_DIR_LIB1)lib.cpp	\
+SRC_LIB1		=	$(SRC_DIR_LIB1)sfmlDisplayModule.cpp	\
+                    ../core/srcs/InfoDisplay/CircleInfo.cpp	\
+                    ../core/srcs/InfoDisplay/LineInfo.cpp	\
+                    ../core/srcs/InfoDisplay/RectInfo.cpp	\
+                    ../core/srcs/InfoDisplay/SoundInfo.cpp	\
+                    ../core/srcs/InfoDisplay/TextInfo.cpp	\
+                    ../core/srcs/InfoDisplay/WindowInfo.cpp	\
+                    ../core/srcs/InfoDisplay/SpriteInfo.cpp	\
+                    ../core/srcs/InfoDisplay/ADrawableInfo.cpp	\
+                    ../core/srcs/InitWindow.cpp
 
-SRC_LIB2		=	$(SRC_DIR_LIB2)lib.cpp	\
+SRC_LIB2		=	$(SRC_DIR_LIB2)
 
-SRC_LIB3		=	$(SRC_DIR_LIB3)lib.cpp	\
+SRC_LIB3		=	$(SRC_DIR_LIB3)
 
 NAME_LIB1		=	lib_graph1.so
 
@@ -29,11 +38,11 @@ SRC_DIR_LIB2	=	./srcs/ncurses/
 
 SRC_DIR_LIB3	=	./srcs/other/
 
-INC_GAME		=	-I ./include/
+INC_LIB		=	-I ./include/SFML/ -I ./../core/include/ -I ./../core/include/InfoDisplay/
 
-CXXFLAGS 			=	-Wall -Wextra -W -Wshadow -fPIC $(INC_GAME)
+CXXFLAGS 		=	-Wall -Wextra -W -Wshadow -fPIC $(INC_LIB)
 
-SFML			=	-lsfml-graphics -lsfml-window -lsfml-system
+SFML			=	-lsfml-graphics -lsfml-audio -lsfml-window -lsfml-system
 
 NCURSES			=	-lncurses
 
@@ -43,7 +52,7 @@ CXX 			= 	g++ -shared
 
 MAKE 			= 	make -C
 
-all:		lib1 lib2 lib3
+all:		lib1 ##lib2 lib3
 
 lib1:		$(OBJECTS_LIB1)
 			$(CXX) -o $(NAME_LIB1) $(OBJECTS_LIB1)	$(SFML)
@@ -56,8 +65,8 @@ lib3:		$(OBJECTS_LIB3)
 
 clean:
 			$(RM) $(OBJECTS_LIB1)
-			$(RM) $(OBJECTS_LIB2)
-			$(RM) $(OBJECTS_LIB3)
+##			$(RM) $(OBJECTS_LIB2)
+##			$(RM) $(OBJECTS_LIB3)
 
 fclean: 	clean
 			$(RM) $(NAME_LIB1)

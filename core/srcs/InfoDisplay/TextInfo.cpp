@@ -37,7 +37,7 @@ const std::pair<float, float> &arcDisplay::TextInfo::getPos() const
     return (this->_pos);
 }
 
-size_t arcDisplay::TextInfo::getSize() const
+unsigned int arcDisplay::TextInfo::getSize() const
 {
     return (this->_size);
 }
@@ -57,12 +57,12 @@ void arcDisplay::TextInfo::setText(const std::string &str)
     this->_text = str;
 }
 
-void arcDisplay::TextInfo::setSize(size_t size)
+void arcDisplay::TextInfo::setSize(unsigned int size)
 {
     this->_size = size;
 }
 
-void arcDisplay::TextInfo::setColor(const unsigned char r, const unsigned char g, const unsigned char b)
+void arcDisplay::TextInfo::setColor(unsigned char r, unsigned char g, unsigned char b)
 {
     this->_color.push_back(r);
     this->_color.push_back(g);
