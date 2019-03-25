@@ -31,7 +31,7 @@ const std::string &InitWindow::getName() const
     return (this->_name);
 }
 
-size_t InitWindow::getFrame() const
+unsigned int InitWindow::getFrame() const
 {
     return (this->_frame);
 }
@@ -70,7 +70,7 @@ void InitWindow::setName(const std::string &name)
     this->_name = name;
 }
 
-void InitWindow::setFrame(size_t frame)
+void InitWindow::setFrame(unsigned int frame)
 {
     this->_frame = frame;
 }

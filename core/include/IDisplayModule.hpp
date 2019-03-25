@@ -23,7 +23,7 @@ namespace arcDisplay
         virtual bool initScreen(const InitWindow &) = 0;
         virtual bool close() = 0;
         virtual bool display(const std::vector<std::reference_wrapper<const IInfoDisplay>> &) = 0;
-        virtual const std::vector<t_InfoInput> &getInput() const = 0;
+        virtual const std::vector<t_InfoInput> &getInput() = 0;
     };
 } // arcDisplay
 
