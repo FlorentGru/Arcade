@@ -35,9 +35,11 @@ namespace arcDisplay
         ALLEGRO_TIMEOUT timeout;
         ALLEGRO_EVENT_QUEUE *event_queue;
 
-        std::map<std::string, sf::Texture> texture;
-        std::map<std::string, sf::SoundBuffer> soundbuffer;
-        std::map<std::string, sf::Font> font;
+        // std::map<std::string, sf::Texture> texture;
+        // std::map<std::string, sf::SoundBuffer> soundbuffer;
+        // std::map<std::string, sf::Font> font;
+
+        std::vector<arcDisplay::t_InfoInput> inputs;
 
         void drawType(TypeInfoDisplay, std::reference_wrapper<IInfoDisplay>);
         void draw(const WindowInfo &);  // Draw why not ? 
@@ -51,11 +53,13 @@ namespace arcDisplay
         allegroDisplayModule();
         ~allegroDisplayModule();
 
-        bool initScreen();
-        bool close();
-        bool display(const std::vector<std::reference_wrapper<IInfoDisplay>> &);
-        std::vector<std::reference_wrapper<t_InfoInput>> getInput() const;
+        bool initScreen(const InitWindow &info) override;
+        bool close() override;
+        bool display(const std::vector<std::reference_wrapper<const IInfoDisplay>> &) override;
+        const std::vector<t_InfoInput> &getInput() override;
     };
 } // arcDisplay
+
+char *convert_string_to_array(std::string str);
 
 #endif
