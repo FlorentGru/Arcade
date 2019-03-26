@@ -16,9 +16,13 @@
 #include "CircleInfo.hpp"
 #include "RectInfo.hpp"
 #include "LineInfo.hpp"
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 #include <map>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
+#include <stdio.h>
 
 namespace arcDisplay
 {
@@ -26,16 +30,14 @@ namespace arcDisplay
     {
     private:
         ALLEGRO_DISPLAY *window;
-        // sf::Text text;
-        // sf::Sound sound;
-        // sf::Sprite sprite;
-        // sf::RectangleShape rect;
-        // sf::CircleShape circle;
-        // std::vector<sf::Vertex> line;
+        ALLEGRO_FONT *font;
+        ALLEGRO_EVENT event;
+        ALLEGRO_TIMEOUT timeout;
+        ALLEGRO_EVENT_QUEUE *event_queue;
 
-        // std::map<std::string, sf::Texture> texture;
-        // std::map<std::string, sf::SoundBuffer> soundbuffer;
-        // std::map<std::string, sf::Font> font;
+        std::map<std::string, sf::Texture> texture;
+        std::map<std::string, sf::SoundBuffer> soundbuffer;
+        std::map<std::string, sf::Font> font;
 
         void drawType(TypeInfoDisplay, std::reference_wrapper<IInfoDisplay>);
         void draw(const WindowInfo &);  // Draw why not ? 
