@@ -144,11 +144,11 @@ Core::Outcome Core::menuEvent(const std::vector<arcDisplay::t_InfoInput> &inputs
                     this->setPreviousGameLib();
                     return (LIB);
                 case arcDisplay::KeyBoard::LEFT:
-                    std::cout << "Left" << std::endl;
+                    std::cout << "Left arrow pressed" << std::endl;
                     this->setPreviousDisplayLib();
                     return (LIB);
                 case arcDisplay::KeyBoard::RIGHT:
-                    std::cout << "Right" << std::endl;
+                    std::cout << "Right arrow pressed" << std::endl;
                     this->setNextDisplayLib();
                     return (LIB);
                 default:
@@ -188,20 +188,22 @@ Core::Outcome Core::gameEvent(const std::vector<arcDisplay::t_InfoInput> &inputs
 
 void Core::setNextDisplayLib()
 {
+    this->graphical->close();
     this->actualDisplay += 1;
     if (this->actualDisplay >= this->displayLibPath.size())
         this->actualDisplay = 0;
-    std::cout << this->displayLibPath.at(this->actualDisplay) << std::endl;
+    std::cout << "SWITCHING TO: " << this->displayLibPath.at(this->actualDisplay) << std::endl;
     this->setDisplayModule(this->displayLibPath.at(this->actualDisplay));
 }
 
 void Core::setPreviousDisplayLib()
 {
+    this->graphical->close();
     if (this->actualDisplay == 0)
         this->actualDisplay = this->displayLibPath.size() - 1;
     else
         this->actualDisplay -= 1;
-    std::cout << this->displayLibPath.at(this->actualDisplay) << std::endl;
+    std::cout << "SWITCHING TO: " << this->displayLibPath.at(this->actualDisplay) << std::endl;
     this->setDisplayModule(this->displayLibPath.at(this->actualDisplay));
 }
 
@@ -256,14 +258,13 @@ void Core::setDisplayModule(const std::string &libName)
     size_t i = 0;
     arcDisplay::IDisplayModule *graph;
 
-    std::cout << "oui" << std::endl;
     this->graphical.reset();
+    std::cout << "Opening Lib" << std::endl;
     this->libDisplay.openLib(libName);
-    std::cout << "wagadougou" << std::endl;
     graph = this->libDisplay.getClass("create");
-    std::cout << "wow" << std::endl;
+    std::cout << "Got the instance" << std::endl;
     this->graphical.reset(graph);
-    std::cout << "then" << std::endl;
+    std::cout << "LIB reseted" << std::endl;
 
     for (auto &libname : this->gameLibPath) {
         if (libname == libName)

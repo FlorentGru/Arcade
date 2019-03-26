@@ -21,7 +21,7 @@ bool arcDisplay::sfmlDisplayModule::initScreen(const InitWindow &info)
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
 
-    window.create(sf::VideoMode(info.getWidth(), info.getHeight()), info.getName(), sf::Style::Default, settings);
+    window.create(sf::VideoMode(info.getWidth() * CHAR_SIZE, info.getHeight() * CHAR_SIZE), info.getName(), sf::Style::Default, settings);
     window.setFramerateLimit(info.getFrame());
 
     this->soundbuffer.clear();
@@ -68,6 +68,11 @@ bool arcDisplay::sfmlDisplayModule::close()
 {
     if (window.isOpen())
         window.close();
+
+    this->texture.clear();
+    this->soundbuffer.clear();
+    this->font.clear();
+
     return (true);
 }
 
@@ -128,7 +133,7 @@ void arcDisplay::sfmlDisplayModule::draw(const TextInfo &info)
     text.setFillColor(sf::Color(color.at(0), color.at(1), color.at(2)));
     if (font.find(info.getFont()) != font.end())
         text.setFont(font.at(info.getFont()));
-    text.setPosition(info.getPos().first, info.getPos().second);
+    text.setPosition(info.getPos().first * CHAR_SIZE, info.getPos().second * CHAR_SIZE);
     text.setString(info.getText());
     window.draw(text);
 }
@@ -167,8 +172,8 @@ void arcDisplay::sfmlDisplayModule::draw(const RectInfo &info)
         rect.setTexture(&texture.at(info.getTexture()), true);
     else
         rect.setTexture(nullptr, true);
-    rect.setSize(sf::Vector2<float>(info.getSize().first, info.getSize().second));
-    rect.setPosition(info.getPos().first, info.getPos().second);
+    rect.setSize(sf::Vector2<float>(info.getSize().first * CHAR_SIZE, info.getSize().second * CHAR_SIZE));
+    rect.setPosition(info.getPos().first * CHAR_SIZE, info.getPos().second * CHAR_SIZE);
 //    std::cout << "size: "<< info.getSize().first << " " << info.getSize().second << std::endl;
 //    std::cout << "pos: "<< (int) info.getPos().first << " " << info.getPos().second << std::endl;
 //    std::cout << "color: "<< (int) color.at(0) << " " << (int) color.at(1) << " " << (int) color.at(2) << std::endl;
@@ -182,8 +187,8 @@ void arcDisplay::sfmlDisplayModule::draw(const LineInfo &info)
 
     line[0].color = sf::Color(color.at(0), color.at(1), color.at(2));
     line[1].color = sf::Color(color.at(0), color.at(1), color.at(2));
-    line[0].position = sf::Vector2<float>(info.getPos().first, info.getPos().second);
-    line[1].position = sf::Vector2<float>(info.getPosition2().first, info.getPosition2().second);
+    line[0].position = sf::Vector2<float>(info.getPos().first * CHAR_SIZE, info.getPos().second * CHAR_SIZE);
+    line[1].position = sf::Vector2<float>(info.getPosition2().first * CHAR_SIZE, info.getPosition2().second * CHAR_SIZE);
 
     window.draw(&line[0], line.size(), sf::Lines);
 }

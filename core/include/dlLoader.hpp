@@ -37,13 +37,10 @@ public:
     {
         T *(*create)();
 
-        std::cout << "here" << std::endl;
         create = (T *(*)()) (dlsym(this->lib, symbol.c_str()));
-        std::cout << "there" << std::endl;
         if (dlerror() != nullptr) {
             std::cout << "symbol error\n";
         }
-        std::cout << "hello there" << std::endl;
         return (create());
     }
 
@@ -51,7 +48,6 @@ public:
     {
         if (this->lib != NULL) {
             if (dlclose(this->lib) != 0) {
-                std::cout << "hello je suis la" << std::endl;
                 std::cerr << dlerror() << std::endl;
             }
         }

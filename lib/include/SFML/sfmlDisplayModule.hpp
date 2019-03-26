@@ -23,6 +23,8 @@
 
 namespace arcDisplay
 {
+    const int CHAR_SIZE = 15;
+
     class sfmlDisplayModule : public IDisplayModule
     {
     private:

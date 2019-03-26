@@ -11,6 +11,8 @@
 #include "RectInfo.hpp"
 #include "TextInfo.hpp"
 
+const int CHAR_SIZE = 15;
+
 class Rect
 {
 private:
