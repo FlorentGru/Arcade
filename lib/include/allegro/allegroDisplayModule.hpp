@@ -26,6 +26,8 @@
 
 namespace arcDisplay
 {
+    int CHAR_SIZE = 15;
+
     class allegroDisplayModule : public IDisplayModule
     {
     private:

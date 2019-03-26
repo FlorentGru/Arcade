@@ -30,7 +30,7 @@ bool arcDisplay::allegroDisplayModule::initScreen(const InitWindow &info)
     this->event_queue = NULL;
     event_queue = al_create_event_queue();
     al_init_timeout(&timeout, 0.06);
-    this->window = al_create_display(info.getWidth(), info.getHeight());
+    this->window = al_create_display(info.getWidth() * CHAR_SIZE, info.getHeight() * CHAR_SIZE);
     al_register_event_source(event_queue, al_get_display_event_source(this->window));
 // //	al_register_event_source(event_queue, al_get_timer_event_source(timer));
  	al_register_event_source(event_queue, al_get_keyboard_event_source());
@@ -123,7 +123,7 @@ void arcDisplay::allegroDisplayModule::draw(const SoundInfo& sound)
 void arcDisplay::allegroDisplayModule::draw(const TextInfo& text)
 {
     printf("text1\n");
-    ALLEGRO_FONT *_font = al_load_ttf_font(convert_string_to_array(text.getFont()), text.getSize(), 0);
+    ALLEGRO_FONT *_font = al_load_ttf_font(text.getFont().c_str(), text.getSize() * CHAR_SIZE, 0);
 
     printf("text2\n");
     std::vector <unsigned char>color = text.getColor();
@@ -133,7 +133,7 @@ void arcDisplay::allegroDisplayModule::draw(const TextInfo& text)
     std::cout << "font : " << _font << std::endl;
     std::cout << "color 1, 2, 3" << color[0] << " " << color[1] << " " << color[2] << std::endl;
     std::cout << "pos 1, 2" << pos.first << " " << pos.second << std::endl;
-    al_draw_text(_font, al_map_rgb(color[0], color[1], color[2]), pos.first, pos.second, 0, text.getText().c_str());
+    al_draw_text(_font, al_map_rgb(color[0], color[1], color[2]), pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, 0, text.getText().c_str());
     printf("text4\n");
 }
 
@@ -143,14 +143,14 @@ void arcDisplay::allegroDisplayModule::draw(const SpriteInfo& sprite)
     std::pair<float, float> size = sprite.getSize();
     std::vector <unsigned char>color = sprite.getColor();
 
-    if (sprite.getTexture() != "" || al_load_bitmap(convert_string_to_array(sprite.getTexture())) == NULL) {
-        ALLEGRO_BITMAP *bitmap = al_load_bitmap(convert_string_to_array(sprite.getTexture()));
+    if (sprite.getTexture() != "" || al_load_bitmap(sprite.getTexture().c_str()) == NULL) {
+        ALLEGRO_BITMAP *bitmap = al_load_bitmap(sprite.getTexture().c_str());
         std::pair<int, int> posRect = sprite.getPosRect();
         std::pair<int, int> sizeRect = sprite.getSizeRect();
-        al_draw_bitmap_region(bitmap, posRect.first, posRect.second, sizeRect.first, sizeRect.second, pos.first, pos.second, 0);
+        al_draw_bitmap_region(bitmap, posRect.first * CHAR_SIZE, posRect.second * CHAR_SIZE, sizeRect.first * CHAR_SIZE, sizeRect.second * CHAR_SIZE, pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, 0);
     }
-    al_draw_filled_rectangle(pos.first, pos.second, pos.first + size.first,\
-    pos.second + size.second, al_map_rgb(color[0], color[1], color[2]));
+    al_draw_filled_rectangle(pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, (pos.first + size.first) * CHAR_SIZE,\
+    (pos.second + size.second) * CHAR_SIZE, al_map_rgb(color[0], color[1], color[2]));
 }
 
 void arcDisplay::allegroDisplayModule::draw(const CircleInfo& circle)
@@ -159,7 +159,7 @@ void arcDisplay::allegroDisplayModule::draw(const CircleInfo& circle)
     std::pair<float, float> size = circle.getSize();
     std::vector<unsigned char> color = circle.getColor();
 
-    al_draw_circle(pos.first, pos.second, size.first, al_map_rgb(color[0], color[1], color[2]), 1);
+    al_draw_circle(pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, size.first * CHAR_SIZE, al_map_rgb(color[0], color[1], color[2]), 1);
 }
 
 void arcDisplay::allegroDisplayModule::draw(const RectInfo& rect)
@@ -170,15 +170,15 @@ void arcDisplay::allegroDisplayModule::draw(const RectInfo& rect)
 
     printf("inside rect\n");
     std::cout << rect.getTexture() << std::endl;
-    if (rect.getTexture() != "" && al_load_bitmap(convert_string_to_array(rect.getTexture())) == NULL) {
-        ALLEGRO_BITMAP *bitmap = al_load_bitmap(convert_string_to_array(rect.getTexture()));
+    if (rect.getTexture() != "" && al_load_bitmap(rect.getTexture().c_str()) == NULL) {
+        ALLEGRO_BITMAP *bitmap = al_load_bitmap(rect.getTexture().c_str());
         printf("inside rect2\n");
-        al_draw_bitmap_region(bitmap, 0, 0, size.first, size.second, pos.first, pos.second, 0);
+        al_draw_bitmap_region(bitmap, 0, 0, size.first * CHAR_SIZE, size.second * CHAR_SIZE, pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, 0);
         printf("inside rect3\n");
     }
     printf("inside rect3\n");
-    al_draw_filled_rectangle(pos.first, pos.second, pos.first + size.first,\
-    pos.second + size.second, al_map_rgb(color[0], color[1], color[2]));
+    al_draw_filled_rectangle(pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, (pos.first + size.first) * CHAR_SIZE,\
+    (pos.second + size.second) * CHAR_SIZE, al_map_rgb(color[0], color[1], color[2]));
 }
 
 void arcDisplay::allegroDisplayModule::draw(const LineInfo& line)
@@ -187,8 +187,8 @@ void arcDisplay::allegroDisplayModule::draw(const LineInfo& line)
     std::pair<float, float> posy = line.getPosition2();
     std::vector<unsigned char> color = line.getColor();
 
-    al_draw_line(posx.first, posx.second, posy.first,\
-    posy.second, al_map_rgb(color[0], color[1], color[2]), 1);
+    al_draw_line(posx.first * CHAR_SIZE, posx.second * CHAR_SIZE, posy.first * CHAR_SIZE,\
+    posy.second  * CHAR_SIZE, al_map_rgb(color[0], color[1], color[2]), 1);
 }
 
 const std::vector<arcDisplay::t_InfoInput> &arcDisplay::allegroDisplayModule::getInput()
@@ -459,11 +459,4 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::allegroDisplayModule::ge
         }
     }
     return (inputs);
-}
-
-char *convert_string_to_array(std::string str)
-{
-    char *convstr = new char[str.length() + 1];
-    strcpy(convstr, str.c_str());
-    return (convstr);
 }
