@@ -28,7 +28,7 @@ SRC_LIB3		=	$(SRC_DIR_LIB3)allegroDisplayModule.cpp	\
                     ../core/srcs/InfoDisplay/WindowInfo.cpp	\
                     ../core/srcs/InfoDisplay/SpriteInfo.cpp	\
                     ../core/srcs/InfoDisplay/ADrawableInfo.cpp	\
-                    ../core/srcs/InitWindow.cpp
+                    ../core/srcs/InitWindow.cpp			\
 
 NAME_LIB1		=	lib_SFML.so
 
@@ -76,7 +76,7 @@ lib3:		$(OBJECTS_LIB3)
 clean:
 			$(RM) $(OBJECTS_LIB1)
 ##			$(RM) $(OBJECTS_LIB2)
-##			$(RM) $(OBJECTS_LIB3)
+			$(RM) $(OBJECTS_LIB3)
 
 fclean: 	clean
 			$(RM) $(NAME_LIB1)

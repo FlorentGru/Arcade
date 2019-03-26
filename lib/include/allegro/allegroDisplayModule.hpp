@@ -31,7 +31,7 @@ namespace arcDisplay
     private:
         ALLEGRO_DISPLAY *window;
         ALLEGRO_FONT *font;
-        ALLEGRO_EVENT event;
+        ALLEGRO_EVENT *event;
         ALLEGRO_TIMEOUT timeout;
         ALLEGRO_EVENT_QUEUE *event_queue;
 
@@ -41,7 +41,7 @@ namespace arcDisplay
 
         std::vector<arcDisplay::t_InfoInput> inputs;
 
-        void drawType(TypeInfoDisplay, std::reference_wrapper<IInfoDisplay>);
+        void drawType(TypeInfoDisplay, std::reference_wrapper<const IInfoDisplay>);
         void draw(const WindowInfo &);  // Draw why not ? 
         void draw(const SoundInfo&);    // Draw why not ?
         void draw(const TextInfo&);
