@@ -22,8 +22,11 @@ private:
     std::string font;
     unsigned int width;
     unsigned int height;
+
+    const std::string getLibName(std::string) const;
 public:
     Menu();
+
 
     void initGames(const std::vector<std::string> &);
     void initLibs(const std::vector<std::string> &);

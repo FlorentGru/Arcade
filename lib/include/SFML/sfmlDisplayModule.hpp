@@ -52,7 +52,7 @@ namespace arcDisplay
         bool initScreen(const InitWindow &info) override;
         bool close() override;
         bool display(const std::vector<std::reference_wrapper<const IInfoDisplay>> &) override;
-        const std::vector<t_InfoInput> &getInput() const override;
+        const std::vector<t_InfoInput> &getInput() override;
     };
 } // arcDisplay
 
