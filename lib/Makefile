@@ -16,6 +16,7 @@ SRC_LIB1		=	$(SRC_DIR_LIB1)sfmlDisplayModule.cpp	\
                     ../core/srcs/InfoDisplay/ADrawableInfo.cpp	\
                     ../core/srcs/InitWindow.cpp
 
+
 SRC_LIB2		=	$(SRC_DIR_LIB2)
 
 SRC_LIB3		=	$(SRC_DIR_LIB3)allegroDisplayModule.cpp	\
