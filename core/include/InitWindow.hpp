@@ -17,7 +17,7 @@ private:
     unsigned int _width;
     unsigned int _height;
     std::string _name;
-    size_t _frame;
+    unsigned int _frame;
 
     std::vector<std::string> _textures;
     std::vector<std::string> _sounds;
@@ -28,7 +28,7 @@ public:
     unsigned int getWidth() const;
     unsigned int getHeight() const;
     const std::string &getName() const;
-    size_t getFrame() const;
+    unsigned int getFrame() const;
 
     const std::vector<std::string> &getTextures() const;
     const std::vector<std::string> &getSounds() const;
@@ -37,7 +37,7 @@ public:
     void setWidth(unsigned int);
     void setHeight(unsigned int);
     void setName(const std::string &);
-    void setFrame(size_t);
+    void setFrame(unsigned int);
 
     void setTextures(const std::vector<std::string> &);
     void setSounds(const std::vector<std::string> &);

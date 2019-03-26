@@ -17,46 +17,53 @@ Menu::Menu() : font("./rsc/font/WC_RoughTrad.ttf")
 
 void Menu::initGames(const std::vector<std::string> &_games)
 {
-    float _width = this->width - 15;
+    float _width = this->width;
     float _height = this->height;
-    float x = 10;
-    float y = 5;
+    float x = 0;
+    float y = 0;
 
-    _height = height / 2 - 15;
+    _height = _height / 2;
     for (const auto &game : _games) {
         this->games.emplace_back(Rect(game));
     }
-    _width /= this->games.size() - 5;
+    _width /= this->games.size();
     for (auto &game : this->games) {
         game.setFont(this->font);
         game.setSize(_width, _height, 30);
         game.setPos(x, y, _width / 2 + 30, _height / 2 + 30);
         game.setAscii('#');
-        x += _width + 5;
+        x += _width;
     }
 }
 
 void Menu::initLibs(const std::vector<std::string> &_libs)
 {
-    float _width = this->width - 15;
+    float _width = this->width;
     float _height = this->height;
-    float x = 10;
+    float x = 0;
     float y;
 
-    _height = _height / 2 - 15;
-    y = _height + 10;
+    _height = _height / 2;
+    y = _height;
     for (const auto &lib : _libs) {
-        this->libs.emplace_back(Rect(lib));
+        this->libs.emplace_back(Rect(getLibName(lib)));
     }
     if (!this->games.empty())
-        _width = _width / this->games.size() - 5;
+        _width = _width / this->games.size();
     for (auto &lib : this->libs) {
         lib.setFont(this->font);
         lib.setSize(_width, _height, 30);
-        lib.setPos(x, y, _width / 2 + 30, _height / 2 + 30);
+        lib.setPos(x, y, _width / 2 - 120, _height / 2 - 15);
         lib.setAscii('X');
-        x += _width + 5;
+        x += _width ;
     }
+}
+
+const std::string Menu::getLibName(std::string lib) const
+{
+    lib.erase(lib.rfind(".so"));
+    lib.erase(0, lib.rfind("lib") + 4);
+    return (lib);
 }
 
 const InitWindow Menu::init()
