@@ -17,9 +17,7 @@ namespace arcDisplay
     private:
 
     public:
-        CircleInfo() {};
-        ~CircleInfo() {};
-        TypeInfoDisplay getType() const;
+        enum TypeInfoDisplay getType() const override;
     };
 }; // arcDisplay
 

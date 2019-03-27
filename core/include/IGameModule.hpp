@@ -13,12 +13,17 @@
 #include "InitWindow.hpp"
 #include <vector>
 
+#define MAP_TO_PIXEL(value) (value * 15)
+#define PIXEL_TO_MAP(value) (value / 15)
+
 class IGameModule {
 private:
 
 public:
-    virtual const InitWindow &init() = 0;
-    virtual bool playGame(const std::vector<arcDisplay::t_InfoInput > &) = 0;
+    virtual ~IGameModule() = default;
+
+    virtual const InitWindow &initWindow() = 0;
+    virtual bool playGame(const std::vector<arcDisplay::t_InfoInput> &) = 0;
     virtual const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &getInfoDisplay() const = 0;
     virtual long int getScore() const = 0;
 };

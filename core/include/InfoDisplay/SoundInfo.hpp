@@ -21,12 +21,12 @@ namespace arcDisplay
         bool _loop;
         bool _start;
     public:
-        TypeInfoDisplay getType() const;
+        enum TypeInfoDisplay getType() const override;
 
         const std::string &getSound() const;
         size_t getVolume() const;
-        bool getLoop() const;
-        bool getStart() const;
+        bool isLoop() const;
+        bool isStart() const;
 
         void setSound(const std::string &);
         void setVolume(size_t);

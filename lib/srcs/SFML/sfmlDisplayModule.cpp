@@ -10,7 +10,7 @@
 #include <iostream>
 
 extern "C" {
-    arcDisplay::sfmlDisplayModule *create()
+    arcDisplay::sfmlDisplayModule *entryPoint()
     {
         return (new arcDisplay::sfmlDisplayModule());
     }
@@ -116,9 +116,9 @@ void arcDisplay::sfmlDisplayModule::draw(const SoundInfo &info)
 {
     if (soundbuffer.find(info.getSound()) != soundbuffer.end())
         sound.setBuffer(soundbuffer.at(info.getSound()));
-    sound.setLoop(info.getLoop());
+    sound.setLoop(info.isLoop());
     sound.setVolume(info.getVolume());
-    if (info.getStart())
+    if (info.isStart())
         sound.play();
     else
         sound.stop();
@@ -188,7 +188,7 @@ void arcDisplay::sfmlDisplayModule::draw(const LineInfo &info)
     line[0].color = sf::Color(color.at(0), color.at(1), color.at(2));
     line[1].color = sf::Color(color.at(0), color.at(1), color.at(2));
     line[0].position = sf::Vector2<float>(info.getPos().first * CHAR_SIZE, info.getPos().second * CHAR_SIZE);
-    line[1].position = sf::Vector2<float>(info.getPosition2().first * CHAR_SIZE, info.getPosition2().second * CHAR_SIZE);
+    line[1].position = sf::Vector2<float>(info.getPos2().first * CHAR_SIZE, info.getPos2().second * CHAR_SIZE);
 
     window.draw(&line[0], line.size(), sf::Lines);
 }

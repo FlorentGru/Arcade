@@ -26,7 +26,8 @@ namespace arcDisplay
     private:
 
     public:
-        virtual TypeInfoDisplay getType() const = 0;
+        virtual ~IInfoDisplay() = default;
+        virtual enum TypeInfoDisplay getType() const = 0;
     };
 }
 

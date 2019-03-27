@@ -18,10 +18,10 @@ namespace arcDisplay
         std::pair<int, int> _posRect;
         std::pair<int, int> _sizeRect;
     public:
-        TypeInfoDisplay getType() const;
+        enum TypeInfoDisplay getType() const override;
 
-        const std::pair<int, int> getPosRect() const;
-        const std::pair<int, int> getSizeRect() const;
+        const std::pair<int, int> &getPosRect() const;
+        const std::pair<int, int> &getSizeRect() const;
 
         void setPosRect(int, int);
         void setSizeRect(int, int);

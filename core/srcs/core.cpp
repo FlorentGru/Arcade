@@ -261,7 +261,7 @@ void Core::setDisplayModule(const std::string &libName)
     this->graphical.reset();
     std::cout << "Opening Lib" << std::endl;
     this->libDisplay.openLib(libName);
-    graph = this->libDisplay.getClass("create");
+    graph = this->libDisplay.getClass("entryPoint");
     std::cout << "Got the instance" << std::endl;
     this->graphical.reset(graph);
     std::cout << "LIB reseted" << std::endl;
@@ -278,7 +278,7 @@ void Core::setGameModule(const std::string &libName)
     size_t i = 0;
 
     this->libGame.openLib(libName);
-    this->game.reset(this->libGame.getClass("create"));
+    this->game.reset(this->libGame.getClass("entryPoint"));
 
     for (auto &libname : this->displayLibPath) {
         if (libname == libName)
