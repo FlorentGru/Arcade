@@ -19,14 +19,14 @@ namespace arcDisplay
     {
     private:
         std::string _text;
-        std::string _font;
         unsigned int _size;
-        std::pair<float, float> _pos;
         std::vector<unsigned char> _color;
+        std::string _font;
+        std::pair<float, float> _pos;
     public:
-        TextInfo();
+        explicit TextInfo(const std::string &text = "no_text", unsigned int size = 30, const std::string &font = "");
 
-        TypeInfoDisplay getType() const;
+        enum TypeInfoDisplay getType() const override;
 
         const std::string &getText() const;
         const std::pair<float, float> &getPos() const;

@@ -20,12 +20,12 @@ arcDisplay::TypeInfoDisplay arcDisplay::LineInfo::getType() const
 ## SETTER AND GETTER
 ###############################*/
 
-void arcDisplay::LineInfo::setPosition2(const float x, const float y)
+void arcDisplay::LineInfo::setPos2(const float x, const float y)
 {
-    this->_position2 = std::make_pair(x, y);
+    this->_pos2 = std::make_pair(x, y);
 }
 
-const std::pair<float, float> &arcDisplay::LineInfo::getPosition2() const
+const std::pair<float, float> &arcDisplay::LineInfo::getPos2() const
 {
-    return (this->_position2);
+    return (this->_pos2);
 }

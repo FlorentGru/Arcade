@@ -7,9 +7,9 @@
 
 #include "WindowInfo.hpp"
 
-arcDisplay::WindowInfo::WindowInfo()
+arcDisplay::WindowInfo::WindowInfo(bool close)
 {
-    this->_close = false;
+    this->_close = close;
 }
 
 bool arcDisplay::WindowInfo::isClosed() const

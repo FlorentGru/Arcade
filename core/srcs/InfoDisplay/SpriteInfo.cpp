@@ -20,12 +20,12 @@ arcDisplay::TypeInfoDisplay arcDisplay::SpriteInfo::getType() const
 ## SETTER AND GETTER
 ###############################*/
 
-const std::pair<int, int> arcDisplay::SpriteInfo::getPosRect() const
+const std::pair<int, int> &arcDisplay::SpriteInfo::getPosRect() const
 {
     return (this->_posRect);
 }
 
-const std::pair<int, int> arcDisplay::SpriteInfo::getSizeRect() const
+const std::pair<int, int> &arcDisplay::SpriteInfo::getSizeRect() const
 {
     return (this->_sizeRect);
 }

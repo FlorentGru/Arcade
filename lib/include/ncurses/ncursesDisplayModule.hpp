@@ -28,6 +28,7 @@ namespace arcDisplay
         int maxwidth;
         char terminal;
 
+        void drawType(TypeInfoDisplay, std::reference_wrapper<const IInfoDisplay>);
         void draw(const WindowInfo &);
         void draw(const SoundInfo &);
         void draw(const TextInfo &);
@@ -35,6 +36,7 @@ namespace arcDisplay
         void draw(const CircleInfo &);
         void draw(const RectInfo &);
         void draw(const LineInfo &);
+        void getInput();
             
         public:
             ncursesDisplayModule();

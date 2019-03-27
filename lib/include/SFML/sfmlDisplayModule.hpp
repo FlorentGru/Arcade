@@ -23,8 +23,6 @@
 
 namespace arcDisplay
 {
-    const int CHAR_SIZE = 15;
-
     class sfmlDisplayModule : public IDisplayModule
     {
     private:
@@ -50,6 +48,8 @@ namespace arcDisplay
         void draw(const CircleInfo &);
         void draw(const RectInfo &);
         void draw(const LineInfo &);
+
+        const int CHAR_SIZE = 15;
     public:
         bool initScreen(const InitWindow &info) override;
         bool close() override;

@@ -17,7 +17,7 @@ namespace arcDisplay
     private:
 
     public:
-        TypeInfoDisplay getType() const;
+        enum TypeInfoDisplay getType() const override;
     };
 } // arcDisplay
 

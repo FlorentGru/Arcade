@@ -7,11 +7,12 @@
 
 #include "TextInfo.hpp"
 
-arcDisplay::TextInfo::TextInfo()
+arcDisplay::TextInfo::TextInfo(const std::string &text, unsigned int size, const std::string &font)
 {
-    this->_text = "no_text";
+    this->_text = text;
     setColor(255, 255, 255);
-    this->_size = 30;
+    this->_size = size;
+    this->_font = font;
 }
 
 /*###############################

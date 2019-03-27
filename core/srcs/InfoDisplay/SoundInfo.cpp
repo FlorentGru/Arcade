@@ -30,12 +30,12 @@ size_t arcDisplay::SoundInfo::getVolume() const
     return (this->_volume);
 }
 
-bool arcDisplay::SoundInfo::getLoop() const
+bool arcDisplay::SoundInfo::isLoop() const
 {
     return (this->_loop);
 }
 
-bool arcDisplay::SoundInfo::getStart() const
+bool arcDisplay::SoundInfo::isStart() const
 {
     return (this->_start);
 }

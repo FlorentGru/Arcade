@@ -36,7 +36,7 @@ namespace arcDisplay
 
     typedef struct s_InfoInput
     {
-        KeyBoard::KeyID id;
+        enum KeyBoard::KeyID id;
         bool isPressed;
     } t_InfoInput;
     

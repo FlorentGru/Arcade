@@ -11,7 +11,6 @@
 #include "IInfoDisplay.hpp"
 #include <vector>
 #include <string>
-#include <utility>
 
 namespace arcDisplay
 {
