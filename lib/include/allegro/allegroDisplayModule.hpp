@@ -22,6 +22,8 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 #include <stdio.h>
 
 namespace arcDisplay
@@ -32,14 +34,11 @@ namespace arcDisplay
     {
     private:
         ALLEGRO_DISPLAY *window;
-        ALLEGRO_FONT *font;
-        ALLEGRO_EVENT *event;
+        ALLEGRO_FONT *_font;
         ALLEGRO_TIMEOUT timeout;
+        ALLEGRO_TIMER *timer;
         ALLEGRO_EVENT_QUEUE *event_queue;
-
-        // std::map<std::string, sf::Texture> texture;
-        // std::map<std::string, sf::SoundBuffer> soundbuffer;
-        // std::map<std::string, sf::Font> font;
+        ALLEGRO_SAMPLE *sample;
 
         std::vector<arcDisplay::t_InfoInput> inputs;
 

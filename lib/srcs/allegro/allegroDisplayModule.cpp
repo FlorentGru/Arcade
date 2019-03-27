@@ -6,8 +6,6 @@
 */
 
 #include "allegroDisplayModule.hpp"
-#include <string>
-#include <iostream>
 
 extern "C" {
     arcDisplay::allegroDisplayModule *create()
@@ -22,19 +20,18 @@ arcDisplay::allegroDisplayModule::allegroDisplayModule()
 
 bool arcDisplay::allegroDisplayModule::initScreen(const InitWindow &info)
 {
-    al_init();
-    al_init_font_addon();
-    al_init_ttf_addon();
-    al_init_image_addon();
-    al_install_keyboard();
-    this->event_queue = NULL;
-    event_queue = al_create_event_queue();
+    if (!al_init() || !al_init_font_addon() || !al_init_ttf_addon() || !al_init_image_addon() || !al_install_keyboard() || !al_install_audio() || !al_init_acodec_addon() || !al_reserve_samples(1))
+        return (false);
     al_init_timeout(&timeout, 0.06);
+    this->event_queue = al_create_event_queue();
+    this->_font = NULL;
+    this->timer = al_create_timer(1.0 / 30);
     this->window = al_create_display(info.getWidth() * CHAR_SIZE, info.getHeight() * CHAR_SIZE);
     al_register_event_source(event_queue, al_get_display_event_source(this->window));
-// //	al_register_event_source(event_queue, al_get_timer_event_source(timer));
- 	al_register_event_source(event_queue, al_get_keyboard_event_source());
-    if (!this->window)
+    al_register_event_source(event_queue, al_get_timer_event_source(timer));
+    al_register_event_source(event_queue, al_get_keyboard_event_source());
+    al_start_timer(timer);
+    if (!this->window || !this->timer || !this->event_queue)
         return (false);
     return (true);
 }
@@ -43,20 +40,14 @@ bool arcDisplay::allegroDisplayModule::display(const std::vector<std::reference_
 {
     TypeInfoDisplay type;
 
-    printf("Display1\n");
     if (this->window == NULL) {
         return (false);
     }
-    printf("Display2\n");
     al_clear_to_color(al_map_rgb(0, 0, 0));
     for (auto &entity : info) {
-        printf("Displayed\n");
         type = entity.get().getType();
-        printf("Displayed1\n");
         drawType(type, entity.get());
-        printf("Displayed2\n");
     }
-    printf("Display3\n");
     if (this->window != NULL)
         al_flip_display();
     else
@@ -68,6 +59,8 @@ bool arcDisplay::allegroDisplayModule::close()
 {
     if (this->window != NULL) {
         al_destroy_display(this->window);
+        al_destroy_timer(timer);
+        al_destroy_event_queue(event_queue);
         return (true);
     }
     return (false);
@@ -79,7 +72,6 @@ bool arcDisplay::allegroDisplayModule::close()
 
 void arcDisplay::allegroDisplayModule::drawType(TypeInfoDisplay type, std::reference_wrapper<const IInfoDisplay> info)
 {
-    printf("draw\n");
     switch (type) {
         case WINDOW:
             draw(dynamic_cast<const WindowInfo &>(info.get()));
@@ -89,7 +81,6 @@ void arcDisplay::allegroDisplayModule::drawType(TypeInfoDisplay type, std::refer
             break;
         case TEXT:
             draw(dynamic_cast<const TextInfo &>(info.get()));
-            printf("TEXT\n");
             break;
         case SPRITE:
             draw(dynamic_cast<const SpriteInfo &>(info.get()));
@@ -98,7 +89,6 @@ void arcDisplay::allegroDisplayModule::drawType(TypeInfoDisplay type, std::refer
             draw(dynamic_cast<const CircleInfo &>(info.get()));
             break;
         case RECT:
-            printf("RECT\n");
             draw(dynamic_cast<const RectInfo &>(info.get()));
             break;
         case LINE:
@@ -117,24 +107,26 @@ void arcDisplay::allegroDisplayModule::draw(const WindowInfo &info)
 
 void arcDisplay::allegroDisplayModule::draw(const SoundInfo& sound)
 {
-
+    if (this->sample)
+        al_destroy_sample(sample);
+    sample = al_load_sample(sound.getSound().c_str());
+    if (sound.getLoop() == true)
+        al_play_sample(sample, sound.getVolume(), 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
+    else
+        al_play_sample(sample, sound.getVolume(), 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+    
 }
 
 void arcDisplay::allegroDisplayModule::draw(const TextInfo& text)
 {
-    printf("text1\n");
-    ALLEGRO_FONT *_font = al_load_ttf_font(text.getFont().c_str(), text.getSize() * CHAR_SIZE, 0);
-
-    printf("text2\n");
+    if (_font)
+        al_destroy_font(_font);
+    this->_font = al_load_font(text.getFont().c_str(), text.getSize(), 0);
+    if (this->_font == NULL)
+        this->_font = al_create_builtin_font();
     std::vector <unsigned char>color = text.getColor();
     std::pair<float, float> pos = text.getPos();
-    printf("text3\n");
-    std::cout << text.getText() << std::endl;
-    std::cout << "font : " << _font << std::endl;
-    std::cout << "color 1, 2, 3" << color[0] << " " << color[1] << " " << color[2] << std::endl;
-    std::cout << "pos 1, 2" << pos.first << " " << pos.second << std::endl;
     al_draw_text(_font, al_map_rgb(color[0], color[1], color[2]), pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, 0, text.getText().c_str());
-    printf("text4\n");
 }
 
 void arcDisplay::allegroDisplayModule::draw(const SpriteInfo& sprite)
@@ -168,15 +160,10 @@ void arcDisplay::allegroDisplayModule::draw(const RectInfo& rect)
     std::pair<float, float> size = rect.getSize();
     std::vector <unsigned char>color = rect.getColor();
 
-    printf("inside rect\n");
-    std::cout << rect.getTexture() << std::endl;
     if (rect.getTexture() != "" && al_load_bitmap(rect.getTexture().c_str()) == NULL) {
         ALLEGRO_BITMAP *bitmap = al_load_bitmap(rect.getTexture().c_str());
-        printf("inside rect2\n");
         al_draw_bitmap_region(bitmap, 0, 0, size.first * CHAR_SIZE, size.second * CHAR_SIZE, pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, 0);
-        printf("inside rect3\n");
     }
-    printf("inside rect3\n");
     al_draw_filled_rectangle(pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, (pos.first + size.first) * CHAR_SIZE,\
     (pos.second + size.second) * CHAR_SIZE, al_map_rgb(color[0], color[1], color[2]));
 }
@@ -193,23 +180,20 @@ void arcDisplay::allegroDisplayModule::draw(const LineInfo& line)
 
 const std::vector<arcDisplay::t_InfoInput> &arcDisplay::allegroDisplayModule::getInput()
 {
-    printf("LOL1\n");
-    al_wait_for_event_until(this->event_queue, this->event, &this->timeout);
-    printf("LOL1.5\n");
+    ALLEGRO_EVENT event;
+    al_wait_for_event(this->event_queue, &event);
     t_InfoInput input;
 
-    printf("LOL2\n");
     inputs.clear();
     while (al_is_event_queue_empty(this->event_queue) == false) {
-        al_wait_for_event(this->event_queue, this->event);
-        if (event->type == ALLEGRO_EVENT_KEY_DOWN)
+        al_wait_for_event(this->event_queue, &event);
+        if (event.type == ALLEGRO_EVENT_KEY_DOWN)
             input.isPressed = true;
-        else if (event->type == ALLEGRO_EVENT_KEY_UP)
+        else if (event.type == ALLEGRO_EVENT_KEY_UP)
             input.isPressed = false;
-        if (event->type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
             break;
-        printf("LOL3\n");
-        switch (event->keyboard.keycode) {
+        switch (event.keyboard.keycode) {
         case ALLEGRO_KEY_A:
           	input.id = arcDisplay::KeyBoard::A;
           	inputs.emplace_back(input);
