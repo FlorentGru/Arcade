@@ -110,7 +110,7 @@ void arcDisplay::allegroDisplayModule::draw(const SoundInfo& sound)
     if (this->sample)
         al_destroy_sample(sample);
     sample = al_load_sample(sound.getSound().c_str());
-    if (sound.getLoop() == true)
+    if (sound.isLoop() == true)
         al_play_sample(sample, sound.getVolume(), 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP, NULL);
     else
         al_play_sample(sample, sound.getVolume(), 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
@@ -171,7 +171,7 @@ void arcDisplay::allegroDisplayModule::draw(const RectInfo& rect)
 void arcDisplay::allegroDisplayModule::draw(const LineInfo& line)
 {
     std::pair<float, float> posx = line.getPos();
-    std::pair<float, float> posy = line.getPosition2();
+    std::pair<float, float> posy = line.getPos2();
     std::vector<unsigned char> color = line.getColor();
 
     al_draw_line(posx.first * CHAR_SIZE, posx.second * CHAR_SIZE, posy.first * CHAR_SIZE,\
