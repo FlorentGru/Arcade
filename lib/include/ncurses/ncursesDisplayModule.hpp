@@ -26,7 +26,8 @@ namespace arcDisplay
         private:
         int maxheight;
         int maxwidth;
-        char terminal;
+
+        std::vector<arcDisplay::t_InfoInput> inputs;
 
         void drawType(TypeInfoDisplay, std::reference_wrapper<const IInfoDisplay>);
         void draw(const WindowInfo &);
@@ -36,7 +37,6 @@ namespace arcDisplay
         void draw(const CircleInfo &);
         void draw(const RectInfo &);
         void draw(const LineInfo &);
-        void getInput();
             
         public:
             ncursesDisplayModule();
@@ -45,7 +45,7 @@ namespace arcDisplay
             bool initScreen();
             bool close();
             bool display(const std::vector<std::reference_wrapper<IInfoDisplay>> &);
-            std::vector<std::reference_wrapper<t_InfoInput>> getInput() const;
+            const std::vector<t_InfoInput> &getInput() override;
     };
 }
 

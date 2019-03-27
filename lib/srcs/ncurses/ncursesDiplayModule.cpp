@@ -14,43 +14,22 @@ bool arcDisplay::ncursesDisplayModule::display(const std::vector<std::reference_
 
     for (auto &entity : info) {
         type = entity.get().getType();
-        drawType(ype, entity.get());
-    }
-
-    for(int i = 0; i < maxwidth - 1; i++)
-    {
-        move(0,i);
-        addch(term);
-    }
-    for(int i = 0; i < maxheight - 1 ;i++)
-    {
-        move(i,0);
-        addch(term);
-    }
-    for(int i = 0; i < maxwidth - 1 ;i++)
-    {
-        move(maxheight-2,i);
-        addch(term);
-    }
-    for(int i = 0; i < maxheight - 1 ;i++)
-    {
-        move(i,maxwidth - 2);
-        addch(term);
+        drawType(type, entity.get());
     }
     refresh();
     return (true);
 }
 
-bool ncrusesDisplayModule::initScreen()
+bool arcDisplay::ncursesDisplayModule::initScreen()
 {
     initscr();
     curs_set(0);
+    nodelay(stdscr, false);
     return (true);
 }
 
-bool ncursesDisplayModule::close()
+bool arcDisplay::ncursesDisplayModule::close()
 {
-    nodelay(stdscr, false);
     getch();
     endwin();
     return (true);
@@ -85,19 +64,19 @@ void arcDisplay::ncursesDisplayModule::drawType(TypeInfoDisplay type, std::refer
     }
 }
 
-void ncursesDisplayModule::draw(const WindowInfo &info)
+void arcDisplay::ncursesDisplayModule::draw(const WindowInfo &info)
 {
     if (info.isClosed()) {
         endwin();
     }
 }
 
-void ncursesDisplayModule::draw(const SoundInfo &info)
+void arcDisplay::ncursesDisplayModule::draw(const SoundInfo &info)
 {
-    return (0);
+    return;
 }
 
-void ncursesDisplayModule::draw(const TextInfo &info)
+void arcDisplay::ncursesDisplayModule::draw(const TextInfo &info)
 {
     std::vector<unsigned char> color = info.getColor();
 
@@ -106,47 +85,49 @@ void ncursesDisplayModule::draw(const TextInfo &info)
 		printf("Your terminal does not support color\n");
 		exit(1);
 	}
-    start.color();
+    start_color();
     init_pair(1, COLOR_RED, COLOR_BLACK);
     attron(COLOR_PAIR(1));
-    move(info.getPos().first, info.getPos().second);
-    printw(info.getText());
+    move(static_cast<int> (info.getPos().first), static_cast<int> (info.getPos().second));
+    printw(info.getText().c_str());
     refresh();
     attroff(COLOR_PAIR(1));
 }
 
-void ncursesDisplayModule::draw(const SpriteInfo &info)
+void arcDisplay::ncursesDisplayModule::draw(const SpriteInfo &info)
 {
-    return (0);
+    return;
 }
 
-void ncursesDisplayModule::draw(const CircleInfo &info)
+void arcDisplay::ncursesDisplayModule::draw(const CircleInfo &info)
 {
-    return (0);
-}
-
-void ncursesDisplayModule::draw(const RectInfo &info)
-{
-    std::vector<unsigned char> color = info.getColor();
-
-    mvhline(info.getPos().second, info.getPos().first, info.getAscii, (info.getPos().first + info.getSize()) - info.getPos().first);
-    mvhline(info.getPos().second + info.getSize(), info.getPos().first, info.getAscii, (info.getPos().first + info.getSize()) - info.getPos().first);
-    mvvline(info.getPos().second, info.getPos().first, info.getAscii, (info.getPos().second + info.getSize()) - info.getPos().second);
-    mvvline(info.getPos().second, info.getPos().first + info.getSize(), info.getAscii, (info.getPos().second + info.getSize()) - info.getPos().second);
-    for (int i = 0; info.getSize() < i; i++) {
-        for (int j = 0;; j++)
-            mvprintw('a');
+    for (int i = 0; i < info.getSize().first; i++) {
+        for (int j = 0; j < info.getSize().second; j++)
+            mvprintw(static_cast<int> (info.getPos().first) + i, static_cast<int> (info.getPos().second) + j, "%c", info.getAscii());
     }
 }
 
-void ncursesDisplayModule::draw(const LineInfo &info)
+void arcDisplay::ncursesDisplayModule::draw(const RectInfo &info)
 {
-    return (0);
+    std::vector<unsigned char> color = info.getColor();
+
+    for (int i = 0; i < info.getSize().first; i++) {
+        for (int j = 0; j < info.getSize().second; j++)
+            mvprintw(static_cast<int> (info.getPos().first) + i, static_cast<int> (info.getPos().second) + j, "%c", info.getAscii());
+    }
 }
 
-const std::vector<arcDisplay::t_InfoInput> &arcDisplay::sfmlDisplayModule::getInput()
+void arcDisplay::ncursesDisplayModule::draw(const LineInfo &info)
+{
+    return;
+}
+
+const std::vector<arcDisplay::t_InfoInput> &arcDisplay::ncursesDisplayModule::getInput()
 {
     int temp = getch();
+    t_InfoInput input;
+    inputs.clear;
+
     if (temp >= 'a' && temp <= 'z')
             temp -= 32;
 
@@ -263,24 +244,12 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::sfmlDisplayModule::getIn
                     input.id = arcDisplay::KeyBoard::SPACE;
                     inputs.emplace_back(input);
                     break;
-                case sf::Keyboard::Return:
+                case 10:
                     input.id = arcDisplay::KeyBoard::ENTER;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::LControl:
-                    input.id = arcDisplay::KeyBoard::LCONTROL;
                     inputs.emplace_back(input);
                     break;
                 case 127:
                     input.id = arcDisplay::KeyBoard::DELETE;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::LShift:
-                    input.id = arcDisplay::KeyBoard::LSHIFT;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::LAlt:
-                    input.id = arcDisplay::KeyBoard::LALT;
                     inputs.emplace_back(input);
                     break;
                 case KEY_LEFT:
@@ -347,58 +316,8 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::sfmlDisplayModule::getIn
                     input.id = arcDisplay::KeyBoard::NUM9;
                     inputs.emplace_back(input);
                     break;
-                case sf::Keyboard::F1:
-                    input.id = arcDisplay::KeyBoard::F1;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::F2:
-                    input.id = arcDisplay::KeyBoard::F2;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::F3:
-                    input.id = arcDisplay::KeyBoard::F3;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::F4:
-                    input.id = arcDisplay::KeyBoard::F4;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::F5:
-                    input.id = arcDisplay::KeyBoard::F5;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::F6:
-                    input.id = arcDisplay::KeyBoard::F6;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::F7:
-                    input.id = arcDisplay::KeyBoard::F7;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::F8:
-                    input.id = arcDisplay::KeyBoard::F8;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::F9:
-                    input.id = arcDisplay::KeyBoard::F9;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::F10:
-                    input.id = arcDisplay::KeyBoard::F10;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::F11:
-                    input.id = arcDisplay::KeyBoard::F11;
-                    inputs.emplace_back(input);
-                    break;
-                case sf::Keyboard::F12:
-                    input.id = arcDisplay::KeyBoard::F12;
-                    inputs.emplace_back(input);
-                    break;
                 default:
                     break;
             }
-        }
-    }
     return (inputs);
 }
