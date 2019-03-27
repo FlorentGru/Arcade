@@ -7,7 +7,14 @@
 
 #include "ncursesDisplayModule.hpp"
 
-bool arcDisplay::ncursesDisplayModule::display(const std::vector<std::reference_wrapper<IInfoDisplay>> &info)
+extern "C" {
+    arcDisplay::ncursesDisplayModule *entryPoint()
+    {
+        return (new arcDisplay::ncursesDisplayModule());
+    }
+}
+
+bool arcDisplay::ncursesDisplayModule::display(const std::vector<std::reference_wrapper<const IInfoDisplay>> &info)
 {
     TypeInfoDisplay type;
     getmaxyx(stdscr, maxheight, maxwidth);
@@ -20,11 +27,13 @@ bool arcDisplay::ncursesDisplayModule::display(const std::vector<std::reference_
     return (true);
 }
 
-bool arcDisplay::ncursesDisplayModule::initScreen()
+bool arcDisplay::ncursesDisplayModule::initScreen(const InitWindow &info)
 {
     initscr();
-    curs_set(0);
     nodelay(stdscr, false);
+    keypad(stdscr, true);
+    noecho();
+    curs_set(0);
     return (true);
 }
 
@@ -115,6 +124,7 @@ void arcDisplay::ncursesDisplayModule::draw(const RectInfo &info)
         for (int j = 0; j < info.getSize().second; j++)
             mvprintw(static_cast<int> (info.getPos().first) + i, static_cast<int> (info.getPos().second) + j, "%c", info.getAscii());
     }
+    refresh();
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const LineInfo &info)
@@ -126,198 +136,198 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::ncursesDisplayModule::ge
 {
     int temp = getch();
     t_InfoInput input;
-    inputs.clear;
+    inputs.clear();
 
     if (temp >= 'a' && temp <= 'z')
             temp -= 32;
 
-            switch (temp) {
-                case 'A':
-                    input.id = arcDisplay::KeyBoard::A;
-                    inputs.emplace_back(input);
-                    break;
-                case 'B':
-                    input.id = arcDisplay::KeyBoard::B;
-                    inputs.emplace_back(input);
-                    break;
-                case 'C':
-                    input.id = arcDisplay::KeyBoard::C;
-                    inputs.emplace_back(input);
-                    break;
-                case 'D':
-                    input.id = arcDisplay::KeyBoard::D;
-                    inputs.emplace_back(input);
-                    break;
-                case 'E':
-                    input.id = arcDisplay::KeyBoard::E;
-                    inputs.emplace_back(input);
-                    break;
-                case 'F':
-                    input.id = arcDisplay::KeyBoard::F;
-                    inputs.emplace_back(input);
-                    break;
-                case 'G':
-                    input.id = arcDisplay::KeyBoard::G;
-                    inputs.emplace_back(input);
-                    break;
-                case 'H':
-                    input.id = arcDisplay::KeyBoard::H;
-                    inputs.emplace_back(input);
-                    break;
-                case 'I':
-                    input.id = arcDisplay::KeyBoard::I;
-                    inputs.emplace_back(input);
-                    break;
-                case 'J':
-                    input.id = arcDisplay::KeyBoard::J;
-                    inputs.emplace_back(input);
-                    break;
-                case 'K':
-                    input.id = arcDisplay::KeyBoard::K;
-                    inputs.emplace_back(input);
-                    break;
-                case 'L':
-                    input.id = arcDisplay::KeyBoard::L;
-                    inputs.emplace_back(input);
-                    break;
-                case 'M':
-                    input.id = arcDisplay::KeyBoard::M;
-                    inputs.emplace_back(input);
-                    break;
-                case 'N':
-                    input.id = arcDisplay::KeyBoard::N;
-                    inputs.emplace_back(input);
-                    break;
-                case 'O':
-                    input.id = arcDisplay::KeyBoard::O;
-                    inputs.emplace_back(input);
-                    break;
-                case 'P':
-                    input.id = arcDisplay::KeyBoard::P;
-                    inputs.emplace_back(input);
-                    break;
-                case 'Q':
-                    input.id = arcDisplay::KeyBoard::Q;
-                    inputs.emplace_back(input);
-                    break;
-                case 'R':
-                    input.id = arcDisplay::KeyBoard::R;
-                    inputs.emplace_back(input);
-                    break;
-                case 'S':
-                    input.id = arcDisplay::KeyBoard::S;
-                    inputs.emplace_back(input);
-                    break;
-                case 'T':
-                    input.id = arcDisplay::KeyBoard::T;
-                    inputs.emplace_back(input);
-                    break;
-                case 'U':
-                    input.id = arcDisplay::KeyBoard::U;
-                    inputs.emplace_back(input);
-                    break;
-                case 'V':
-                    input.id = arcDisplay::KeyBoard::V;
-                    inputs.emplace_back(input);
-                    break;
-                case 'W':
-                    input.id = arcDisplay::KeyBoard::W;
-                    inputs.emplace_back(input);
-                    break;
-                case 'X':
-                    input.id = arcDisplay::KeyBoard::X;
-                    inputs.emplace_back(input);
-                    break;
-                case 'Y':
-                    input.id = arcDisplay::KeyBoard::Y;
-                    inputs.emplace_back(input);
-                    break;
-                case 'Z':
-                    input.id = arcDisplay::KeyBoard::Z;
-                    inputs.emplace_back(input);
-                    break;
-                case 27:
-                    input.id = arcDisplay::KeyBoard::ESCAPE;
-                    inputs.emplace_back(input);
-                    break;
-                case 32:
-                    input.id = arcDisplay::KeyBoard::SPACE;
-                    inputs.emplace_back(input);
-                    break;
-                case 10:
-                    input.id = arcDisplay::KeyBoard::ENTER;
-                    inputs.emplace_back(input);
-                    break;
-                case 127:
-                    input.id = arcDisplay::KeyBoard::DELETE;
-                    inputs.emplace_back(input);
-                    break;
-                case KEY_LEFT:
-                    input.id = arcDisplay::KeyBoard::LEFT;
-                    inputs.emplace_back(input);
-                    break;
-                case KEY_RIGHT:
-                    input.id = arcDisplay::KeyBoard::RIGHT;
-                    inputs.emplace_back(input);
-                    break;
-                case KEY_UP:
-                    input.id = arcDisplay::KeyBoard::UP;
-                    inputs.emplace_back(input);
-                    break;
-                case KEY_DOWN:
-                    input.id = arcDisplay::KeyBoard::DOWN;
-                    inputs.emplace_back(input);
-                    break;
-                case '+':
-                    input.id = arcDisplay::KeyBoard::ADD;
-                    inputs.emplace_back(input);
-                    break;
-                case '-':
-                    input.id = arcDisplay::KeyBoard::SUBSTRACT;
-                    inputs.emplace_back(input);
-                    break;
-                case '0':
-                    input.id = arcDisplay::KeyBoard::NUM0;
-                    inputs.emplace_back(input);
-                    break;
-                case '1':
-                    input.id = arcDisplay::KeyBoard::NUM1;
-                    inputs.emplace_back(input);
-                    break;
-                case '2':
-                    inputs.emplace_back(input);
-                    input.id = arcDisplay::KeyBoard::NUM2;
-                    break;
-                case '3':
-                    input.id = arcDisplay::KeyBoard::NUM3;
-                    inputs.emplace_back(input);
-                    break;
-                case '4':
-                    input.id = arcDisplay::KeyBoard::NUM4;
-                    inputs.emplace_back(input);
-                    break;
-                case '5':
-                    input.id = arcDisplay::KeyBoard::NUM5;
-                    inputs.emplace_back(input);
-                    break;
-                case '6':
-                    input.id = arcDisplay::KeyBoard::NUM6;
-                    inputs.emplace_back(input);
-                    break;
-                case '7':
-                    input.id = arcDisplay::KeyBoard::NUM7;
-                    inputs.emplace_back(input);
-                    break;
-                case '8':
-                    input.id = arcDisplay::KeyBoard::NUM8;
-                    inputs.emplace_back(input);
-                    break;
-                case '9':
-                    input.id = arcDisplay::KeyBoard::NUM9;
-                    inputs.emplace_back(input);
-                    break;
-                default:
-                    break;
-            }
+    switch (temp) {
+        case 'A':
+            input.id = arcDisplay::KeyBoard::A;
+            inputs.emplace_back(input);
+            break;
+        case 'B':
+            input.id = arcDisplay::KeyBoard::B;
+            inputs.emplace_back(input);
+            break;
+        case 'C':
+            input.id = arcDisplay::KeyBoard::C;
+            inputs.emplace_back(input);
+            break;
+        case 'D':
+            input.id = arcDisplay::KeyBoard::D;
+            inputs.emplace_back(input);
+            break;
+        case 'E':
+            input.id = arcDisplay::KeyBoard::E;
+            inputs.emplace_back(input);
+            break;
+        case 'F':
+            input.id = arcDisplay::KeyBoard::F;
+            inputs.emplace_back(input);
+            break;
+        case 'G':
+            input.id = arcDisplay::KeyBoard::G;
+            inputs.emplace_back(input);
+            break;
+        case 'H':
+            input.id = arcDisplay::KeyBoard::H;
+            inputs.emplace_back(input);
+            break;
+        case 'I':
+            input.id = arcDisplay::KeyBoard::I;
+            inputs.emplace_back(input);
+            break;
+        case 'J':
+            input.id = arcDisplay::KeyBoard::J;
+            inputs.emplace_back(input);
+            break;
+        case 'K':
+            input.id = arcDisplay::KeyBoard::K;
+            inputs.emplace_back(input);
+            break;
+        case 'L':
+            input.id = arcDisplay::KeyBoard::L;
+            inputs.emplace_back(input);
+            break;
+        case 'M':
+            input.id = arcDisplay::KeyBoard::M;
+            inputs.emplace_back(input);
+            break;
+        case 'N':
+            input.id = arcDisplay::KeyBoard::N;
+            inputs.emplace_back(input);
+            break;
+        case 'O':
+            input.id = arcDisplay::KeyBoard::O;
+            inputs.emplace_back(input);
+            break;
+        case 'P':
+            input.id = arcDisplay::KeyBoard::P;
+            inputs.emplace_back(input);
+            break;
+        case 'Q':
+            input.id = arcDisplay::KeyBoard::Q;
+            inputs.emplace_back(input);
+            break;
+        case 'R':
+            input.id = arcDisplay::KeyBoard::R;
+            inputs.emplace_back(input);
+            break;
+        case 'S':
+            input.id = arcDisplay::KeyBoard::S;
+            inputs.emplace_back(input);
+            break;
+        case 'T':
+            input.id = arcDisplay::KeyBoard::T;
+            inputs.emplace_back(input);
+            break;
+        case 'U':
+            input.id = arcDisplay::KeyBoard::U;
+            inputs.emplace_back(input);
+            break;
+        case 'V':
+            input.id = arcDisplay::KeyBoard::V;
+            inputs.emplace_back(input);
+            break;
+        case 'W':
+            input.id = arcDisplay::KeyBoard::W;
+            inputs.emplace_back(input);
+            break;
+        case 'X':
+            input.id = arcDisplay::KeyBoard::X;
+            inputs.emplace_back(input);
+            break;
+        case 'Y':
+            input.id = arcDisplay::KeyBoard::Y;
+            inputs.emplace_back(input);
+            break;
+        case 'Z':
+            input.id = arcDisplay::KeyBoard::Z;
+            inputs.emplace_back(input);
+            break;
+        case 27:
+            input.id = arcDisplay::KeyBoard::ESCAPE;
+            inputs.emplace_back(input);
+            break;
+        case 32:
+            input.id = arcDisplay::KeyBoard::SPACE;
+            inputs.emplace_back(input);
+            break;
+        case 10:
+            input.id = arcDisplay::KeyBoard::ENTER;
+            inputs.emplace_back(input);
+            break;
+        case 127:
+            input.id = arcDisplay::KeyBoard::DELETE;
+            inputs.emplace_back(input);
+            break;
+        case KEY_LEFT:
+            input.id = arcDisplay::KeyBoard::LEFT;
+            inputs.emplace_back(input);
+            break;
+        case KEY_RIGHT:
+            input.id = arcDisplay::KeyBoard::RIGHT;
+            inputs.emplace_back(input);
+            break;
+        case KEY_UP:
+            input.id = arcDisplay::KeyBoard::UP;
+            inputs.emplace_back(input);
+            break;
+        case KEY_DOWN:
+            input.id = arcDisplay::KeyBoard::DOWN;
+            inputs.emplace_back(input);
+            break;
+        case '+':
+            input.id = arcDisplay::KeyBoard::ADD;
+            inputs.emplace_back(input);
+            break;
+        case '-':
+            input.id = arcDisplay::KeyBoard::SUBSTRACT;
+            inputs.emplace_back(input);
+            break;
+        case '0':
+            input.id = arcDisplay::KeyBoard::NUM0;
+            inputs.emplace_back(input);
+            break;
+        case '1':
+            input.id = arcDisplay::KeyBoard::NUM1;
+            inputs.emplace_back(input);
+            break;
+        case '2':
+            inputs.emplace_back(input);
+            input.id = arcDisplay::KeyBoard::NUM2;
+            break;
+        case '3':
+            input.id = arcDisplay::KeyBoard::NUM3;
+            inputs.emplace_back(input);
+            break;
+        case '4':
+            input.id = arcDisplay::KeyBoard::NUM4;
+            inputs.emplace_back(input);
+            break;
+        case '5':
+            input.id = arcDisplay::KeyBoard::NUM5;
+            inputs.emplace_back(input);
+            break;
+        case '6':
+            input.id = arcDisplay::KeyBoard::NUM6;
+            inputs.emplace_back(input);
+            break;
+        case '7':
+            input.id = arcDisplay::KeyBoard::NUM7;
+            inputs.emplace_back(input);
+            break;
+        case '8':
+            input.id = arcDisplay::KeyBoard::NUM8;
+            inputs.emplace_back(input);
+            break;
+        case '9':
+            input.id = arcDisplay::KeyBoard::NUM9;
+            inputs.emplace_back(input);
+            break;
+        default:
+            break;
+        }
     return (inputs);
 }

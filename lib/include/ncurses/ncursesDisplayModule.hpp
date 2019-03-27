@@ -39,12 +39,11 @@ namespace arcDisplay
         void draw(const LineInfo &);
             
         public:
-            ncursesDisplayModule();
-            ~ncursesDisplayModule();
+            ncursesDisplayModule() {};
 
-            bool initScreen();
+            bool initScreen(const InitWindow &info) override;
             bool close();
-            bool display(const std::vector<std::reference_wrapper<IInfoDisplay>> &);
+            bool display(const std::vector<std::reference_wrapper<const IInfoDisplay>> &) override;
             const std::vector<t_InfoInput> &getInput() override;
     };
 }
