@@ -14,10 +14,6 @@ extern "C" {
     }
 }
 
-arcDisplay::allegroDisplayModule::allegroDisplayModule()
-{
-}
-
 bool arcDisplay::allegroDisplayModule::initScreen(const InitWindow &info)
 {
     if (!al_init() || !al_init_font_addon() || !al_init_ttf_addon() || !al_init_image_addon() || !al_install_keyboard() || !al_install_audio() || !al_init_acodec_addon() || !al_reserve_samples(1))
