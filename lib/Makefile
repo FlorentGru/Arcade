@@ -17,7 +17,16 @@ SRC_LIB1		=	$(SRC_DIR_LIB1)sfmlDisplayModule.cpp	\
                     ../core/srcs/InitWindow.cpp
 
 
-SRC_LIB2		=	$(SRC_DIR_LIB2)
+SRC_LIB2		=	$(SRC_DIR_LIB2)ncursesDisplayModule.cpp\
+                    ../core/srcs/InfoDisplay/CircleInfo.cpp	\
+                    ../core/srcs/InfoDisplay/LineInfo.cpp	\
+                    ../core/srcs/InfoDisplay/SoundInfo.cpp	\
+                    ../core/srcs/InfoDisplay/RectInfo.cpp	\
+                    ../core/srcs/InfoDisplay/TextInfo.cpp	\
+                    ../core/srcs/InfoDisplay/WindowInfo.cpp	\
+                    ../core/srcs/InfoDisplay/SpriteInfo.cpp	\
+                    ../core/srcs/InfoDisplay/ADrawableInfo.cpp	\
+                    ../core/srcs/InitWindow.cpp			\
 
 SRC_LIB3		=	$(SRC_DIR_LIB3)allegroDisplayModule.cpp	\
                     ../core/srcs/InfoDisplay/CircleInfo.cpp	\
@@ -32,7 +41,7 @@ SRC_LIB3		=	$(SRC_DIR_LIB3)allegroDisplayModule.cpp	\
 
 NAME_LIB1		=	lib_SFML.so
 
-NAME_LIB2		=	lib_graph2.so
+NAME_LIB2		=	lib_ncurses.so
 
 NAME_LIB3		=	lib_allegro.so
 
@@ -48,7 +57,7 @@ SRC_DIR_LIB2	=	./srcs/ncurses/
 
 SRC_DIR_LIB3	=	./srcs/allegro/
 
-INC_LIB		=	-I ./include/SFML/ -I ./../core/include/ -I ./../core/include/InfoDisplay/ -I ./include/allegro/
+INC_LIB		=	-I ./include/SFML/ -I ./../core/include/ -I ./../core/include/InfoDisplay/ -I ./include/allegro/ -I ./include/ncurses/
 
 CXXFLAGS 		=	-Wall -Wextra -W -Wshadow -fPIC $(INC_LIB)
 
@@ -62,7 +71,7 @@ CXX 			= 	g++ -shared
 
 MAKE 			= 	make -C
 
-all:		lib1 lib3 ##lib2
+all:		lib1 lib3 lib2
 
 lib1:		$(OBJECTS_LIB1)
 			$(CXX) -o $(NAME_LIB1) $(OBJECTS_LIB1)	$(SFML)
