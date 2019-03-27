@@ -28,8 +28,9 @@ snakeclass::snakeclass()
     curs_set(0);
     getmaxyx(stdscr, maxheight, maxwidth);
 
-    snakepart = 'o';
-    term = (char) 219;
+    snakepart = 'x';
+    head = 'o';
+    term = '#';
     wall = '|';
     foo = '*';
     locFood.x = 0;
@@ -69,11 +70,13 @@ snakeclass::snakeclass()
         }
         for(int i = 10; i < maxheight - 10 ;i++)
         {
-                move(i,maxwidth - 80);
+                move(i,maxwidth - 30);
                 addch(wall);
         }
     for(int i = 0; i < snake.size(); i++) {
         move(snake[i].y, snake[i].x);
+        if (i == 0)
+            addch(head);
         addch(snakepart);
     }
     move(maxheight - 1, 0);
@@ -135,23 +138,23 @@ void snakeclass::movesnake()
         int tmp = getch();
         switch(tmp)
         {
-                case KEY_LEFT:
+                case 'q':
                         if(direction != 'r')
                                 direction = 'l';
                         break;
-                case KEY_UP:
+                case 'z':
                         if(direction != 'd')
                                 direction = 'u';
                         break;
-                case KEY_DOWN:
+                case 's':
                         if(direction != 'u')
                                 direction = 'd';
                         break;
-                case KEY_RIGHT:
+                case 100:
                         if(direction != 'l')
                                 direction = 'r';
                         break;
-                case KEY_BACKSPACE:
+                case 15:
                         direction = 'q';
                         break;
         }

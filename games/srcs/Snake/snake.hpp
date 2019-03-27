@@ -34,6 +34,7 @@ class snakeclass {
     int maxheight;
     char direction;
     char snakepart;
+    char head;
     char term;
     char foo;
     char wall;
