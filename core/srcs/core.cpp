@@ -107,7 +107,7 @@ Core::Outcome Core::menuLoop()
 
 void Core::initGame()
 {
-    if (!graphical->initScreen(game->init())) {
+    if (!graphical->initScreen(game->initWindow())) {
 //        throw ();
     }
 }
