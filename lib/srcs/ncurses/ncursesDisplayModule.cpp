@@ -19,6 +19,7 @@ bool arcDisplay::ncursesDisplayModule::display(const std::vector<std::reference_
     TypeInfoDisplay type;
     getmaxyx(stdscr, maxheight, maxwidth);
 
+    nodelay(stdscr, false);
     for (auto &entity : info) {
         type = entity.get().getType();
         drawType(type, entity.get());
@@ -30,7 +31,7 @@ bool arcDisplay::ncursesDisplayModule::display(const std::vector<std::reference_
 bool arcDisplay::ncursesDisplayModule::initScreen(const InitWindow &info)
 {
     initscr();
-    nodelay(stdscr, false);
+    nodelay(stdscr, true);
     keypad(stdscr, true);
     noecho();
     curs_set(0);
@@ -39,7 +40,6 @@ bool arcDisplay::ncursesDisplayModule::initScreen(const InitWindow &info)
 
 bool arcDisplay::ncursesDisplayModule::close()
 {
-    getch();
     endwin();
     return (true);
 }
@@ -71,6 +71,7 @@ void arcDisplay::ncursesDisplayModule::drawType(TypeInfoDisplay type, std::refer
         default:
             break;
     }
+    refresh();
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const WindowInfo &info)
@@ -95,7 +96,7 @@ void arcDisplay::ncursesDisplayModule::draw(const TextInfo &info)
 		exit(1);
 	}
     start_color();
-    init_pair(1, COLOR_RED, COLOR_BLACK);
+    init_pair(1, COLOR_BLUE, COLOR_BLACK);
     attron(COLOR_PAIR(1));
     move(static_cast<int> (info.getPos().first), static_cast<int> (info.getPos().second));
     printw(info.getText().c_str());
