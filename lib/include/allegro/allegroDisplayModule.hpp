@@ -51,9 +51,7 @@ namespace arcDisplay
         void draw(const RectInfo&);
         void draw(const LineInfo&);
     public:
-        allegroDisplayModule();
-        ~allegroDisplayModule();
-
+        allegroDisplayModule() {};
         bool initScreen(const InitWindow &info) override;
         bool close() override;
         bool display(const std::vector<std::reference_wrapper<const IInfoDisplay>> &) override;
