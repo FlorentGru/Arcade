@@ -8,7 +8,7 @@
 #include "allegroDisplayModule.hpp"
 
 extern "C" {
-    arcDisplay::allegroDisplayModule *create()
+    arcDisplay::allegroDisplayModule *entryPoint()
     {
         return (new arcDisplay::allegroDisplayModule());
     }
