@@ -6,6 +6,7 @@
 */
 
 #include "ncursesDisplayModule.hpp"
+#include <iostream>
 
 extern "C" {
     arcDisplay::ncursesDisplayModule *entryPoint()
@@ -36,10 +37,13 @@ bool arcDisplay::ncursesDisplayModule::initScreen(const InitWindow &info)
     noecho();
     curs_set(0);
     if(has_colors() == FALSE)
-	{	endwin();
+	{	
+        endwin();
 		printf("Your terminal does not support color\n");
 		exit(1);
 	}
+    start_color();
+    (void) info;
     return (true);
 }
 
@@ -88,6 +92,7 @@ void arcDisplay::ncursesDisplayModule::draw(const WindowInfo &info)
 
 void arcDisplay::ncursesDisplayModule::draw(const SoundInfo &info)
 {
+    (void) info;
     return;
 }
 
@@ -95,25 +100,25 @@ void arcDisplay::ncursesDisplayModule::draw(const TextInfo &info)
 {
     std::vector<unsigned char> color = info.getColor();
 
-    start_color();
-    init_pair(1, COLOR_WHITE, COLOR_BLUE);
+    init_color(COLOR_YELLOW, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
+    init_pair(1, COLOR_YELLOW, COLOR_BLACK);
     attron(COLOR_PAIR(1));
-    move(static_cast<int> (info.getPos().first), static_cast<int> (info.getPos().second));
+    move(static_cast<int> (info.getPos().second), static_cast<int> (info.getPos().first));
     printw(info.getText().c_str());
     refresh();
-    attroff(COLOR_PAIR(1));
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const SpriteInfo &info)
 {
+    (void) info;
     return;
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const CircleInfo &info)
 {
-    for (int i = 0; i < info.getSize().first; i++) {
-        for (int j = 0; j < info.getSize().second; j++)
-            mvprintw(static_cast<int> (info.getPos().first) + i, static_cast<int> (info.getPos().second) + j, "%c", info.getAscii());
+    for (int i = 0; i < info.getSize().second; i++) {
+        for (int j = 0; j < info.getSize().first; j++)
+            mvprintw(static_cast<int> (info.getPos().second) + i, static_cast<int> (info.getPos().first) + j, "%c", info.getAscii());
     }
 }
 
@@ -121,20 +126,20 @@ void arcDisplay::ncursesDisplayModule::draw(const RectInfo &info)
 {
     std::vector<unsigned char> color = info.getColor();
 
-    start_color();
-    init_pair(1, COLOR_WHITE, COLOR_BLUE);
-    attron(COLOR_PAIR(1));
-
-    for (int i = 0; i < info.getSize().first; i++) {
-        for (int j = 0; j < info.getSize().second; j++)
-            mvprintw(static_cast<int> (info.getPos().first) + i, static_cast<int> (info.getPos().second) + j, "%c", info.getAscii());
+    init_color(COLOR_BLUE, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
+    init_pair(2, COLOR_BLACK, COLOR_BLUE);
+    attron(COLOR_PAIR(2));
+    for (int i = 0; i < info.getSize().second; i++) {
+        for (int j = 0; j < info.getSize().first; j++)
+            mvprintw(static_cast<int> (info.getPos().second) + i, static_cast<int> (info.getPos().first) + j, "%c", info.getAscii());
     }
     refresh();
-    attroff(COLOR_PAIR(1));
+    attroff(COLOR_PAIR(2));
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const LineInfo &info)
 {
+    (void) info;
     return;
 }
 

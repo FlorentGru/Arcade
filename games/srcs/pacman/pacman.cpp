@@ -2,10 +2,10 @@
 ** EPITECH PROJECT, 2018
 ** OOP_arcade_2018
 ** File description:
-** lib.cpp
+** games.cpp
 */
 
-#include "lib.hpp"
+#include "games.hpp"
 
 int main(int ac, char **av)
 {

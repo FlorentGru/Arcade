@@ -442,7 +442,6 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::allegroDisplayModule::ge
         default:
             break;
         }
-        
     }
     return (inputs);
 }
