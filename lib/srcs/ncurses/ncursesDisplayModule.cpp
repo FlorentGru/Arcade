@@ -35,6 +35,11 @@ bool arcDisplay::ncursesDisplayModule::initScreen(const InitWindow &info)
     keypad(stdscr, true);
     noecho();
     curs_set(0);
+    if(has_colors() == FALSE)
+	{	endwin();
+		printf("Your terminal does not support color\n");
+		exit(1);
+	}
     return (true);
 }
 
@@ -90,13 +95,8 @@ void arcDisplay::ncursesDisplayModule::draw(const TextInfo &info)
 {
     std::vector<unsigned char> color = info.getColor();
 
-    if(has_colors() == FALSE)
-	{	endwin();
-		printf("Your terminal does not support color\n");
-		exit(1);
-	}
     start_color();
-    init_pair(1, COLOR_BLUE, COLOR_BLACK);
+    init_pair(1, COLOR_WHITE, COLOR_BLUE);
     attron(COLOR_PAIR(1));
     move(static_cast<int> (info.getPos().first), static_cast<int> (info.getPos().second));
     printw(info.getText().c_str());
@@ -121,11 +121,16 @@ void arcDisplay::ncursesDisplayModule::draw(const RectInfo &info)
 {
     std::vector<unsigned char> color = info.getColor();
 
+    start_color();
+    init_pair(1, COLOR_WHITE, COLOR_BLUE);
+    attron(COLOR_PAIR(1));
+
     for (int i = 0; i < info.getSize().first; i++) {
         for (int j = 0; j < info.getSize().second; j++)
             mvprintw(static_cast<int> (info.getPos().first) + i, static_cast<int> (info.getPos().second) + j, "%c", info.getAscii());
     }
     refresh();
+    attroff(COLOR_PAIR(1));
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const LineInfo &info)
