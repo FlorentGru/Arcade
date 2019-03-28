@@ -8,6 +8,7 @@
 #include "sfmlDisplayModule.hpp"
 #include <memory>
 #include <iostream>
+#include <exception>
 
 extern "C" {
     arcDisplay::sfmlDisplayModule *entryPoint()
@@ -23,25 +24,6 @@ bool arcDisplay::sfmlDisplayModule::initScreen(const InitWindow &info)
 
     window.create(sf::VideoMode(info.getWidth() * CHAR_SIZE, info.getHeight() * CHAR_SIZE), info.getName(), sf::Style::Default, settings);
     window.setFramerateLimit(info.getFrame());
-
-    this->soundbuffer.clear();
-    this->font.clear();
-    this->texture.clear();
-    for (auto &_texture : info.getTextures()) {
-        this->texture.emplace(_texture, sf::Texture());
-        if (!this->texture.at(_texture).loadFromFile(_texture))
-            return (false);
-    }
-    for (auto &_sound : info.getSounds()) {
-        this->soundbuffer.emplace(_sound, sf::SoundBuffer());
-        if (!this->soundbuffer.at(_sound).loadFromFile(_sound))
-            return (false);
-    }
-    for (auto &_font : info.getFonts()) {
-        this->font.emplace(_font, sf::Font());
-        if (!this->font.at(_font).loadFromFile(_font))
-            return (false);
-    }
     return (true);
 }
 
@@ -55,7 +37,12 @@ bool arcDisplay::sfmlDisplayModule::display(const std::vector<std::reference_wra
     this->window.clear();
     for (auto &entity : info) {
         type = entity.get().getType();
-        drawType(type, entity.get());
+        try {
+            drawType(type, entity.get());
+        } catch (std::exception &e) {
+            std::cerr << e.what() << std::endl;
+            return (false);
+        }
     }
     if (window.isOpen())
         this->window.display();
@@ -116,6 +103,12 @@ void arcDisplay::sfmlDisplayModule::draw(const SoundInfo &info)
 {
     if (soundbuffer.find(info.getSound()) != soundbuffer.end())
         sound.setBuffer(soundbuffer.at(info.getSound()));
+    else if (!info.getSound().empty()) {
+        this->soundbuffer.emplace(info.getSound(), sf::SoundBuffer());
+        if (!this->soundbuffer.at(info.getSound()).loadFromFile(info.getSound()))
+            throw std::exception();
+        sound.setBuffer(soundbuffer.at(info.getSound()));
+    }
     sound.setLoop(info.isLoop());
     sound.setVolume(info.getVolume());
     if (info.isStart())
@@ -131,8 +124,14 @@ void arcDisplay::sfmlDisplayModule::draw(const TextInfo &info)
 
     text.setCharacterSize(info.getSize());
     text.setFillColor(sf::Color(color.at(0), color.at(1), color.at(2)));
-    if (font.find(info.getFont()) != font.end())
+    if (font.find(info.getFont()) != font.end()) {
         text.setFont(font.at(info.getFont()));
+    } else if (!info.getFont().empty()) {
+        this->font.emplace(info.getFont(), sf::Font());
+        if (!this->font.at(info.getFont()).loadFromFile(info.getFont()))
+            throw std::exception();
+        text.setFont(font.at(info.getFont()));
+    }
     text.setPosition(info.getPos().first * CHAR_SIZE, info.getPos().second * CHAR_SIZE);
     text.setString(info.getText());
     window.draw(text);
@@ -168,10 +167,16 @@ void arcDisplay::sfmlDisplayModule::draw(const RectInfo &info)
 {
     std::vector<unsigned char> color = info.getColor();
 
-    if (texture.find(info.getTexture()) != texture.end())
+    if (texture.find(info.getTexture()) != texture.end()) {
         rect.setTexture(&texture.at(info.getTexture()), true);
-    else
+    } else if (!info.getTexture().empty()) {
+        this->texture.emplace(info.getTexture(), sf::Texture());
+        if (!this->texture.at(info.getTexture()).loadFromFile(info.getTexture()))
+            throw std::exception();
+        rect.setTexture(&texture.at(info.getTexture()), true);
+    } else {
         rect.setTexture(nullptr, true);
+    }
     rect.setSize(sf::Vector2<float>(info.getSize().first * CHAR_SIZE, info.getSize().second * CHAR_SIZE));
     rect.setPosition(info.getPos().first * CHAR_SIZE, info.getPos().second * CHAR_SIZE);
 //    std::cout << "size: "<< info.getSize().first << " " << info.getSize().second << std::endl;
@@ -216,7 +221,6 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::sfmlDisplayModule::getIn
                 case sf::Keyboard::B:
                     input.id = arcDisplay::KeyBoard::B;
                     inputs.emplace_back(input);
-
                     break;
                 case sf::Keyboard::C:
                     input.id = arcDisplay::KeyBoard::C;
