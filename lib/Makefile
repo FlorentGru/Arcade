@@ -39,11 +39,11 @@ SRC_LIB3		=	$(SRC_DIR_LIB3)allegroDisplayModule.cpp	\
                     ../core/srcs/InfoDisplay/ADrawableInfo.cpp	\
                     ../core/srcs/InitWindow.cpp			\
 
-NAME_LIB1		=	lib_SFML.so
+NAME_LIB1		=	lib_arcade_SFML.so
 
-NAME_LIB2		=	lib_ncurses.so
+NAME_LIB2		=	lib_arcade_ncurses.so
 
-NAME_LIB3		=	lib_allegro.so
+NAME_LIB3		=	lib_aracde_allegro.so
 
 OBJECTS_LIB1 	= 	$(SRC_LIB1:%.cpp=%.o)
 

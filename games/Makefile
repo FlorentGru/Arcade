@@ -5,19 +5,19 @@
 ## Makefile
 ##
 
-SRC_GAME1		=	$(SRC_DIR_GAME1)games.cpp	\
+SRC_GAME1		=	$(SRC_DIR_GAME1)pacman.cpp	\
 
 SRC_GAME2		=	$(SRC_DIR_GAME2)games.cpp	\
 
-NAME_GAME1		=	lib_game1.so
+NAME_GAME1		=	lib_arcade_pacman.so
 
-NAME_GAME2		=	lib_game2.so
+NAME_GAME2		=	lib_arcade_nibbler.so
 
 OBJECTS_GAME1 	= 	$(SRC_GAME1:%.cpp=%.o)
 
 OBJECTS_GAME2 	= 	$(SRC_GAME2:%.cpp=%.o)
 
-SRC_DIR_GAME1	=	./srcs/game1/
+SRC_DIR_GAME1	=	./srcs/pacman/
 
 SRC_DIR_GAME2	=	./srcs/game2/
 
