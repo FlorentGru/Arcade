@@ -179,11 +179,10 @@ void arcDisplay::allegroDisplayModule::draw(const LineInfo& line)
 const std::vector<arcDisplay::t_InfoInput> &arcDisplay::allegroDisplayModule::getInput()
 {
     ALLEGRO_EVENT event;
-    al_wait_for_event_until(this->event_queue, &event, &timeout);
+    al_wait_for_event(this->event_queue, &event);
     t_InfoInput input;
 
     inputs.clear();
-    printf("YOOLO\n");
     for (int i = 0; al_is_event_queue_empty(this->event_queue) == false; i++) {
         if (i > 0)
             al_wait_for_event(this->event_queue, &event);
@@ -192,11 +191,9 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::allegroDisplayModule::ge
         }else if (event.type == ALLEGRO_EVENT_KEY_UP) {
             input.isPressed = false;
         }if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
-            printf("WOLILA\n");
             close();
             break;
         }
-        printf("4\n");
         switch (event.keyboard.keycode) {
         case ALLEGRO_KEY_A:
           	input.id = arcDisplay::KeyBoard::A;
@@ -211,7 +208,6 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::allegroDisplayModule::ge
           	inputs.emplace_back(input);
             break;
         case ALLEGRO_KEY_D:
-            printf("YOYO\n");
           	input.id = arcDisplay::KeyBoard::D;
           	inputs.emplace_back(input);
             break;
