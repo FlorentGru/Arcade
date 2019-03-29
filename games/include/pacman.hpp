@@ -13,7 +13,7 @@
 class Pacman : public IGameModule
 {
     private:
-        std::string map;
+        std::vector<std::string>  map;
         std::pair<float, float> pos_pac;
         std::vector<std::pair<float, float>> pos_ghost;
         bool isGhostRun;
@@ -22,6 +22,7 @@ class Pacman : public IGameModule
         size_t move_pac;
         size_t move_ghost;
         arcDisplay::KeyBoard::KeyID key;
+        std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> infos;
     public:
         Pacman();
 
@@ -37,10 +38,12 @@ class Pacman : public IGameModule
         std::string get_map();
         size_t get_move_ghost();
         size_t get_move_pac();
+        arcDisplay::KeyBoard::KeyID get_key();
 
         void set_pos_pac(float, float);
         void set_move_ghost(size_t);
         void set_move_pac(size_t);
+        void set_key(arcDisplay::KeyBoard::KeyID);
 };
 
 #endif

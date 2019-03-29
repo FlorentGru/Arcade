@@ -40,9 +40,23 @@ bool Pacman::playGame(const std::vector<arcDisplay::t_InfoInput> &inputs)
             }
         }
     }
+    for (size_t i = 0; i < this->map.size(); i++) {
+        for (size_t k = 0; k < this->map[i].length(); k++)
+            if (this->map[i][k] == 'X')
+                
+            if (this->map[i][k] == '.')
+            if (this->map[i][k] == 'o')
+            if (this->map[i][k] == 'F')
+            if (this->map[i][k] == 'P')
+    }
+}
+
+const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Pacman::getInfoDisplay()
+{
+    return (this->infos);
 }
 
 void check_move_pack(arcDisplay::KeyBoard::KeyID key)
 {
-
+    
 }
