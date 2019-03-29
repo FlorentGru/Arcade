@@ -21,7 +21,9 @@ bool arcDisplay::ncursesDisplayModule::display(const std::vector<std::reference_
     getmaxyx(stdscr, maxheight, maxwidth);
 
     nodelay(stdscr, false);
+    iterator = 0;
     for (auto &entity : info) {
+        iterator++;
         type = entity.get().getType();
         drawType(type, entity.get());
     }
@@ -36,6 +38,7 @@ bool arcDisplay::ncursesDisplayModule::initScreen(const InitWindow &info)
     keypad(stdscr, true);
     noecho();
     curs_set(0);
+    srand(time(NULL));
     if(has_colors() == FALSE)
 	{	
         endwin();
@@ -100,12 +103,13 @@ void arcDisplay::ncursesDisplayModule::draw(const TextInfo &info)
 {
     std::vector<unsigned char> color = info.getColor();
 
-    init_color(COLOR_YELLOW, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
-    init_pair(1, COLOR_YELLOW, COLOR_BLACK);
-    attron(COLOR_PAIR(1));
+    init_color(iterator, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
+    init_pair(iterator, iterator, COLOR_BLACK);
+    attron(COLOR_PAIR(iterator));
     move(static_cast<int> (info.getPos().second), static_cast<int> (info.getPos().first));
     printw(info.getText().c_str());
     refresh();
+    //attroff(COLOR_PAIR(random));
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const SpriteInfo &info)
@@ -126,15 +130,15 @@ void arcDisplay::ncursesDisplayModule::draw(const RectInfo &info)
 {
     std::vector<unsigned char> color = info.getColor();
 
-    init_color(COLOR_BLUE, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
-    init_pair(2, COLOR_BLACK, COLOR_BLUE);
-    attron(COLOR_PAIR(2));
+    init_color(iterator, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
+    init_pair(iterator, COLOR_BLACK, iterator);
+    attron(COLOR_PAIR(iterator));
     for (int i = 0; i < info.getSize().second; i++) {
         for (int j = 0; j < info.getSize().first; j++)
             mvprintw(static_cast<int> (info.getPos().second) + i, static_cast<int> (info.getPos().first) + j, "%c", info.getAscii());
     }
     refresh();
-    attroff(COLOR_PAIR(2));
+    //attroff(COLOR_PAIR(random));
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const LineInfo &info)
@@ -335,6 +339,54 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::ncursesDisplayModule::ge
             break;
         case '9':
             input.id = arcDisplay::KeyBoard::NUM9;
+            inputs.emplace_back(input);
+            break;
+        case KEY_F(1):
+            input.id = arcDisplay::KeyBoard::F1;
+            inputs.emplace_back(input);
+            break;
+        case KEY_F(2):
+            input.id = arcDisplay::KeyBoard::F2;
+            inputs.emplace_back(input);
+            break;
+        case KEY_F(3):
+            input.id = arcDisplay::KeyBoard::F3;
+            inputs.emplace_back(input);
+            break;
+        case KEY_F(4):
+            input.id = arcDisplay::KeyBoard::F4;
+            inputs.emplace_back(input);
+            break;
+        case KEY_F(5):
+            input.id = arcDisplay::KeyBoard::F5;
+            inputs.emplace_back(input);
+            break;
+        case KEY_F(6):
+            input.id = arcDisplay::KeyBoard::F6;
+            inputs.emplace_back(input);
+            break;
+        case KEY_F(7):
+            input.id = arcDisplay::KeyBoard::F7;
+            inputs.emplace_back(input);
+            break;
+        case KEY_F(8):
+            input.id = arcDisplay::KeyBoard::F8;
+            inputs.emplace_back(input);
+            break;
+        case KEY_F(9):
+            input.id = arcDisplay::KeyBoard::F9;
+            inputs.emplace_back(input);
+            break;
+        case KEY_F(10):
+            input.id = arcDisplay::KeyBoard::F10;
+            inputs.emplace_back(input);
+            break;
+        case KEY_F(11):
+            input.id = arcDisplay::KeyBoard::F11;
+            inputs.emplace_back(input);
+            break;
+        case KEY_F(12):
+            input.id = arcDisplay::KeyBoard::F12;
             inputs.emplace_back(input);
             break;
         default:

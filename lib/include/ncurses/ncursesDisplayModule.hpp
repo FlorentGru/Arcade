@@ -26,6 +26,7 @@ namespace arcDisplay
         private:
         int maxheight;
         int maxwidth;
+        short iterator;
 
         std::vector<arcDisplay::t_InfoInput> inputs;
 
