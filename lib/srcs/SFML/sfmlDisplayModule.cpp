@@ -216,247 +216,247 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::sfmlDisplayModule::getIn
             switch (event.key.code) {
                 case sf::Keyboard::A:
                     input.id = arcDisplay::KeyBoard::A;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::B:
                     input.id = arcDisplay::KeyBoard::B;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::C:
                     input.id = arcDisplay::KeyBoard::C;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::D:
                     input.id = arcDisplay::KeyBoard::D;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::E:
                     input.id = arcDisplay::KeyBoard::E;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F:
                     input.id = arcDisplay::KeyBoard::F;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::G:
                     input.id = arcDisplay::KeyBoard::G;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::H:
                     input.id = arcDisplay::KeyBoard::H;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::I:
                     input.id = arcDisplay::KeyBoard::I;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::J:
                     input.id = arcDisplay::KeyBoard::J;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::K:
                     input.id = arcDisplay::KeyBoard::K;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::L:
                     input.id = arcDisplay::KeyBoard::L;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::M:
                     input.id = arcDisplay::KeyBoard::M;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::N:
                     input.id = arcDisplay::KeyBoard::N;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::O:
                     input.id = arcDisplay::KeyBoard::O;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::P:
                     input.id = arcDisplay::KeyBoard::P;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Q:
                     input.id = arcDisplay::KeyBoard::Q;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::R:
                     input.id = arcDisplay::KeyBoard::R;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::S:
                     input.id = arcDisplay::KeyBoard::S;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::T:
                     input.id = arcDisplay::KeyBoard::T;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::U:
                     input.id = arcDisplay::KeyBoard::U;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::V:
                     input.id = arcDisplay::KeyBoard::V;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::W:
                     input.id = arcDisplay::KeyBoard::W;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::X:
                     input.id = arcDisplay::KeyBoard::X;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Y:
                     input.id = arcDisplay::KeyBoard::Y;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Z:
                     input.id = arcDisplay::KeyBoard::Z;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Escape:
                     input.id = arcDisplay::KeyBoard::ESCAPE;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Space:
                     input.id = arcDisplay::KeyBoard::SPACE;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Return:
                     input.id = arcDisplay::KeyBoard::ENTER;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::LControl:
                     input.id = arcDisplay::KeyBoard::LCONTROL;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Delete:
                     input.id = arcDisplay::KeyBoard::DELETE;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::LShift:
                     input.id = arcDisplay::KeyBoard::LSHIFT;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::LAlt:
                     input.id = arcDisplay::KeyBoard::LALT;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Left:
                     input.id = arcDisplay::KeyBoard::LEFT;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Right:
                     input.id = arcDisplay::KeyBoard::RIGHT;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Up:
                     input.id = arcDisplay::KeyBoard::UP;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Down:
                     input.id = arcDisplay::KeyBoard::DOWN;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Add:
                     input.id = arcDisplay::KeyBoard::ADD;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Subtract:
                     input.id = arcDisplay::KeyBoard::SUBSTRACT;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Num0:
                     input.id = arcDisplay::KeyBoard::NUM0;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Num1:
                     input.id = arcDisplay::KeyBoard::NUM1;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Num2:
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     input.id = arcDisplay::KeyBoard::NUM2;
                     break;
                 case sf::Keyboard::Num3:
                     input.id = arcDisplay::KeyBoard::NUM3;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Num4:
                     input.id = arcDisplay::KeyBoard::NUM4;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Num5:
                     input.id = arcDisplay::KeyBoard::NUM5;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Num6:
                     input.id = arcDisplay::KeyBoard::NUM6;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Num7:
                     input.id = arcDisplay::KeyBoard::NUM7;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Num8:
                     input.id = arcDisplay::KeyBoard::NUM8;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Num9:
                     input.id = arcDisplay::KeyBoard::NUM9;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F1:
                     input.id = arcDisplay::KeyBoard::F1;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F2:
                     input.id = arcDisplay::KeyBoard::F2;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F3:
                     input.id = arcDisplay::KeyBoard::F3;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F4:
                     input.id = arcDisplay::KeyBoard::F4;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F5:
                     input.id = arcDisplay::KeyBoard::F5;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F6:
                     input.id = arcDisplay::KeyBoard::F6;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F7:
                     input.id = arcDisplay::KeyBoard::F7;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F8:
                     input.id = arcDisplay::KeyBoard::F8;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F9:
                     input.id = arcDisplay::KeyBoard::F9;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F10:
                     input.id = arcDisplay::KeyBoard::F10;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F11:
                     input.id = arcDisplay::KeyBoard::F11;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::F12:
                     input.id = arcDisplay::KeyBoard::F12;
-                    inputs.emplace_back(input);
+                    inputs.push_back(input);
                     break;
                 default:
                     break;
