@@ -7,6 +7,18 @@
 
 #include "LineInfo.hpp"
 
+arcDisplay::LineInfo::LineInfo()
+{
+    this->_pos = std::pair<float, float>(0, 0);
+    this->_pos2 = std::pair<float, float>(0, 0);
+    this->_size = std::pair<float, float>(0, 0);
+    this->_color.push_back(0);
+    this->_color.push_back(0);
+    this->_color.push_back(0);
+    this->_ascii = ' ';
+    this->_texture = "";
+}
+
 /*###############################
 ## GET TYPE
 ###############################*/

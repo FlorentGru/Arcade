@@ -7,7 +7,7 @@
 
 #include "TextInfo.hpp"
 
-arcDisplay::TextInfo::TextInfo(const std::string &text, unsigned int size, const std::string &font)
+arcDisplay::TextInfo::TextInfo(const std::string &text, size_t size, const std::string &font)
 {
     this->_text = text;
     setColor(255, 255, 255);
@@ -38,7 +38,7 @@ const std::pair<float, float> &arcDisplay::TextInfo::getPos() const
     return (this->_pos);
 }
 
-unsigned int arcDisplay::TextInfo::getSize() const
+size_t arcDisplay::TextInfo::getSize() const
 {
     return (this->_size);
 }
@@ -58,7 +58,7 @@ void arcDisplay::TextInfo::setText(const std::string &str)
     this->_text = str;
 }
 
-void arcDisplay::TextInfo::setSize(unsigned int size)
+void arcDisplay::TextInfo::setSize(size_t size)
 {
     this->_size = size;
 }
