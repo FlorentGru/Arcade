@@ -7,33 +7,42 @@
 
 #include "pacman.hpp"
 
-Pacman::Pacman()
+const InitWindow &Pacman::initWindow()
 {
-    map = "XXXXXXXXXXXXXXXXXXX\n
-            X........X........X\n\\
-            XoXX.XXX.X.XXX.XXoX\n\\
-            X.................X\n\\
-            X.XX X.XXXXX.X.XX.X\n\\
-            X....X...X...X....X\n\\
-            XXXX.XXX X XXX.XXXX\n\\
-               X.X       X.X   \n\\
-            XXXX.X XX XX X.XXXX\n\\
-                .  X F X  .    \n\\
-            XXXX.X XFFFX X.XXXX\n\\
-               X.X XXXXX X.X   \n\\
-               X.X       X.X   \n\\
-            XXXX.X XXXXX X.XXXX\n\\
-            X........X........X\n\\
-            X.XX.XXX.X.XXX.XX.X\n\\
-            Xo.X.....P.....X.oX\n\\
-            XX.X.X.XXXXX.X X.XX\n\\
-            X....X...X...X....X\n\\
-            X.XXXXXX.X.XXXXXX.X\n\\
-            X.................X\n\\
-            XXXXXXXXXXXXXXXXXXX\n\\";
-    this->isPacInv = false;
-    this->isGhostRun = false;
-    this->pos_pac.first = ;
-    this->pos_pac.second = ;
+    InitWindow window(PIXEL_TO_MAP(960, PIXEL_TO_MAP(540)));
+
+    return (window);
+}
+
+bool Pacman::playGame(const std::vector<arcDisplay::t_InfoInput> &inputs)
+{
+     for (auto input : inputs) {
+        if (input.isPressed) {
+            switch (input.id) {
+                case arcDisplay::KeyBoard::Z:
+                    set_pos_pac(get_pos_pac().first, get_pos_pac().second - 1);
+                    check_move_pack(arcDisplay::KeyBoard::Z);
+                    break;
+                case arcDisplay::KeyBoard::Q:
+                    set_pos_pac(get_pos_pac().first - 1, get_pos_pac().second);
+                    check_move_pack(arcDisplay::KeyBoard::Q);
+                    break;
+                case arcDisplay::KeyBoard::S:
+                    set_pos_pac(get_pos_pac().first, get_pos_pac().second + 1);
+                    check_move_pack(arcDisplay::KeyBoard::S);
+                    break;
+                case arcDisplay::KeyBoard::D:
+                    set_pos_pac(get_pos_pac().first + 1, get_pos_pac().second);
+                    check_move_pack(arcDisplay::KeyBoard::D);
+                    break;
+                default
+                    break;
+            }
+        }
+    }
+}
+
+void check_move_pack(arcDisplay::KeyBoard::KeyID key)
+{
 
 }
