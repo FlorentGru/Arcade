@@ -5,8 +5,8 @@
 ** IInfoDisplay.hpp
 */
 
-#ifndef IINFODISPLAY_HPP
-#define IINFODISPLAY_HPP
+#ifndef IINFODISPLAY_HPP_
+#define IINFODISPLAY_HPP_
 
 namespace arcDisplay
 {
@@ -23,13 +23,11 @@ namespace arcDisplay
 
     class IInfoDisplay
     {
-    private:
+        public:
+            virtual ~IInfoDisplay() = default;
 
-    public:
-        virtual ~IInfoDisplay() = default;
-        virtual enum TypeInfoDisplay getType() const = 0;
+            virtual enum TypeInfoDisplay getType() const = 0;
     };
 }
 
-
-#endif
+#endif // !IINFODISPLAY_HPP_

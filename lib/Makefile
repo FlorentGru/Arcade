@@ -43,7 +43,7 @@ NAME_LIB1		=	lib_arcade_SFML.so
 
 NAME_LIB2		=	lib_arcade_ncurses.so
 
-NAME_LIB3		=	lib_aracde_allegro.so
+NAME_LIB3		=	lib_arcade_allegro.so
 
 OBJECTS_LIB1 	= 	$(SRC_LIB1:%.cpp=%.o)
 

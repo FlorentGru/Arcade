@@ -24,7 +24,7 @@ public:
 
     virtual const InitWindow &initWindow() = 0;
     virtual bool playGame(const std::vector<arcDisplay::t_InfoInput> &) = 0;
-    virtual const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &getInfoDisplay() const = 0;
+    virtual const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &getInfoDisplay() = 0;
     virtual long int getScore() const = 0;
 };
 

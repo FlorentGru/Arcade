@@ -1,12 +1,12 @@
 /*
-** EPITECH PROJECT, 2018
+** EPITECH PROJECT, 2019
 ** OOP_arcade_2018
 ** File description:
-** RectInfo.hpp
+** RectInfo
 */
 
-#ifndef RECTINFO_HPP
-#define RECTINFO_HPP
+#ifndef RECTINFO_HPP_
+#define RECTINFO_HPP_
 
 #include "ADrawableInfo.hpp"
 
@@ -14,11 +14,10 @@ namespace arcDisplay
 {
     class RectInfo : public ADrawableInfo
     {
-    private:
-
-    public:
-        enum TypeInfoDisplay getType() const override;
+        public:
+            RectInfo();
+            enum TypeInfoDisplay getType() const override;
     };
-} // arcDisplay
+} //arcDisplay
 
-#endif
+#endif /* !RECTINFO_HPP_ */

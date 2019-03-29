@@ -1,12 +1,12 @@
 /*
-** EPITECH PROJECT, 2018
+** EPITECH PROJECT, 2019
 ** OOP_arcade_2018
 ** File description:
-** CircleInfo.hpp
+** CircleInfo
 */
 
-#ifndef CIRCLEINFO_HPP
-#define CIRCLEINFO_HPP
+#ifndef CIRCLEINFO_HPP_
+#define CIRCLEINFO_HPP_
 
 #include "ADrawableInfo.hpp"
 
@@ -14,11 +14,10 @@ namespace arcDisplay
 {
     class CircleInfo : public ADrawableInfo
     {
-    private:
-
-    public:
-        enum TypeInfoDisplay getType() const override;
+        public:
+            CircleInfo();
+            enum TypeInfoDisplay getType() const override;
     };
-}; // arcDisplay
+} //arcDisplay
 
-#endif
+#endif /* !CIRCLEINFO_HPP_ */

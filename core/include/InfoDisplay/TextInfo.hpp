@@ -5,42 +5,44 @@
 ** TextInfo.hpp
 */
 
-#ifndef TEXTINFO_HPP
-#define TEXTINFO_HPP
+#ifndef TEXTINFO_HPP_
+#define TEXTINFO_HPP_
 
-#include "IInfoDisplay.hpp"
 #include <string>
 #include <vector>
-#include <utility>
+#include "IInfoDisplay.hpp"
 
 namespace arcDisplay
 {
     class TextInfo : public IInfoDisplay
     {
-    private:
-        std::string _text;
-        unsigned int _size;
-        std::vector<unsigned char> _color;
-        std::string _font;
-        std::pair<float, float> _pos;
-    public:
-        explicit TextInfo(const std::string &text = "no_text", unsigned int size = 30, const std::string &font = "");
+        private:
+            std::string _text;
+            size_t _size;
+            std::vector <unsigned char> _color;
+            std::string _font;
+            std::pair<float, float> _pos;
 
-        enum TypeInfoDisplay getType() const override;
+        public:
+            explicit TextInfo(const std::string &text = "", size_t size = 20, const std::string &font = "");
 
-        const std::string &getText() const;
-        const std::pair<float, float> &getPos() const;
-        unsigned int getSize() const;
-        const std::vector<unsigned char> &getColor() const;
-        const std::string &getFont() const;
+            const std::string &getText() const;
+            void setText(const std::string &text);
 
-        void setText(const std::string &);
-        void setSize(unsigned int);
-        void setColor(unsigned char, unsigned char, unsigned char);
-        void setFont(const std::string &);
-        void setPos(float, float);
+            size_t getSize() const;
+            void setSize(size_t size);
+
+            const std::string &getFont() const;
+            void setFont(const std::string &font);
+
+            const std::vector<unsigned char> &getColor() const;
+            void setColor(unsigned char r, unsigned char g, unsigned char b);
+
+            const std::pair<float, float> &getPos() const;
+            void setPos(float x, float y);
+
+            enum TypeInfoDisplay getType() const override;
     };
-} // arcDisplay
+}
 
-
-#endif
+#endif // !TEXTINFO_HPP_

@@ -12,7 +12,7 @@ Rect::Rect(const std::string &_text)
     this->text.setText(_text);
     this->text.setColor(255, 255, 255);
 
-    this->rect.setColor(10, 100, 255);
+    this->rect.setColor(0, 0, 0);
 }
 
 void Rect::setSize(float width, float height, unsigned int size)
@@ -35,6 +35,11 @@ void Rect::setPos(float x, float y, float offsetX, float offsetY)
 void Rect::setAscii(char c)
 {
     this->rect.setAscii(c);
+}
+
+void Rect::setColor(unsigned char r, unsigned char g, unsigned char b)
+{
+    this->rect.setColor(r, g, b);
 }
 
 const arcDisplay::RectInfo &Rect::getRect() const
