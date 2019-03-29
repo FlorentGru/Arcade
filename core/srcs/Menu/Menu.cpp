@@ -11,9 +11,16 @@
 
 Menu::Menu() : font("./rsc/font/WC_RoughTrad.ttf")
 {
+    float size;
     this->width = 64;
     this->height = 36;
     this->selected = 0;
+
+    this->usage.setText("Use Z, Q, S, D to choose and Use Enter to select");
+    this->usage.setSize(30);
+    size = usage.getText().size();
+    this->usage.setPos(width / 2 - size / 2, height - 3);
+    this->usage.setFont(this->font);
 }
 
 void Menu::initGames(const std::vector<std::string> &_games)
@@ -25,9 +32,12 @@ void Menu::initGames(const std::vector<std::string> &_games)
     float length = 0;
 
     _height = _height / 2;
+    _height -= 3;
+
     for (const auto &game : _games) {
         this->games.emplace_back(Rect(game));
     }
+
     if (!this->games.empty())
         _width /= this->games.size();
     for (auto &game : this->games) {
@@ -50,9 +60,12 @@ void Menu::initLibs(const std::vector<std::string> &_libs)
 
     _height /= 2;
     y = _height;
+    _height -= 3;
+
     for (const auto &lib : _libs) {
         this->libs.emplace_back(Rect(getLibName(lib)));
     }
+
     if (!this->libs.empty())
         _width /= this->libs.size();
     for (auto &lib : this->libs) {
@@ -187,7 +200,7 @@ void Menu::left()
 
 void Menu::up()
 {
-    if (selected >= gamesNames.size()) {
+    if (selected >= gamesNames.size() && !gamesNames.empty()) {
         if (selected - gamesNames.size() >= gamesNames.size()) {
             selected = gamesNames.size() - 1;
         } else {
@@ -198,7 +211,7 @@ void Menu::up()
 
 void Menu::down()
 {
-    if (selected < gamesNames.size()) {
+    if (selected < gamesNames.size() && !libNames.empty()) {
         if (selected >= libNames.size()) {
             selected = libNames.size() - 1;
         } else {
@@ -211,6 +224,7 @@ const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Menu:
 {
 
     this->infos.clear();
+    infos.emplace_back(std::ref(this->usage));
     for (auto &game : this->games) {
         infos.emplace_back(std::ref(game.getRect()));
         infos.emplace_back(std::ref(game.getText()));

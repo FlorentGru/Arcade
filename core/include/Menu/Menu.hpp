@@ -19,6 +19,7 @@ class Menu
 private:
     std::vector<Rect> games;
     std::vector<Rect> libs;
+    arcDisplay::TextInfo usage;
 
     std::string font;
     unsigned int width;
