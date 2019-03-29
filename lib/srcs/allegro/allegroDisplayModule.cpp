@@ -214,7 +214,6 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::allegroDisplayModule::ge
             break;
         case ALLEGRO_KEY_D:
             input.id = arcDisplay::KeyBoard::D;
-            printf("YO\n");
             inputs.push_back(input);
             break;
         case ALLEGRO_KEY_E:
