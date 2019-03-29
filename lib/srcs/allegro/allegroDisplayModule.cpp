@@ -307,7 +307,7 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::allegroDisplayModule::ge
           	input.id = arcDisplay::KeyBoard::SPACE;
           	inputs.emplace_back(input);
             break;
-        case ALLEGRO_KEY_BACKSPACE:
+        case ALLEGRO_KEY_ENTER:
           	input.id = arcDisplay::KeyBoard::ENTER;
           	inputs.emplace_back(input);
             break;
