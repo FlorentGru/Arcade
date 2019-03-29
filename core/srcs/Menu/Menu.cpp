@@ -93,19 +93,15 @@ const std::string Menu::switchTo(const std::vector<arcDisplay::t_InfoInput> &inp
                     up();
                     break;
                 case arcDisplay::KeyBoard::Q:
-                    std::cout << "GAUCHIASSE" << std::endl;
                     left();
                     break;
                 case arcDisplay::KeyBoard::S:
-                    std::cout << "TWERK" << std::endl;
                     down();
                     break;
                 case arcDisplay::KeyBoard::D:
-                    std::cout << "DROITE EXTREME" << std::endl;
                     right();
                     break;
                 case arcDisplay::KeyBoard::ENTER:
-                    std::cout << "entrez c'est ouvert" << std::endl;
                     return (select());
                 default:
                     break;

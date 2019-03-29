@@ -156,11 +156,9 @@ Outcome Core::menuEvent(const std::vector<arcDisplay::t_InfoInput> &inputs)
                     this->setPreviousGameLib();
                     return (LIB);
                 case arcDisplay::KeyBoard::LEFT:
-                    std::cout << "Left arrow pressed" << std::endl;
                     this->setPreviousDisplayLib();
                     return (LIB);
                 case arcDisplay::KeyBoard::RIGHT:
-                    std::cout << "Right arrow pressed" << std::endl;
                     this->setNextDisplayLib();
                     return (LIB);
                 default:
@@ -228,7 +226,6 @@ void Core::setNextDisplayLib()
     if (this->actualDisplay >= this->displayLibPath.size())
         this->actualDisplay = 0;
     if (!this->displayLibPath.empty()) {
-        std::cout << "SWITCHING TO: " << this->displayLibPath.at(this->actualDisplay) << std::endl;
         this->setDisplayModule(this->displayLibPath.at(this->actualDisplay));
     }
 }
@@ -241,7 +238,6 @@ void Core::setPreviousDisplayLib()
     else
         this->actualDisplay -= 1;
     if (!this->displayLibPath.empty()) {
-        std::cout << "SWITCHING TO: " << this->displayLibPath.at(this->actualDisplay) << std::endl;
         this->setDisplayModule(this->displayLibPath.at(this->actualDisplay));
     }
 }
@@ -299,12 +295,13 @@ void Core::setDisplayModule(const std::string &libName)
     size_t i = 0;
     arcDisplay::IDisplayModule *graph;
 
+    std::cout << "SWITCHING TO GRAPHIC: " << libName << std::endl;
     this->graphical.reset();
     this->libDisplay.openLib(libName);
     graph = this->libDisplay.getClass("entryPoint");
     this->graphical.reset(graph);
 
-    for (auto &libname : this->gameLibPath) {
+    for (auto &libname : this->displayLibPath) {
         if (libname == libName)
             this->actualDisplay = i;
         i++;
@@ -315,12 +312,15 @@ void Core::setGameModule(const std::string &libName)
 {
     size_t i = 0;
 
+    std::cout << "SWITCHING TO GAME: " << libName << std::endl;
+    this->game.reset();
     this->libGame.openLib(libName);
     this->game.reset(this->libGame.getClass("entryPoint"));
 
-    for (auto &libname : this->displayLibPath) {
+    for (auto &libname : this->gameLibPath) {
         if (libname == libName)
             this->actualGame = i;
         i++;
     }
+
 }
