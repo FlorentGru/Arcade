@@ -5,8 +5,8 @@
 ** WindowInfo.hpp
 */
 
-#ifndef WINDOWINFO_HPP
-#define WINDOWINFO_HPP
+#ifndef WINDOWINFO_HPP_
+#define WINDOWINFO_HPP_
 
 #include "IInfoDisplay.hpp"
 
@@ -14,16 +14,17 @@ namespace arcDisplay
 {
     class WindowInfo : public IInfoDisplay
     {
-    private:
-        bool _close;
-    public:
-        explicit WindowInfo(bool close = false);
+        private:
+            bool _close;
 
-        enum TypeInfoDisplay getType() const override;
+        public:
+            explicit WindowInfo(bool toClose = false);
 
-        bool isClosed() const;
-        void setClose(bool);
+            bool isClosed() const;
+            void setClose(bool);
+
+            enum TypeInfoDisplay getType() const override;
     };
-};
+}
 
-#endif
+#endif // !WINDOWINFO_HPP_

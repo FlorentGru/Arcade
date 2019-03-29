@@ -38,19 +38,24 @@ int Core::run(const std::string &libName)
             outcome = this->runMenu();
         }
     }
-    this->game.release();
-    this->graphical.release();
+    this->game.reset();
+    this->graphical.reset();
     this->libDisplay.closeLib();
     this->libGame.closeLib();
     return (0);
 }
 
-Core::Outcome Core::runMenu()
+Outcome Core::runMenu()
 {
     Outcome outcome = UNCHANGED;
 
     while (outcome == UNCHANGED) {
-        outcome = menuLoop();
+        try {
+            outcome = menuLoop();
+        } catch (std::exception &e) {
+            outcome = QUIT;
+        }
+
         switch (outcome) {
             case QUIT:
                 return (QUIT);
@@ -66,12 +71,17 @@ Core::Outcome Core::runMenu()
     return (UNCHANGED);
 }
 
-Core::Outcome Core::runGame()
+Outcome Core::runGame()
 {
     Outcome outcome = UNCHANGED;
 
     while (outcome == UNCHANGED) {
-        outcome = gameLoop();
+        try {
+            outcome = gameLoop();
+        } catch (std::exception &e) {
+            outcome = QUIT;
+        }
+
         switch (outcome) {
             case QUIT:
                 return (QUIT);
@@ -87,17 +97,19 @@ Core::Outcome Core::runGame()
     return (UNCHANGED);
 }
 
-Core::Outcome Core::menuLoop()
+Outcome Core::menuLoop()
 {
     Outcome outcome = UNCHANGED;
 
-    graphical->initScreen(menu.init());
+    graphical->initScreen(menu.initWindow());
     while (outcome == UNCHANGED) {
         auto inputs = graphical->getInput();
         outcome = menuEvent(inputs);
-        if (outcome != UNCHANGED) {
-            return (outcome);
-        }
+        if (outcome != UNCHANGED)
+            break;
+        outcome = chooseGameOrLib(menu.switchTo(inputs));
+        if (outcome != UNCHANGED)
+            break;
         if (!graphical->display(menu.getInfoDisplay()))
             outcome = QUIT;
     }
@@ -112,7 +124,7 @@ void Core::initGame()
     }
 }
 
-Core::Outcome Core::gameLoop()
+Outcome Core::gameLoop()
 {
     Outcome outcome = UNCHANGED;
 
@@ -130,9 +142,9 @@ Core::Outcome Core::gameLoop()
     return (outcome);
 }
 
-Core::Outcome Core::menuEvent(const std::vector<arcDisplay::t_InfoInput> &inputs)
+Outcome Core::menuEvent(const std::vector<arcDisplay::t_InfoInput> &inputs)
 {
-    for (auto input : inputs) {
+    for (auto &input : inputs) {
         if (input.isPressed) {
             switch (input.id) {
                 case arcDisplay::KeyBoard::ESCAPE:
@@ -159,28 +171,51 @@ Core::Outcome Core::menuEvent(const std::vector<arcDisplay::t_InfoInput> &inputs
     return (UNCHANGED);
 }
 
-Core::Outcome Core::gameEvent(const std::vector<arcDisplay::t_InfoInput> &inputs)
+Outcome Core::chooseGameOrLib(const std::string &name)
 {
-    for (auto input : inputs) {
-        switch (input.id) {
-            case arcDisplay::KeyBoard::ESCAPE:
-                return (QUIT);
-            case arcDisplay::KeyBoard::M:
-                return (MENU);
-            case arcDisplay::KeyBoard::UP:
-                this->setNextGameLib();
-                return (LIB);
-            case arcDisplay::KeyBoard::DOWN:
-                this->setPreviousGameLib();
-                return (LIB);
-            case arcDisplay::KeyBoard::RIGHT:
-                this->setNextDisplayLib();
-                return (LIB);
-            case arcDisplay::KeyBoard::LEFT:
-                this->setPreviousDisplayLib();
-                return (LIB);
-            default:
-                break;
+    if (name.empty()) {
+        return (UNCHANGED);
+    }
+    for (auto &path : this->gameLibPath) {
+        if (path == name) {
+            setGameModule(name);
+            return (GAME);
+        }
+    }
+    for (auto &path : this->displayLibPath) {
+        if (path == name) {
+            this->graphical->close();
+            setDisplayModule(name);
+            return (LIB);
+        }
+    }
+    return (UNCHANGED);
+}
+
+Outcome Core::gameEvent(const std::vector<arcDisplay::t_InfoInput> &inputs)
+{
+    for (auto &input : inputs) {
+        if (input.isPressed) {
+            switch (input.id) {
+                case arcDisplay::KeyBoard::ESCAPE:
+                    return (QUIT);
+                case arcDisplay::KeyBoard::M:
+                    return (MENU);
+                case arcDisplay::KeyBoard::UP:
+                    this->setNextGameLib();
+                    return (LIB);
+                case arcDisplay::KeyBoard::DOWN:
+                    this->setPreviousGameLib();
+                    return (LIB);
+                case arcDisplay::KeyBoard::RIGHT:
+                    this->setNextDisplayLib();
+                    return (LIB);
+                case arcDisplay::KeyBoard::LEFT:
+                    this->setPreviousDisplayLib();
+                    return (LIB);
+                default:
+                    break;
+            }
         }
     }
     return (UNCHANGED);
@@ -192,8 +227,10 @@ void Core::setNextDisplayLib()
     this->actualDisplay += 1;
     if (this->actualDisplay >= this->displayLibPath.size())
         this->actualDisplay = 0;
-    std::cout << "SWITCHING TO: " << this->displayLibPath.at(this->actualDisplay) << std::endl;
-    this->setDisplayModule(this->displayLibPath.at(this->actualDisplay));
+    if (!this->displayLibPath.empty()) {
+        std::cout << "SWITCHING TO: " << this->displayLibPath.at(this->actualDisplay) << std::endl;
+        this->setDisplayModule(this->displayLibPath.at(this->actualDisplay));
+    }
 }
 
 void Core::setPreviousDisplayLib()
@@ -203,8 +240,10 @@ void Core::setPreviousDisplayLib()
         this->actualDisplay = this->displayLibPath.size() - 1;
     else
         this->actualDisplay -= 1;
-    std::cout << "SWITCHING TO: " << this->displayLibPath.at(this->actualDisplay) << std::endl;
-    this->setDisplayModule(this->displayLibPath.at(this->actualDisplay));
+    if (!this->displayLibPath.empty()) {
+        std::cout << "SWITCHING TO: " << this->displayLibPath.at(this->actualDisplay) << std::endl;
+        this->setDisplayModule(this->displayLibPath.at(this->actualDisplay));
+    }
 }
 
 void Core::setNextGameLib()
@@ -212,7 +251,8 @@ void Core::setNextGameLib()
     this->actualGame += 1;
     if (this->actualGame >= this->gameLibPath.size())
         this->actualGame = 0;
-    this->setGameModule(this->gameLibPath.at(this->actualGame));
+    if (!this->gameLibPath.empty())
+        this->setGameModule(this->gameLibPath.at(this->actualGame));
 }
 
 void Core::setPreviousGameLib()
@@ -221,7 +261,8 @@ void Core::setPreviousGameLib()
         this->actualGame = this->gameLibPath.size() - 1;
     else
         this->actualGame -= 1;
-    this->setGameModule(this->gameLibPath.at(this->actualGame));
+    if (!this->gameLibPath.empty())
+        this->setGameModule(this->gameLibPath.at(this->actualGame));
 }
 
 void Core::setDisplayLibPath(const std::string &dirPath)
@@ -250,7 +291,7 @@ void Core::setGameLibPath(const std::string &dirPath)
             std::cout << filename << std::endl;
         }
     }
-    std::cout << "\nEND OF LOAD\n";
+    std::cout << "END OF LOAD\n\n";
 }
 
 void Core::setDisplayModule(const std::string &libName)
@@ -259,16 +300,13 @@ void Core::setDisplayModule(const std::string &libName)
     arcDisplay::IDisplayModule *graph;
 
     this->graphical.reset();
-    std::cout << "Opening Lib" << std::endl;
     this->libDisplay.openLib(libName);
     graph = this->libDisplay.getClass("entryPoint");
-    std::cout << "Got the instance" << std::endl;
     this->graphical.reset(graph);
-    std::cout << "LIB reseted" << std::endl;
 
     for (auto &libname : this->gameLibPath) {
         if (libname == libName)
-            this->actualGame = i;
+            this->actualDisplay = i;
         i++;
     }
 }
@@ -282,7 +320,7 @@ void Core::setGameModule(const std::string &libName)
 
     for (auto &libname : this->displayLibPath) {
         if (libname == libName)
-            this->actualDisplay = i;
+            this->actualGame = i;
         i++;
     }
 }

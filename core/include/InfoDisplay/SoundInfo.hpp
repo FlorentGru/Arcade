@@ -1,39 +1,35 @@
 /*
-** EPITECH PROJECT, 2018
+** EPITECH PROJECT, 2019
 ** OOP_arcade_2018
 ** File description:
 ** SoundInfo.hpp
 */
 
-#ifndef SOUNDINFO_HPP
-#define SOUNDINFO_HPP
+#ifndef OOP_ARCADE_2018_SOUNDINFO_HPP
+#define OOP_ARCADE_2018_SOUNDINFO_HPP
 
-#include "IInfoDisplay.hpp"
 #include <string>
+#include "IInfoDisplay.hpp"
 
-namespace arcDisplay
-{
-    class SoundInfo : public IInfoDisplay
-    {
+namespace arcDisplay {
+    class SoundInfo : public IInfoDisplay {
+    public:
+        const std::string &getSound() const;
+        void setSound(const std::string &sound);
+        size_t getVolume() const;
+        void setVolume(size_t volume);
+        bool isLoop() const;
+        void setLoop(bool loop);
+        bool isStart() const;
+        void setStart(bool start);
+        enum TypeInfoDisplay getType() const override;
+
     private:
         std::string _sound;
         size_t _volume;
         bool _loop;
         bool _start;
-    public:
-        enum TypeInfoDisplay getType() const override;
-
-        const std::string &getSound() const;
-        size_t getVolume() const;
-        bool isLoop() const;
-        bool isStart() const;
-
-        void setSound(const std::string &);
-        void setVolume(size_t);
-        void setLoop(bool);
-        void setStart(bool);
     };
-} // arcDisplay
+}
 
-
-#endif
+#endif //OOP_ARCADE_2018_SOUNDINFO_HPP

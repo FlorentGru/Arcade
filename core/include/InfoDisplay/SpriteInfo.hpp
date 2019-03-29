@@ -1,32 +1,35 @@
 /*
-** EPITECH PROJECT, 2018
+** EPITECH PROJECT, 2019
 ** OOP_arcade_2018
 ** File description:
 ** SpriteInfo.hpp
 */
 
-#ifndef SPRITEINFO_HPP
-#define SPRITEINFO_HPP
+#ifndef OOP_ARCADE_2018_SPRITEINFO_HPP
+#define OOP_ARCADE_2018_SPRITEINFO_HPP
 
+#include <string>
 #include "ADrawableInfo.hpp"
 
 namespace arcDisplay
 {
     class SpriteInfo : public ADrawableInfo
     {
-    private:
-        std::pair<int, int> _posRect;
-        std::pair<int, int> _sizeRect;
-    public:
-        enum TypeInfoDisplay getType() const override;
+        public:
+            SpriteInfo();
 
-        const std::pair<int, int> &getPosRect() const;
-        const std::pair<int, int> &getSizeRect() const;
+            enum TypeInfoDisplay getType() const override;
+            
+            void setPosRect(int x, int y);
+            const std::pair<int, int> &getPosRect() const;
 
-        void setPosRect(int, int);
-        void setSizeRect(int, int);
+            void setSizeRect(int width, int height);
+            const std::pair<int, int> &getSizeRect() const;
+
+        private:
+            std::pair<int, int> _posRect;
+            std::pair<int, int> _sizeRect;
     };
 } // arcDisplay
 
-
-#endif
+#endif //OOP_ARCADE_2018_SPRITEINFO_HPP

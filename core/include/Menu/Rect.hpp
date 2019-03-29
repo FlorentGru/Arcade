@@ -28,6 +28,7 @@ public:
     void setFont(const std::string &);
     void setPos(float, float, float, float);
     void setSize(float, float, unsigned int);
+    void setColor(unsigned char, unsigned char, unsigned char);
 };
 
 #endif //OOP_ARCADE_2018_LIBRECT_HPP

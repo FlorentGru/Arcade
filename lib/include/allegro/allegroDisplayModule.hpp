@@ -35,7 +35,6 @@ namespace arcDisplay
     private:
         ALLEGRO_DISPLAY *window;
         ALLEGRO_FONT *_font;
-        ALLEGRO_TIMEOUT timeout;
         ALLEGRO_TIMER *timer;
         ALLEGRO_EVENT_QUEUE *event_queue;
         ALLEGRO_SAMPLE *sample;
@@ -51,7 +50,7 @@ namespace arcDisplay
         void draw(const RectInfo&);
         void draw(const LineInfo&);
     public:
-        allegroDisplayModule() {};
+        allegroDisplayModule();
         bool initScreen(const InitWindow &info) override;
         bool close() override;
         bool display(const std::vector<std::reference_wrapper<const IInfoDisplay>> &) override;

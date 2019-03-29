@@ -15,17 +15,18 @@
 #include <string>
 #include <memory>
 
+enum Outcome {
+    QUIT,
+    MENU,
+    UNCHANGED,
+    LIB,
+    GAME
+};
+
 class Core 
 {
-private:
-    enum Outcome {
-        QUIT,
-        MENU,
-        UNCHANGED,
-        LIB,
-        GAME
-    };
 
+private:
     DLLoader<IGameModule> libGame;
     DLLoader<arcDisplay::IDisplayModule> libDisplay;
 
@@ -35,6 +36,7 @@ private:
     size_t actualDisplay;
 
     Menu menu;
+    Outcome chooseGameOrLib(const std::string &path);
     std::unique_ptr<IGameModule> game;
     std::unique_ptr<arcDisplay::IDisplayModule> graphical;
 

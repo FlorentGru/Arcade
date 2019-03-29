@@ -13,12 +13,19 @@ extern "C" {
         return (new arcDisplay::allegroDisplayModule());
     }
 }
+arcDisplay::allegroDisplayModule::allegroDisplayModule()
+{
+    this->window = NULL;
+    this->_font = NULL;
+    this->timer = NULL;
+    this->event_queue = NULL;
+    this->sample = NULL;
+}
 
 bool arcDisplay::allegroDisplayModule::initScreen(const InitWindow &info)
 {
     if (!al_init() || !al_init_font_addon() || !al_init_ttf_addon() || !al_init_image_addon() || !al_install_keyboard() || !al_install_audio() || !al_init_acodec_addon() || !al_reserve_samples(1))
         return (false);
-    al_init_timeout(&timeout, 0.06);
     this->event_queue = al_create_event_queue();
     this->_font = NULL;
     this->timer = al_create_timer(1.0 / info.getFrame());
@@ -100,7 +107,7 @@ void arcDisplay::allegroDisplayModule::drawType(TypeInfoDisplay type, std::refer
 void arcDisplay::allegroDisplayModule::draw(const WindowInfo &info)
 {
     if (info.isClosed())
-        al_destroy_display(this->window);
+        close();
 }
 
 void arcDisplay::allegroDisplayModule::draw(const SoundInfo& sound)

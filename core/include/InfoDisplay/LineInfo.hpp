@@ -5,8 +5,8 @@
 ** LineInfo.hpp
 */
 
-#ifndef LINEINFO_HPP
-#define LINEINFO_HPP
+#ifndef LINEINFO_HPP_
+#define LINEINFO_HPP_
 
 #include "ADrawableInfo.hpp"
 
@@ -14,15 +14,16 @@ namespace arcDisplay
 {
     class LineInfo : public ADrawableInfo
     {
-    private:
-        std::pair<float, float> _pos2;
-    public:
-        TypeInfoDisplay getType() const;
+        private:
+            std::pair<float, float> _pos2;
 
-        const std::pair<float, float> &getPos2() const;
-        void setPos2(const float, const float);
+        public:
+            LineInfo();
+
+            const std::pair<float, float> &getPos2() const;
+            void setPos2(float x, float y);
+            enum TypeInfoDisplay getType() const override;
     };
-} // arcDisplay
+}
 
-
-#endif
+#endif // !LINEINFO_HPP_

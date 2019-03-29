@@ -2,44 +2,44 @@
 ** EPITECH PROJECT, 2018
 ** OOP_arcade_2018
 ** File description:
-** ADrawableInfo.hpp
+** DrawableInfo.hpp
 */
 
-#ifndef ADRAWABLEINFO_HPP
-#define ADRAWABLEINFO_HPP
+#ifndef ADRAWABLEINFO_HPP_
+#define ADRAWABLEINFO_HPP_
 
-#include "IInfoDisplay.hpp"
 #include <vector>
 #include <string>
+#include "IInfoDisplay.hpp"
 
 namespace arcDisplay
 {
     class ADrawableInfo : public IInfoDisplay
     {
-    private:
-        std::pair<float, float> _pos;
-        std::pair<float, float> _size;
-        std::vector<unsigned char> _color;
-        char _ascii;
-        std::string _texture;
-    public:
-        ADrawableInfo();
+        protected:
+            std::string _texture;
+            char _ascii;
+            std::pair<float, float> _pos;
+            std::pair<float, float> _size;
+            std::vector<unsigned char> _color;
 
-        virtual TypeInfoDisplay getType() const = 0;
+        public:
 
-        const std::pair<float, float> &getPos() const;
-        const std::pair<float, float> &getSize() const;
-        const std::vector<unsigned char> &getColor() const;
-        char getAscii() const;
-        const std::string &getTexture() const;
+            virtual enum TypeInfoDisplay getType() const = 0;
 
-        void setPos(float, float);
-        void setSize(float, float);
-        void setColor(unsigned char, unsigned char, unsigned char);
-        void setAscii(char);
-        void setTexture(const std::string &);
+            char getAscii() const;
+            void setAscii(char asciiRepresentation);
+
+            const std::string &getTexture() const;
+            void setTexture(const std::string &texture);
+
+            const std::pair<float, float> &getPos() const;
+            const std::pair<float, float> &getSize() const;
+            const std::vector<unsigned char> &getColor() const;
+            void setPos(float x, float y);
+            void setSize(float h, float w);
+            void setColor(unsigned char r, unsigned char g, unsigned char b);
     };
-} // arcDisplay
+}
 
-
-#endif
+#endif // !DRAWABLEINFO_HPP_
