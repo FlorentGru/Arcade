@@ -223,6 +223,7 @@ void Menu::down()
 const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Menu::getInfoDisplay()
 {
 
+    infos.emplace_back(std::ref(this->usage));
     this->infos.clear();
     for (auto &game : this->games) {
         infos.emplace_back(std::ref(game.getRect()));
@@ -232,6 +233,5 @@ const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Menu:
         infos.emplace_back(std::ref(lib.getRect()));
         infos.emplace_back(std::ref(lib.getText()));
     }
-    infos.emplace_back(std::ref(this->usage));
     return (infos);
 }
