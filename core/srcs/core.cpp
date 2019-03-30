@@ -317,7 +317,7 @@ void Core::setGameModule(const std::string &libName)
     std::cout << "SWITCHING TO GAME: " << libName << std::endl;
     this->game.reset();
     this->libGame.openLib(libName);
-    this->game.reset(this->libGame.getClass("entryPoint"));
+    this->game.reset(this->libGame.getClass("gameInstance"));
 
     for (auto &libname : this->gameLibPath) {
         if (libname == libName)
