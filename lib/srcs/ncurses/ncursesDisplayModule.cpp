@@ -19,21 +19,28 @@ bool arcDisplay::ncursesDisplayModule::display(const std::vector<std::reference_
 {
     TypeInfoDisplay type;
     getmaxyx(stdscr, maxheight, maxwidth);
-
-    nodelay(stdscr, false);
-    iterator = 0;
-    for (auto &entity : info) {
-        iterator++;
-        type = entity.get().getType();
-        drawType(type, entity.get());
+    clear();
+    if (height > maxheight || width > maxwidth) {
+        mvprintw(maxheight / 2, maxwidth / 2 - 10, "Terminal too small\n");
+    } else {
+        iterator = 0;
+        for (auto &entity : info) {
+            iterator++;
+            type = entity.get().getType();
+            drawType(type, entity.get());
+        }
     }
     refresh();
+    usleep(1000000 / frame);
     return (true);
 }
 
 bool arcDisplay::ncursesDisplayModule::initScreen(const InitWindow &info)
 {
     initscr();
+    frame = info.getFrame();
+    height = info.getHeight();
+    width = info.getWidth();
     nodelay(stdscr, true);
     keypad(stdscr, true);
     noecho();
@@ -104,12 +111,11 @@ void arcDisplay::ncursesDisplayModule::draw(const TextInfo &info)
     std::vector<unsigned char> color = info.getColor();
 
     init_color(iterator, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
-    init_pair(iterator, iterator, COLOR_BLACK);
+    init_pair(iterator, iterator, iterator - 1);
     attron(COLOR_PAIR(iterator));
     move(static_cast<int> (info.getPos().second), static_cast<int> (info.getPos().first));
     printw(info.getText().c_str());
     refresh();
-    //attroff(COLOR_PAIR(random));
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const SpriteInfo &info)
@@ -120,10 +126,16 @@ void arcDisplay::ncursesDisplayModule::draw(const SpriteInfo &info)
 
 void arcDisplay::ncursesDisplayModule::draw(const CircleInfo &info)
 {
+    std::vector<unsigned char> color = info.getColor();
+
+    init_color(iterator, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
+    init_pair(iterator, COLOR_BLACK, iterator);
+    attron(COLOR_PAIR(iterator));
     for (int i = 0; i < info.getSize().second; i++) {
         for (int j = 0; j < info.getSize().first; j++)
             mvprintw(static_cast<int> (info.getPos().second) + i, static_cast<int> (info.getPos().first) + j, "%c", info.getAscii());
     }
+    refresh();
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const RectInfo &info)
@@ -138,13 +150,20 @@ void arcDisplay::ncursesDisplayModule::draw(const RectInfo &info)
             mvprintw(static_cast<int> (info.getPos().second) + i, static_cast<int> (info.getPos().first) + j, "%c", info.getAscii());
     }
     refresh();
-    //attroff(COLOR_PAIR(random));
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const LineInfo &info)
 {
-    (void) info;
-    return;
+    std::vector<unsigned char> color = info.getColor();
+
+    init_color(iterator, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
+    init_pair(iterator, COLOR_BLACK, iterator);
+    attron(COLOR_PAIR(iterator));
+    for (int i = 0; i < info.getSize().second; i++) {
+        for (int j = 0; j < info.getSize().first; j++)
+            mvprintw(static_cast<int> (info.getPos().second) + i, static_cast<int> (info.getPos().first) + j, "%c", info.getAscii());
+    }
+    refresh();
 }
 
 const std::vector<arcDisplay::t_InfoInput> &arcDisplay::ncursesDisplayModule::getInput()

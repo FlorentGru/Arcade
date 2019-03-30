@@ -17,6 +17,7 @@
 #include "RectInfo.hpp"
 #include "LineInfo.hpp"
 #include <ncurses.h>
+#include <unistd.h>
 #include <map>
 
 namespace arcDisplay
@@ -26,7 +27,10 @@ namespace arcDisplay
         private:
         int maxheight;
         int maxwidth;
+        int height;
+        int width;
         short iterator;
+        size_t frame;
 
         std::vector<arcDisplay::t_InfoInput> inputs;
 
