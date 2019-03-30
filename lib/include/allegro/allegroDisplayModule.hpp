@@ -55,7 +55,7 @@ namespace arcDisplay
         bool close() override;
         bool display(const std::vector<std::reference_wrapper<const IInfoDisplay>> &) override;
         const std::vector<t_InfoInput> &getInput() override;
-        bool check_event(ALLEGRO_EVENT *event);
+        bool check_event(ALLEGRO_EVENT &event);
     };
 } // arcDisplay
 
