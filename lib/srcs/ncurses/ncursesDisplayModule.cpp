@@ -111,7 +111,7 @@ void arcDisplay::ncursesDisplayModule::draw(const TextInfo &info)
     std::vector<unsigned char> color = info.getColor();
 
     init_color(iterator, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
-    init_pair(iterator, iterator, iterator - 1);
+    init_pair(iterator, iterator, COLOR_BLACK);
     attron(COLOR_PAIR(iterator));
     move(static_cast<int> (info.getPos().second), static_cast<int> (info.getPos().first));
     printw(info.getText().c_str());
