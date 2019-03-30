@@ -20,16 +20,16 @@ bool arcDisplay::ncursesDisplayModule::display(const std::vector<std::reference_
     TypeInfoDisplay type;
     getmaxyx(stdscr, maxheight, maxwidth);
     clear();
-    if (height > maxheight || width > maxwidth) {
-        mvprintw(maxheight / 2, maxwidth / 2 - 10, "Terminal too small\n");
-    } else {
+    //if (height > maxheight || width > maxwidth) {
+    //    mvprintw(maxheight / 2, maxwidth / 2 - 10, "Terminal too small\n");
+    //} else {
         iterator = 0;
         for (auto &entity : info) {
             iterator++;
             type = entity.get().getType();
             drawType(type, entity.get());
         }
-    }
+    //}
     refresh();
     usleep(1000000 / frame);
     return (true);
