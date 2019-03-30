@@ -105,6 +105,8 @@ void Menu::readScores()
     std::string game = select();
     std::string score;
 
+    if (game.empty())
+        return;
     game = getLibName(game);
     game = std::string("./games/score/").append(game);
 
