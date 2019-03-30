@@ -322,7 +322,7 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::allegroDisplayModule::ge
                 input.id = arcDisplay::KeyBoard::LCONTROL;
                 inputs.push_back(input);
                 continue;}
-            if (event.keyboard.keycode  == ALLEGRO_KEY_DELETE) {
+            if (event.keyboard.keycode  == ALLEGRO_KEY_BACKSPACE) {
                 input.id = arcDisplay::KeyBoard::DELETE;
                 inputs.push_back(input);
                 continue;}

@@ -8,12 +8,22 @@
 #ifndef __PACMAN_HPP__
 #define __PACMAN_HPP__
 
-#include "GameModule.hpp"
+#include "IGameModule.hpp"
+#include "WindowInfo.hpp"
+#include "SoundInfo.hpp"
+#include "TextInfo.hpp"
+#include "SpriteInfo.hpp"
+#include "CircleInfo.hpp"
+#include "RectInfo.hpp"
+#include "LineInfo.hpp"
+#include <functional>
+#include <iostream>
+#include <fstream>
 
 class Pacman : public IGameModule
 {
     private:
-        std::vector<std::string>  map;
+        std::vector<std::string> map;
         std::pair<float, float> pos_pac;
         std::vector<std::pair<float, float>> pos_ghost;
         bool isGhostRun;
@@ -23,19 +33,22 @@ class Pacman : public IGameModule
         size_t move_ghost;
         arcDisplay::KeyBoard::KeyID key;
         std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> infos;
+        std::vector<arcDisplay::RectInfo> allrect;
+        std::vector<arcDisplay::CircleInfo> allcircle;
+        InitWindow window;
     public:
         Pacman();
 
         const InitWindow &initWindow();
         bool playGame(const std::vector<arcDisplay::t_InfoInput> &);
         const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &getInfoDisplay();
-        long int getScore();
+        long int getScore() const;
 
         std::pair<float, float> get_pos_pac();
         std::vector<std::pair<float, float>> get_pos_ghost();
         bool get_isGhostRun();
         bool get_isPacInv();
-        std::string get_map();
+        std::vector<std::string> get_map();
         size_t get_move_ghost();
         size_t get_move_pac();
         arcDisplay::KeyBoard::KeyID get_key();
@@ -45,5 +58,7 @@ class Pacman : public IGameModule
         void set_move_pac(size_t);
         void set_key(arcDisplay::KeyBoard::KeyID);
 };
+
+void check_move_pac(arcDisplay::KeyBoard::KeyID key);
 
 #endif

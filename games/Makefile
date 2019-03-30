@@ -5,7 +5,17 @@
 ## Makefile
 ##
 
-SRC_GAME1		=	$(SRC_DIR_GAME1)pacman.cpp	\
+SRC_GAME1		=	$(SRC_DIR_GAME1)pacman_setter_getter.cpp	\
+					$(SRC_DIR_GAME1)pacman.cpp	\
+					../core/srcs/InfoDisplay/CircleInfo.cpp	\
+					../core/srcs/InfoDisplay/LineInfo.cpp	\
+					../core/srcs/InfoDisplay/SoundInfo.cpp	\
+					../core/srcs/InfoDisplay/RectInfo.cpp	\
+					../core/srcs/InfoDisplay/TextInfo.cpp	\
+					../core/srcs/InfoDisplay/WindowInfo.cpp	\
+					../core/srcs/InfoDisplay/SpriteInfo.cpp	\
+					../core/srcs/InfoDisplay/ADrawableInfo.cpp	\
+					../core/srcs/InitWindow.cpp			\
 
 SRC_GAME2		=	$(SRC_DIR_GAME2)games.cpp	\
 
@@ -21,7 +31,7 @@ SRC_DIR_GAME1	=	./srcs/pacman/
 
 SRC_DIR_GAME2	=	./srcs/game2/
 
-INC_GAME		=	-I ./include/
+INC_GAME		=	-I ./include/ -I ./../core/include/ -I ./../core/include/InfoDisplay/
 
 CXXFLAGS 			=	-Wall -Wextra -W -Wshadow -fPIC -lsfml-graphics -lsfml-window -lsfml-system -lncurses $(INC_GAME)
 
@@ -29,7 +39,7 @@ CXX 			= 	g++ -shared
 
 MAKE 			= 	make -C
 
-all:		game1 game2
+all:		game1 ##game2
 
 game1:		$(OBJECTS_GAME1)
 			$(CXX) -o $(NAME_GAME1) $(OBJECTS_GAME1)

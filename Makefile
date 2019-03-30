@@ -39,7 +39,7 @@ core:		$(OBJECTS_CORE)
 			$(CXX) -o $(NAME_CORE) $(OBJECTS_CORE) -ldl -lstdc++fs
 
 game:
-##			$(MAKE) games/
+			$(MAKE) games/
 
 graphicals:
 			$(MAKE) lib/
