@@ -379,8 +379,8 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::sfmlDisplayModule::getIn
                     inputs.push_back(input);
                     break;
                 case sf::Keyboard::Num2:
-                    inputs.push_back(input);
                     input.id = arcDisplay::KeyBoard::NUM2;
+                    inputs.push_back(input);
                     break;
                 case sf::Keyboard::Num3:
                     input.id = arcDisplay::KeyBoard::NUM3;
