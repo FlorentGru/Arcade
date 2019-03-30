@@ -265,6 +265,7 @@ void Core::setDisplayLibPath(const std::string &dirPath)
 {
     std::string filename;
 
+    std::cout << "LOAD DISPLAY" << std::endl;
     for (auto &filepath : std::experimental::filesystem::directory_iterator(dirPath)) {
         filename = filepath.path().string();
         if (std::experimental::filesystem::is_regular_file(filepath.path())
@@ -279,6 +280,7 @@ void Core::setGameLibPath(const std::string &dirPath)
 {
     std::string filename;
 
+    std::cout << "LOAD GAMES" << std::endl;
     for (auto &filepath : std::experimental::filesystem::directory_iterator(dirPath)) {
         filename = filepath.path().string();
         if (std::experimental::filesystem::is_regular_file(filepath.path())

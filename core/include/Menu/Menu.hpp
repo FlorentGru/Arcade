@@ -20,6 +20,7 @@ private:
     std::vector<Rect> games;
     std::vector<Rect> libs;
     arcDisplay::TextInfo usage;
+    arcDisplay::TextInfo scores;
 
     std::string font;
     unsigned int width;
@@ -37,6 +38,9 @@ private:
     void up();
     void down();
     void setSelected();
+
+    void readScores();
+    bool isLineValid(const std::string &);
 
     const std::string getLibName(std::string) const;
 public:
