@@ -19,6 +19,7 @@ SRC_GAME1		=	$(SRC_DIR_GAME1)pacman_setter_getter.cpp	\
 
 SRC_GAME2		=	$(SRC_DIR_GAME2)snake.cpp	\
 					$(SRC_DIR_GAME2)nibbler.cpp	\
+					$(SRC_DIR_GAME2)food.cpp	\
 					../core/srcs/InfoDisplay/CircleInfo.cpp	\
 					../core/srcs/InfoDisplay/LineInfo.cpp	\
 					../core/srcs/InfoDisplay/SoundInfo.cpp	\
@@ -49,7 +50,7 @@ CXX 			= 	g++ -shared
 
 MAKE 			= 	make -C
 
-all:		game1 game2
+all:		game2 ##game1
 
 game1:		$(OBJECTS_GAME1)
 			$(CXX) -o $(NAME_GAME1) $(OBJECTS_GAME1)
