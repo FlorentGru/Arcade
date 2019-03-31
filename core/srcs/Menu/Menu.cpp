@@ -34,7 +34,8 @@ const InitWindow Menu::initWindow()
     window.setFrame(10);
     window.setName("Menu");
 
-    score.readScores(getLibName(select()));
+    if (!this->gamesNames.empty())
+        score.readScores(getLibName(select()));
     return (window);
 }
 

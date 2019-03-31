@@ -7,6 +7,7 @@
 
 #include "nibbler.hpp"
 #include "snake.hpp"
+#include "food.hpp"
 
 extern "C" {
     Nibbler *gameInstance()
@@ -15,11 +16,9 @@ extern "C" {
     }
 }
 
-
-Nibbler::Nibbler() : window(PIXEL_TO_MAP(960), PIXEL_TO_MAP(960))
+Nibbler::Nibbler() : window(PIXEL_TO_MAP(960), PIXEL_TO_MAP(650))
 {
-    this->score = 100;
-    this->food = 0;
+    this->score = 0;
     this->die = false;
 
     this->x = 1;
@@ -33,6 +32,44 @@ Nibbler::Nibbler() : window(PIXEL_TO_MAP(960), PIXEL_TO_MAP(960))
     this->snake.setWidth(width);
     this->snake.setHeight(height);
     this->snake.setPosSnake(width / 2, height / 2);
+
+    this->fruits.setWidth(width);
+    this->fruits.setHeight(height);
+    this->fruits.setPosFood();
+
+    int i = 0;
+
+    for (; i < this->width; ++i) {
+        this->edges.push_back(arcDisplay::RectInfo());
+        this->edges.at(i).setAscii(' ');
+        this->edges.at(i).setColor(10, 99, 255);
+        this->edges.at(i).setSize(1, 1);
+        this->edges.at(i).setPos(i, 0);
+    }
+    for (int j = 0; j < this->width; ++j) {
+        this->edges.push_back(arcDisplay::RectInfo());
+        this->edges.at(i).setAscii(' ');
+        this->edges.at(i).setColor(10, 99, 255);
+        this->edges.at(i).setSize(1, 1);
+        this->edges.at(i).setPos(j, height);
+        i++;
+    }
+    for (int j = 0; j < this->height; ++j) {
+        this->edges.push_back(arcDisplay::RectInfo());
+        this->edges.at(i).setAscii(' ');
+        this->edges.at(i).setColor(10, 99, 255);
+        this->edges.at(i).setSize(1, 1);
+        this->edges.at(i).setPos(0, j);
+        i++;
+    }
+    for (int j = 0; j < this->height + 1; ++j) {
+        this->edges.push_back(arcDisplay::RectInfo());
+        this->edges.at(i).setAscii(' ');
+        this->edges.at(i).setColor(10, 99, 255);
+        this->edges.at(i).setSize(1, 1);
+        this->edges.at(i).setPos(width, j);
+        i++;
+    }
 }
 
 const InitWindow &Nibbler::initWindow()
@@ -44,38 +81,8 @@ const InitWindow &Nibbler::initWindow()
 
 bool    Nibbler::playGame(const std::vector<arcDisplay::t_InfoInput> &inputs)
 {
-    //while(1){
-    // if (collision()) {
-    //     info.setPos(width / 2, height / 2);
-    //     info.setText("Game Over");
-    //     break;
-    // }
     moveNibbler(inputs);
-    //usleep(delay);
-    //}
     return (true);
-}
-
-// bool Nibbler::collision()
-// {
-//     if (snake.getSnake().at(0) == 0 || snake.getSnake().at(0) == widht || snake.getSnake().at(0) == height)
-//         return (true);
-//     if (body.at(0) == ) {
-//         food = true;
-//         createFood();
-//         score += 10;
-//         //Move
-//         setText(score);
-//         if ((score % 100) == 0)
-//             delay -= 1000;
-//     }else
-//         food = false;
-//     return (false);
-// }
-
-void Nibbler::createFood()
-{
-    return;
 }
 
 void Nibbler::moveNibbler(const std::vector<arcDisplay::t_InfoInput> &inputs)
@@ -115,15 +122,15 @@ void Nibbler::moveNibbler(const std::vector<arcDisplay::t_InfoInput> &inputs)
     if (snake.move(x, y) == false) {
         die = true;
     }
-    // if (direction == 'l') {
-    //     snake.move(-1, 0);
-    // } else if(direction == 'r') {
-    //     snake.move(1, 0);
-    // } else if(direction == 'u') {
-    //     snake.move(0, -1);
-    // } else if (direction == 'd') {
-    //     snake.move(0, 1);
-    // } 
+    if (fruits.eatFruits(snake) == true) {
+        score += 10;
+        snake.grow();
+        fruits.setPosFood();
+    }
+    if (fruits.getFruits().empty()) {
+        score += 50;
+        die = true;
+    }
 }
 
 const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Nibbler::getInfoDisplay()
@@ -135,7 +142,10 @@ const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Nibbl
     }
     for (auto &rect : this->snake.getSnake())
         infos.emplace_back(std::ref(rect));
-    
+    for (auto &food : this->fruits.getFruits())
+        infos.emplace_back(std::ref(food));
+    for (auto &wall : this->edges)
+        infos.emplace_back(std::ref(wall));
     return (this->infos);
 }
 

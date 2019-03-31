@@ -26,6 +26,8 @@ public:
 
     bool eatItself(int x, int y);
     bool move(int x, int y);
+    void grow();
+
     int getWidth();
     int getHeight();
     void setWidth(unsigned int width);

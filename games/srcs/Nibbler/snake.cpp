@@ -12,7 +12,7 @@ Snake::Snake()
 {
     for (int i = 0; i < 4; ++i) {
         this->body.push_back(arcDisplay::RectInfo());
-        this->body.at(i).setAscii('o');
+        this->body.at(i).setAscii(' ');
         this->body.at(i).setColor(10, 255, 100);
         this->body.at(i).setSize(1, 1);
 
@@ -50,9 +50,25 @@ bool Snake::move(int x, int y)
         newMove.push_back(nextMove.at(i));
     }
     nextMove = newMove;
-    if (body.at(0).getPos().first > _width || body.at(0).getPos().second > _height || body.at(0).getPos().first == 0 || body.at(0).getPos().second == 0)
+    if (body.at(0).getPos().first > _width - 1 || body.at(0).getPos().second > _height - 1 || body.at(0).getPos().first == 0 || body.at(0).getPos().second == 0)
         return (false);
     return (true);
+}
+
+void Snake::grow()
+{
+    std::pair<int, int> pos = body.back().getPos();
+    std::pair<int, int> move = nextMove.back();
+
+    this->body.push_back(arcDisplay::RectInfo());
+    this->nextMove.push_back(move);
+    
+    body.back().setPos(pos.first - move.first, pos.second - move.second);
+
+    body.back().setSize(1, 1);
+    body.back().setAscii(' ');
+    body.back().setColor(10, 255, 99);
+    body.back().setTexture("");
 }
 
 const std::vector<arcDisplay::RectInfo> &Snake::getSnake() const

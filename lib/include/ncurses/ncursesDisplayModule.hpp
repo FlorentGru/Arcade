@@ -34,8 +34,8 @@ namespace arcDisplay
 
         std::vector<arcDisplay::t_InfoInput> inputs;
 
-        void drawType(TypeInfoDisplay, std::reference_wrapper<const IInfoDisplay>);
-        void draw(const WindowInfo &);
+        bool drawType(TypeInfoDisplay, std::reference_wrapper<const IInfoDisplay>);
+        bool draw(const WindowInfo &);
         void draw(const SoundInfo &);
         void draw(const TextInfo &);
         void draw(const SpriteInfo &);

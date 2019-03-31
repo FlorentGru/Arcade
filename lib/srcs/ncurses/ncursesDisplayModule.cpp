@@ -27,33 +27,31 @@ bool arcDisplay::ncursesDisplayModule::display(const std::vector<std::reference_
         for (auto &entity : info) {
             iterator++;
             type = entity.get().getType();
-            drawType(type, entity.get());
+            if (!drawType(type, entity.get()))
+                return (false);
         }
     //}
     refresh();
-    usleep(1000000 / frame);
+    usleep(1000000/frame);
     return (true);
 }
 
 bool arcDisplay::ncursesDisplayModule::initScreen(const InitWindow &info)
 {
-    initscr();
     frame = info.getFrame();
+    initscr();
     height = info.getHeight();
     width = info.getWidth();
     nodelay(stdscr, true);
     keypad(stdscr, true);
     noecho();
     curs_set(0);
-    srand(time(NULL));
-    if(has_colors() == FALSE)
-	{	
-        endwin();
-		printf("Your terminal does not support color\n");
-		exit(1);
+    if(has_colors() == FALSE) {	
+	    endwin();
+	    printf("Your terminal does not support color\n");
+	exit(1);
 	}
     start_color();
-    (void) info;
     return (true);
 }
 
@@ -63,12 +61,11 @@ bool arcDisplay::ncursesDisplayModule::close()
     return (true);
 }
 
-void arcDisplay::ncursesDisplayModule::drawType(TypeInfoDisplay type, std::reference_wrapper<const IInfoDisplay> info)
+bool arcDisplay::ncursesDisplayModule::drawType(TypeInfoDisplay type, std::reference_wrapper<const IInfoDisplay> info)
 {
     switch (type) {
         case WINDOW:
-            draw(dynamic_cast<const WindowInfo &>(info.get()));
-            break;
+            return (draw(dynamic_cast<const WindowInfo &>(info.get())));
         case SOUND:
             draw(dynamic_cast<const SoundInfo &>(info.get()));
             break;
@@ -90,14 +87,16 @@ void arcDisplay::ncursesDisplayModule::drawType(TypeInfoDisplay type, std::refer
         default:
             break;
     }
-    refresh();
+    return (true);
 }
 
-void arcDisplay::ncursesDisplayModule::draw(const WindowInfo &info)
+bool arcDisplay::ncursesDisplayModule::draw(const WindowInfo &info)
 {
     if (info.isClosed()) {
         endwin();
+        return (false);
     }
+    return (true);
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const SoundInfo &info)
@@ -115,7 +114,6 @@ void arcDisplay::ncursesDisplayModule::draw(const TextInfo &info)
     attron(COLOR_PAIR(iterator));
     move(static_cast<int> (info.getPos().second), static_cast<int> (info.getPos().first));
     printw(info.getText().c_str());
-    refresh();
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const SpriteInfo &info)
@@ -135,7 +133,6 @@ void arcDisplay::ncursesDisplayModule::draw(const CircleInfo &info)
         for (int j = 0; j < info.getSize().first; j++)
             mvprintw(static_cast<int> (info.getPos().second) + i, static_cast<int> (info.getPos().first) + j, "%c", info.getAscii());
     }
-    refresh();
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const RectInfo &info)
@@ -149,7 +146,6 @@ void arcDisplay::ncursesDisplayModule::draw(const RectInfo &info)
         for (int j = 0; j < info.getSize().first; j++)
             mvprintw(static_cast<int> (info.getPos().second) + i, static_cast<int> (info.getPos().first) + j, "%c", info.getAscii());
     }
-    refresh();
 }
 
 void arcDisplay::ncursesDisplayModule::draw(const LineInfo &info)
@@ -163,7 +159,6 @@ void arcDisplay::ncursesDisplayModule::draw(const LineInfo &info)
         for (int j = 0; j < info.getSize().first; j++)
             mvprintw(static_cast<int> (info.getPos().second) + i, static_cast<int> (info.getPos().first) + j, "%c", info.getAscii());
     }
-    refresh();
 }
 
 const std::vector<arcDisplay::t_InfoInput> &arcDisplay::ncursesDisplayModule::getInput()

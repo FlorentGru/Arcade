@@ -17,6 +17,7 @@
 #include "RectInfo.hpp"
 #include "LineInfo.hpp"
 #include "snake.hpp"
+#include "food.hpp"
 #include <vector>
 #include <functional>
 #include <unistd.h>
@@ -30,14 +31,16 @@ class Nibbler : public IGameModule
         int height;
         bool die;
 
-        bool food;
         int delay;
         int x;
         int y;
+
         arcDisplay::KeyBoard::KeyID key;
+        std::vector<arcDisplay::RectInfo> edges;
         InitWindow window;
         arcDisplay::WindowInfo closeWindow;
         Snake snake;
+        Food fruits;
 
         std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> infos;
 
@@ -49,8 +52,6 @@ class Nibbler : public IGameModule
         const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &getInfoDisplay();
         long int getScore() const;
     
-        bool collision();
-        void createFood();
         void moveNibbler(const std::vector<arcDisplay::t_InfoInput> &);
 };
 

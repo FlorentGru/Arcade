@@ -43,7 +43,7 @@ void Score::readScores(std::string game)
 
     file.open(game, std::ios_base::in);
     if (!file.is_open()) {
-        scores.setText("No score yet for " + game);
+        scores.setText("No score yet for " + game.substr(game.rfind('/') + 1));
         scores.setPos(width / 2 - scores.getText().size() / 2, height / 2 - 3);
         return;
     }
