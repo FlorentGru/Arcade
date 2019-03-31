@@ -107,6 +107,7 @@ Outcome Core::menuLoop()
         outcome = menuEvent(inputs);
         if (outcome != UNCHANGED)
             break;
+        menu.setUsername(inputs);
         outcome = chooseGameOrLib(menu.switchTo(inputs));
         if (outcome != UNCHANGED)
             break;
@@ -135,8 +136,10 @@ Outcome Core::gameLoop()
         if (outcome != UNCHANGED)
             break;
         game->playGame(inputs);
-        if (!graphical->display(game->getInfoDisplay()))
+        if (!graphical->display(game->getInfoDisplay())) {
             outcome = QUIT;
+            menu.setScore(game->getScore());
+        }
     }
     graphical->close();
     return (outcome);
@@ -149,16 +152,16 @@ Outcome Core::menuEvent(const std::vector<arcDisplay::t_InfoInput> &inputs)
             switch (input.id) {
                 case arcDisplay::KeyBoard::ESCAPE:
                     return (QUIT);
-                case arcDisplay::KeyBoard::UP:
+                case arcDisplay::KeyBoard::F5:
                     this->setNextGameLib();
                     return (LIB);
-                case arcDisplay::KeyBoard::DOWN:
+                case arcDisplay::KeyBoard::F4:
                     this->setPreviousGameLib();
                     return (LIB);
-                case arcDisplay::KeyBoard::LEFT:
+                case arcDisplay::KeyBoard::F2:
                     this->setPreviousDisplayLib();
                     return (LIB);
-                case arcDisplay::KeyBoard::RIGHT:
+                case arcDisplay::KeyBoard::F3:
                     this->setNextDisplayLib();
                     return (LIB);
                 default:
@@ -199,16 +202,16 @@ Outcome Core::gameEvent(const std::vector<arcDisplay::t_InfoInput> &inputs)
                     return (QUIT);
                 case arcDisplay::KeyBoard::M:
                     return (MENU);
-                case arcDisplay::KeyBoard::UP:
+                case arcDisplay::KeyBoard::F5:
                     this->setNextGameLib();
                     return (LIB);
-                case arcDisplay::KeyBoard::DOWN:
+                case arcDisplay::KeyBoard::F4:
                     this->setPreviousGameLib();
                     return (LIB);
-                case arcDisplay::KeyBoard::RIGHT:
+                case arcDisplay::KeyBoard::F3:
                     this->setNextDisplayLib();
                     return (LIB);
-                case arcDisplay::KeyBoard::LEFT:
+                case arcDisplay::KeyBoard::F2:
                     this->setPreviousDisplayLib();
                     return (LIB);
                 default:

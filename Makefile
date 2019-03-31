@@ -10,6 +10,7 @@ SRC_CORE			=	$(SRC_DIR_CORE)main.cpp	\
                         $(SRC_DIR_CORE)core.cpp	\
                         $(SRC_DIR_CORE)Menu/Menu.cpp	\
                         $(SRC_DIR_CORE)Menu/Rect.cpp	\
+                        $(SRC_DIR_CORE)Menu/Score.cpp   \
                         $(SRC_DIR_CORE)InfoDisplay/CircleInfo.cpp	\
                         $(SRC_DIR_CORE)InfoDisplay/LineInfo.cpp	\
                         $(SRC_DIR_CORE)InfoDisplay/RectInfo.cpp	\

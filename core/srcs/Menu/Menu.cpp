@@ -17,15 +17,13 @@ Menu::Menu() : font("./rsc/font/WC_RoughTrad.ttf")
     this->height = 36;
     this->selected = 0;
 
-    this->scores.setPos(1, height / 2 - 3);
-    this->scores.setFont(this->font);
-    this->scores.setSize(30);
-
-    this->usage.setText("Use Z, Q, S, D to choose and Use Enter to select");
+    this->usage.setText("Use arrows to choose and Enter to select lib or game");
     this->usage.setSize(30);
     size = usage.getText().size();
     this->usage.setPos(width / 2 - size / 2, height - 3);
     this->usage.setFont(this->font);
+
+    this->score.setWindowSize(width, height);
 }
 
 const InitWindow Menu::initWindow()
@@ -51,7 +49,7 @@ void Menu::initGames(const std::vector<std::string> &_games)
     _height -= 3;
 
     for (const auto &game : _games) {
-        this->games.emplace_back(Rect(game));
+        this->games.emplace_back(Rect(getLibName(game)));
     }
 
     if (!this->games.empty())
@@ -66,7 +64,7 @@ void Menu::initGames(const std::vector<std::string> &_games)
         x += _width;
     }
     this->gamesNames = _games;
-    readScores();
+    score.readScores(getLibName(select()));
 }
 
 void Menu::initLibs(const std::vector<std::string> &_libs)
@@ -78,8 +76,8 @@ void Menu::initLibs(const std::vector<std::string> &_libs)
     float length = 0;
 
     _height /= 2;
-    y = _height;
-    _height -= 3;
+    y = _height + 3;
+    _height -= 6;
 
     for (const auto &lib : _libs) {
         this->libs.emplace_back(Rect(getLibName(lib)));
@@ -93,63 +91,16 @@ void Menu::initLibs(const std::vector<std::string> &_libs)
         lib.setSize(_width, _height, 30);
         lib.setPos(x, y, _width / 2 - (length / 2), _height / 2 - 1);
         lib.setAscii(' ');
-        lib.setColor(10, 100, 255);
+        lib.setColor(10, 99, 255);
         x += _width ;
     }
     this->libNames = _libs;
 }
 
-void Menu::readScores()
-{
-    std::ifstream file;
-    std::string game = select();
-    std::string score;
-
-    if (game.empty())
-        return;
-    game = getLibName(game);
-    game = std::string("./games/score/").append(game);
-
-    file.open(game, std::ios_base::in);
-    if (!file.is_open()) {
-        scores.setText("Error: '" + game + "' score file not found");
-        scores.setPos(width / 2 - scores.getText().size() / 2, height / 2 - 3);
-        return;
-    }
-
-    for (size_t  i = 0; !std::getline(file, game); i++) {
-        if (!isLineValid(game)) {
-            scores.setText("Error: invalid file format (line " + std::to_string(i) + ")");
-            scores.setPos(width / 2 - scores.getText().size() / 2, height / 2 - 3);
-            file.close();
-            return;
-        }
-        game.replace(game.find('='), game.find('=') + 1, ": ");
-        score += " " + game;
-    }
-    scores.setText(score);
-    scores.setPos(width / 2 - scores.getText().size() / 2, height / 2 - 3);
-    file.close();
-}
-
-bool Menu::isLineValid(const std::string &line)
-{
-    size_t pos = 0;
-
-    if (line.find('=') == std::string::npos || line.find('=') == 0) {
-        return (false);
-    }
-    pos = line.find('=') + 1;
-    try {
-        std::stoi(line, &pos);
-    } catch (std::invalid_argument &e) {
-        return (false);
-    }
-    return (true);
-}
-
 const std::string Menu::getLibName(std::string lib) const
 {
+    if (lib.empty())
+        return ("");
     lib.erase(lib.rfind(".so"));
     lib.erase(0, lib.rfind("lib_arcade_") + std::string("lib_arcade_").size());
     return (lib);
@@ -160,16 +111,16 @@ const std::string Menu::switchTo(const std::vector<arcDisplay::t_InfoInput> &inp
     for (auto &input : inputs) {
         if (input.isPressed) {
             switch (input.id) {
-                case arcDisplay::KeyBoard::Z:
+                case arcDisplay::KeyBoard::UP:
                     up();
                     break;
-                case arcDisplay::KeyBoard::Q:
+                case arcDisplay::KeyBoard::LEFT:
                     left();
                     break;
-                case arcDisplay::KeyBoard::S:
+                case arcDisplay::KeyBoard::DOWN:
                     down();
                     break;
-                case arcDisplay::KeyBoard::D:
+                case arcDisplay::KeyBoard::RIGHT:
                     right();
                     break;
                 case arcDisplay::KeyBoard::ENTER:
@@ -210,24 +161,24 @@ void Menu::setSelected()
     if (selected < games.size()) {
         for (auto &game : games) {
             if (i == selected)
-                game.setColor(10, 255, 100);
+                game.setColor(10, 255, 99);
             else
-                game.setColor(10, 100, 255);
+                game.setColor(10, 99, 255);
             i++;
         }
         for (auto &lib : libs) {
-            lib.setColor(10, 100, 255);
+            lib.setColor(10, 99, 255);
         }
     } else {
         for (auto &lib : libs) {
             if (games.size() + i == selected)
-                lib.setColor(10, 255, 100);
+                lib.setColor(10, 255, 99);
             else
-                lib.setColor(10, 100, 255);
+                lib.setColor(10, 99, 255);
             i++;
         }
         for (auto &game : games) {
-            game.setColor(10, 100, 255);
+            game.setColor(10, 99, 255);
         }
     }
 }
@@ -238,7 +189,7 @@ void Menu::right()
         selected++;
         if (selected == gamesNames.size())
             selected = 0;
-        readScores();
+        score.readScores(getLibName(select()));
     } else {
         selected++;
         if (selected - gamesNames.size() == libNames.size()) {
@@ -254,7 +205,7 @@ void Menu::left()
             selected = gamesNames.size() - 1;
         else
             selected--;
-        readScores();
+        score.readScores(getLibName(select()));
     } else {
         if (selected <= gamesNames.size()) {
             selected = libNames.size() - 1;
@@ -272,7 +223,7 @@ void Menu::up()
         } else {
             selected -= gamesNames.size();
         }
-        readScores();
+        score.readScores(getLibName(select()));
     }
 }
 
@@ -292,7 +243,8 @@ const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Menu:
 
     this->infos.clear();
     infos.emplace_back(std::ref(this->usage));
-    infos.emplace_back(std::ref(this->scores));
+    infos.emplace_back(std::ref(this->score.getScore()));
+    infos.emplace_back(std::ref(this->score.getUsername()));
     for (auto &game : this->games) {
         infos.emplace_back(std::ref(game.getRect()));
         infos.emplace_back(std::ref(game.getText()));
@@ -302,4 +254,14 @@ const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Menu:
         infos.emplace_back(std::ref(lib.getText()));
     }
     return (infos);
+}
+
+void Menu::setUsername(const std::vector<arcDisplay::t_InfoInput> &inputs)
+{
+    score.setUsername(inputs);
+}
+
+void Menu::setScore(long int _score)
+{
+    score.write(_score, getLibName(select()));
 }

@@ -10,6 +10,7 @@
 
 #include "IDisplayModule.hpp"
 #include "InitWindow.hpp"
+#include "Score.hpp"
 #include "Rect.hpp"
 #include <vector>
 #include <string>
@@ -17,10 +18,11 @@
 class Menu
 {
 private:
+    Score score;
+
     std::vector<Rect> games;
     std::vector<Rect> libs;
     arcDisplay::TextInfo usage;
-    arcDisplay::TextInfo scores;
 
     std::string font;
     unsigned int width;
@@ -39,9 +41,6 @@ private:
     void down();
     void setSelected();
 
-    void readScores();
-    bool isLineValid(const std::string &);
-
     const std::string getLibName(std::string) const;
 public:
     Menu();
@@ -51,7 +50,10 @@ public:
 
     const InitWindow initWindow();
     const std::string switchTo(const std::vector<arcDisplay::t_InfoInput> &inputs);
+    void setUsername(const std::vector<arcDisplay::t_InfoInput> &inputs);
     const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &getInfoDisplay();
+
+    void setScore(long int);
 };
 
 #endif //OOP_ARCADE_2018_MENU_HPP
