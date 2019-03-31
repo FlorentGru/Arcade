@@ -50,7 +50,7 @@ bool Snake::move(int x, int y)
         newMove.push_back(nextMove.at(i));
     }
     nextMove = newMove;
-    if (body.at(0).getPos().first > _width || body.at(0).getPos().second > _height)
+    if (body.at(0).getPos().first > _width || body.at(0).getPos().second > _height || body.at(0).getPos().first == 0 || body.at(0).getPos().second == 0)
         return (false);
     return (true);
 }

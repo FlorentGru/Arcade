@@ -18,9 +18,9 @@ extern "C" {
 
 Nibbler::Nibbler() : window(PIXEL_TO_MAP(960), PIXEL_TO_MAP(960))
 {
-    this->direction = 'l';
     this->score = 100;
     this->food = 0;
+    this->die = false;
 
     this->x = 1;
     this->y = 0;
@@ -28,6 +28,7 @@ Nibbler::Nibbler() : window(PIXEL_TO_MAP(960), PIXEL_TO_MAP(960))
     this->height = window.getHeight() - 1;
     this->width = window.getWidth() - 1;
     this->delay = window.getFrame();
+    this->closeWindow.setClose(true);
 
     this->snake.setWidth(width);
     this->snake.setHeight(height);
@@ -112,6 +113,7 @@ void Nibbler::moveNibbler(const std::vector<arcDisplay::t_InfoInput> &inputs)
         }
     }
     if (snake.move(x, y) == false) {
+        die = true;
     }
     // if (direction == 'l') {
     //     snake.move(-1, 0);
@@ -127,8 +129,13 @@ void Nibbler::moveNibbler(const std::vector<arcDisplay::t_InfoInput> &inputs)
 const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Nibbler::getInfoDisplay()
 {
     infos.clear();
+    if (die == true) {
+        infos.emplace_back(std::ref(closeWindow));
+        return (infos);
+    }
     for (auto &rect : this->snake.getSnake())
         infos.emplace_back(std::ref(rect));
+    
     return (this->infos);
 }
 

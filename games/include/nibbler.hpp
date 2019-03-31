@@ -26,16 +26,19 @@ class Nibbler : public IGameModule
 {
     private:
         int score;
-        char direction;
-        bool food;
         int width;
         int height;
+        bool die;
+
+        bool food;
         int delay;
         int x;
         int y;
         arcDisplay::KeyBoard::KeyID key;
-        Snake snake;
         InitWindow window;
+        arcDisplay::WindowInfo closeWindow;
+        Snake snake;
+
         std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> infos;
 
     public:
