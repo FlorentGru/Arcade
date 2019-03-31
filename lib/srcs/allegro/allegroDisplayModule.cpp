@@ -145,7 +145,7 @@ void arcDisplay::allegroDisplayModule::draw(const SpriteInfo& sprite)
     std::pair<float, float> size = sprite.getSize();
     std::vector <unsigned char>color = sprite.getColor();
 
-    if (sprite.getTexture() != "" || al_load_bitmap(sprite.getTexture().c_str()) == NULL) {
+    if (sprite.getTexture() != "" || al_load_bitmap(sprite.getTexture().c_str()) != NULL) {
         ALLEGRO_BITMAP *bitmap = al_load_bitmap(sprite.getTexture().c_str());
         std::pair<int, int> posRect = sprite.getPosRect();
         std::pair<int, int> sizeRect = sprite.getSizeRect();
@@ -171,10 +171,10 @@ void arcDisplay::allegroDisplayModule::draw(const RectInfo& rect)
     std::pair<float, float> size = rect.getSize();
     std::vector <unsigned char>color = rect.getColor();
 
-    if (rect.getTexture() != "" && al_load_bitmap(rect.getTexture().c_str()) == NULL) {
+    if (rect.getTexture() != "" && al_load_bitmap(rect.getTexture().c_str()) != NULL) {
         ALLEGRO_BITMAP *bitmap = al_load_bitmap(rect.getTexture().c_str());
         if (bitmap != NULL) {
-            al_draw_bitmap_region(bitmap, 0, 0, size.first * CHAR_SIZE, size.second * CHAR_SIZE, pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, 0);
+            al_draw_bitmap_region(bitmap, 0, 0, al_get_bitmap_width(bitmap), al_get_bitmap_height(bitmap), 0, 0 , 0);
             return;
         }
     }

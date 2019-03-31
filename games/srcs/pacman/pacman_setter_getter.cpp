@@ -44,6 +44,19 @@ Pacman::Pacman() : window(960, 540)
     this->move_pac = 0;
     this->window.setWidth(PIXEL_TO_MAP(960));
     this->window.setHeight(PIXEL_TO_MAP(960));
+    std::cout << map.size() << std::endl;
+    for (size_t i = 0; i < this->map.size(); i++) {
+        for (size_t k = 0; k < this->map[i].length(); k++) {
+            if (this->map[i][k] == 'X') {
+                printf("Yolo\n");
+                this->allrect.emplace_back(arcDisplay::RectInfo());
+                this->allrect.back().setAscii(' ');
+                this->allrect.back().setPos(static_cast<float>(k * 3), static_cast<float>(i * 3));
+                this->allrect.back().setSize(3, 3);
+                this->allrect.back().setColor(255, 0, 0);
+            }
+        }
+    }
 }
 
 std::pair<float, float> Pacman::get_pos_pac()

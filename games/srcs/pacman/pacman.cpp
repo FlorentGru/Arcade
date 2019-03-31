@@ -21,7 +21,7 @@ const InitWindow &Pacman::initWindow()
 
 bool Pacman::playGame(const std::vector<arcDisplay::t_InfoInput> &inputs)
 {
-     for (auto input : inputs) {
+    for (auto &input : inputs) {
         if (input.isPressed) {
             switch (input.id) {
                 case arcDisplay::KeyBoard::Z:
@@ -45,47 +45,36 @@ bool Pacman::playGame(const std::vector<arcDisplay::t_InfoInput> &inputs)
             }
         }
     }
-    this->allrect.clear();
     for (size_t i = 0; i < this->map.size(); i++) {
         for (size_t k = 0; k < this->map[i].length(); k++) {
-            if (this->map[i][k] == 'X') {
-                this->allrect.push_back(arcDisplay::RectInfo());
+            if (this->map[i][k] == '.') {
+                this->allbubble.push_back(arcDisplay::CircleInfo());
+                this->allbubble.back().setAscii('o');
+                this->allbubble.back().setPos(static_cast<float>(k * 3 + PIXEL_TO_MAP(27.5) - 0.5), static_cast<float>(i * 3 + PIXEL_TO_MAP(27.5) - 0.5));
+                this->allbubble.back().setSize(0.5, 0.5);
+                this->allbubble.back().setColor(255, 255, 255);
+            }
+            if (this->map[i][k] == 'o') {
+                this->allbubble.emplace_back(arcDisplay::CircleInfo());
+                this->allbubble.back().setAscii('O');
+                this->allbubble.back().setPos(static_cast<float>(k * 3 + PIXEL_TO_MAP(27.5) - 1), static_cast<float>(i * 3 + PIXEL_TO_MAP(27.5) - 1));
+                this->allbubble.back().setSize(1, 1);
+                this->allbubble.back().setColor(255, 255, 255);
+            }
+            if (this->map[i][k] == 'F') {
+                this->allrect.emplace_back(arcDisplay::RectInfo());
                 this->allrect.back().setAscii(' ');
-                this->allrect.back().setPos(static_cast<float>(k * 2), static_cast<float>(i * 2));
+                this->allrect.back().setPos(static_cast<float>(k * 3), static_cast<float>(i * 3));
                 this->allrect.back().setSize(2, 2);
-                this->allrect.back().setColor(255, 0, 0);
+                this->allrect.back().setColor(255, 0, 255);
             }
-            else if (this->map[i][k] == '.') {
-                this->allrect.push_back(arcDisplay::RectInfo());
-//                this->allrect.back().setTexture("./rsc/textures/bubble.png");
-                this->allrect.back().setAscii('o');
-                this->allrect.back().setPos(static_cast<float>(k * 2), static_cast<float>(i * 2));
+            if (this->map[i][k] == 'P') {
+                this->allrect.emplace_back(arcDisplay::RectInfo());
+                this->allrect.back().setAscii('0');
+                this->allrect.back().setPos(static_cast<float>(k * 3), static_cast<float>(i * 3));
                 this->allrect.back().setSize(2, 2);
-                this->allrect.back().setColor(255, 255, 255);
+                this->allrect.back().setColor(255, 255, 50);
             }
-//             if (this->map[i][k] == 'o') {
-//                 this->allrect.emplace_back(arcDisplay::RectInfo());
-// //                this->allrect.back().setTexture("./rsc/textures/big_bubble.png");
-//                 this->allrect.back().setAscii('o');
-//                 this->allrect.back().setPos(static_cast<float>(k * 3), static_cast<float>(i * 3));
-//                 this->allrect.back().setSize(3, 3);
-//                 this->allrect.back().setColor(255, 255, 255);
-//             }
-//             if (this->map[i][k] == 'F') {
-//                 this->allrect.emplace_back(arcDisplay::RectInfo());
-//                 this->allrect.back().setAscii(' ');
-//                 this->allrect.back().setPos(static_cast<float>(k * 3), static_cast<float>(i * 3));
-//                 this->allrect.back().setSize(3, 3);
-//                 this->allrect.back().setColor(255, 0, 255);
-//             }
-//             if (this->map[i][k] == 'P') {
-//                 this->allrect.emplace_back(arcDisplay::RectInfo());
-// //                this->allrect.back().setTexture("./rsc/textures/pacman.png");
-//                 this->allrect.back().setAscii('0');
-//                 this->allrect.back().setPos(static_cast<float>(k * 3), static_cast<float>(i * 3));
-//                 this->allrect.back().setSize(3, 3);
-//                 this->allrect.back().setColor(255, 255, 50);
-//             }
         }
     }
     return (true);
@@ -93,7 +82,7 @@ bool Pacman::playGame(const std::vector<arcDisplay::t_InfoInput> &inputs)
 
 const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Pacman::getInfoDisplay()
 {
-    // this->infos.clear();
+    this->infos.clear();
     // infos.emplace_back(std::ref(this->usage));
     for (const auto &rect : this->allrect)
         infos.emplace_back(std::ref(rect));
@@ -106,10 +95,10 @@ const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Pacma
 
 long int Pacman::getScore() const
 {
-
+    return (0);
 }
 
 void check_move_pac(arcDisplay::KeyBoard::KeyID key)
 {
-    
+    (void) key;
 }

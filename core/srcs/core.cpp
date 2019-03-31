@@ -120,9 +120,7 @@ Outcome Core::menuLoop()
 
 void Core::initGame()
 {
-    if (!graphical->initScreen(game->initWindow())) {
-//        throw ();
-    }
+    graphical->initScreen(game->initWindow());
 }
 
 Outcome Core::gameLoop()
