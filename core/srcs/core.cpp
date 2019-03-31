@@ -266,13 +266,11 @@ void Core::setDisplayLibPath(const std::string &dirPath)
 {
     std::string filename;
 
-    std::cout << "LOAD DISPLAY" << std::endl;
     for (auto &filepath : std::experimental::filesystem::directory_iterator(dirPath)) {
         filename = filepath.path().string();
         if (std::experimental::filesystem::is_regular_file(filepath.path())
         && filename.rfind(".so") == filename.size() - 3) {
             this->displayLibPath.push_back(filename);
-            std::cout << filename << std::endl;
         }
     }
 }
@@ -281,16 +279,13 @@ void Core::setGameLibPath(const std::string &dirPath)
 {
     std::string filename;
 
-    std::cout << "LOAD GAMES" << std::endl;
     for (auto &filepath : std::experimental::filesystem::directory_iterator(dirPath)) {
         filename = filepath.path().string();
         if (std::experimental::filesystem::is_regular_file(filepath.path())
         && filename.rfind(".so") == filename.size() - 3) {
             this->gameLibPath.push_back(filename);
-            std::cout << filename << std::endl;
         }
     }
-    std::cout << "END OF LOAD\n\n";
 }
 
 void Core::setDisplayModule(const std::string &libName)

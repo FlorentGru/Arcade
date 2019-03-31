@@ -18,7 +18,7 @@ Pacman::Pacman() : window(960, 540), close(true)
     map.push_back("XXXX.XXX X XXX.XXXX\n");
     map.push_back("   X.X       X.X   \n");
     map.push_back("XXXX.X XX XX X.XXXX\n");
-    map.push_back("    .  X F X  .    \n");
+    map.push_back(" x  .  X F X  .  x \n");
     map.push_back("XXXX.X XFFFX X.XXXX\n");
     map.push_back("   X.X XXXXX X.X   \n");
     map.push_back("   X.X       X.X   \n");
@@ -33,6 +33,7 @@ Pacman::Pacman() : window(960, 540), close(true)
     map.push_back("XXXXXXXXXXXXXXXXXXX\n");
     this->isPacInv = false;
     this->isGhostRun = false;
+    this->loose = false;
     this->pos_ghost.push_back(std::make_pair(static_cast<float>(10), static_cast<float>(10)));
     this->pos_ghost.push_back(std::make_pair(static_cast<float>(9), static_cast<float>(11)));
     this->pos_ghost.push_back(std::make_pair(static_cast<float>(10), static_cast<float>(11)));
@@ -60,6 +61,12 @@ Pacman::Pacman() : window(960, 540), close(true)
                 this->pac.back().setColor(255, 255, 50);
             } else if (this->map[i][k] == 'F') {
                 this->ghosts.emplace_back(Ghost(static_cast<float>(k + 20), static_cast<float>(i + 20)));
+            }else if(this->map[i][k] == 'x') {
+                this->inv_wall.emplace_back(arcDisplay::RectInfo());
+                this->inv_wall.back().setAscii(' ');
+                this->inv_wall.back().setPos(static_cast<float>(k + 20), static_cast<float>(i + 20));
+                this->inv_wall.back().setSize(1, 1);
+                this->inv_wall.back().setColor(0, 0, 0);
             }
             if (this->map[i][k] == '.')
                 this->nb_bubble++;

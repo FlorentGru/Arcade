@@ -32,22 +32,26 @@ void Ghost::move(int count, const std::vector<std::string> &map)
         return;
     }
 
-    if (map[posMap.second - 20 + 1][posMap.first - 20] != 'X' && nextMove.second != -1) {
+    if (map[posMap.second - 20 + 1][posMap.first - 20] != 'X' && nextMove.second != -1)
         moves.emplace_back(std::pair<int, int>(0, 1));
-    }
-    if (map[posMap.second - 20 - 1][posMap.first - 20] != 'X' && nextMove.second != 1) {
+    if (map[posMap.second - 20 - 1][posMap.first - 20] != 'X' && nextMove.second != 1)
         moves.emplace_back(std::pair<int, int>(0, -1));
-    }
-    if (map[posMap.second - 20][posMap.first - 20 + 1] != 'X' && nextMove.first != -1) {
+    if (map[posMap.second - 20][posMap.first - 20 + 1] != 'X' && nextMove.first != -1)
         moves.emplace_back(std::pair<int, int>(1, 0));
-    }
-    if (map[posMap.second - 20][posMap.first - 20 - 1] != 'X' && nextMove.first != 1) {
+    if (map[posMap.second - 20][posMap.first - 20 - 1] != 'X' && nextMove.first != 1)
         moves.emplace_back(std::pair<int, int>(-1, 0));
-    }
     if (!moves.empty())
         nextMove = moves.at(std::rand() % moves.size());
     else
         nextMove = std::pair<int, int>(0, 0);
+    if (map[posMap.second - 20][posMap.first - 20] == 'x' && posMap.first - 20 == 1) {
+        rect.setPos(posMap.first + 14, posMap.second);
+        posMap.first += 14;
+    }
+    else if (map[posMap.second - 20][posMap.first - 20] == 'x' && posMap.first - 20 == 17) {
+        rect.setPos(posMap.first - 14, posMap.second);
+        posMap.first -= 14;
+    }
     posMap.first += nextMove.first;
     posMap.second += nextMove.second;
     rect.setPos(rect.getPos().first + static_cast<float>(nextMove.first / 10.0), rect.getPos().second + static_cast<float>(nextMove.second / 10.0));

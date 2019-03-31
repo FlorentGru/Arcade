@@ -51,7 +51,7 @@ bool Pacman::playGame(const std::vector<arcDisplay::t_InfoInput> &inputs)
 const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Pacman::getInfoDisplay()
 {
     this->infos.clear();
-    if (this->nb_bubble == 0) {
+    if (this->nb_bubble == 0 || this->loose == true) {
         infos.emplace_back(std::ref(this->close));
         return (infos);
     }
@@ -133,6 +133,8 @@ void Pacman::check_move_pac()
     }
     for (auto &ghost: ghosts) {
         ghost.move(counter, this->map);
+        if (static_cast<int>(ghost.getRect().getPos().first) == static_cast<int>(pac.back().getPos().first) && static_cast<int>(ghost.getRect().getPos().second) == static_cast<int>(pac.back().getPos().second))
+            this->loose = true;
     }
     counter++;
 }
@@ -152,7 +154,16 @@ void Pacman::move_pac(int x, int y, int *count)
             this->isGhostRun = true;
             score += 15;
         }
-        this->pac.back().setPos(pos_pac.first, pos_pac.second);
+        if (map[pos_pac.second - 20][pos_pac.first - 20] == 'x' && pos_pac.first - 20 == 1) {
+            this->pac.back().setPos(pos_pac.first + 14, pos_pac.second);
+            pos_pac.first += 14;
+        }
+        else if (map[pos_pac.second - 20][pos_pac.first - 20] == 'x' && pos_pac.first - 20 == 17) {
+            this->pac.back().setPos(pos_pac.first - 14, pos_pac.second);
+            pos_pac.first -= 14;
+        }
+        else
+            this->pac.back().setPos(pos_pac.first, pos_pac.second);
         pos_pac.second += x;
         pos_pac.first += y;
         *count = 0;
