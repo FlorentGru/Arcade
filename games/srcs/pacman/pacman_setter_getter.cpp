@@ -13,7 +13,7 @@ Pacman::Pacman() : window(960, 540)
     map.push_back("X........X........X\n");
     map.push_back("XoXX.XXX.X.XXX.XXoX\n");
     map.push_back("X.................X\n");
-    map.push_back("X.XX X.XXXXX.X.XX.X\n");
+    map.push_back("X.XX.X.XXXXX.X.XX.X\n");
     map.push_back("X....X...X...X....X\n");
     map.push_back("XXXX.XXX X XXX.XXXX\n");
     map.push_back("   X.X       X.X   \n");
@@ -26,7 +26,7 @@ Pacman::Pacman() : window(960, 540)
     map.push_back("X........X........X\n");
     map.push_back("X.XX.XXX.X.XXX.XX.X\n");
     map.push_back("Xo.X.....P.....X.oX\n");
-    map.push_back("XX.X.X.XXXXX.X X.XX\n");
+    map.push_back("XX.X.X.XXXXX.X.X.XX\n");
     map.push_back("X....X...X...X....X\n");
     map.push_back("X.XXXXXX.X.XXXXXX.X\n");
     map.push_back("X.................X\n");

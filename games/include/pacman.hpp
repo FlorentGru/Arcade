@@ -34,7 +34,7 @@ class Pacman : public IGameModule
         arcDisplay::KeyBoard::KeyID key;
         std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> infos;
         std::vector<arcDisplay::RectInfo> allrect;
-        std::vector<arcDisplay::CircleInfo> allcircle;
+        std::vector<arcDisplay::RectInfo> allbubble;
         InitWindow window;
     public:
         Pacman();

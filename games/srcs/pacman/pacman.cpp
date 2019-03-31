@@ -45,19 +45,47 @@ bool Pacman::playGame(const std::vector<arcDisplay::t_InfoInput> &inputs)
             }
         }
     }
+    this->allrect.clear();
     for (size_t i = 0; i < this->map.size(); i++) {
         for (size_t k = 0; k < this->map[i].length(); k++) {
             if (this->map[i][k] == 'X') {
-                this->allrect.emplace_back(arcDisplay::RectInfo());
-                this->allrect.back().setAscii('X');
-                this->allrect.back().setPos(static_cast<float>(i), static_cast<float>(k));
-                this->allrect.back().setSize(1, 1);
+                this->allrect.push_back(arcDisplay::RectInfo());
+                this->allrect.back().setAscii(' ');
+                this->allrect.back().setPos(static_cast<float>(k * 2), static_cast<float>(i * 2));
+                this->allrect.back().setSize(2, 2);
                 this->allrect.back().setColor(255, 0, 0);
             }
-            if (this->map[i][k] == '.');
-            if (this->map[i][k] == 'o');
-            if (this->map[i][k] == 'F');
-            if (this->map[i][k] == 'P');
+            else if (this->map[i][k] == '.') {
+                this->allrect.push_back(arcDisplay::RectInfo());
+//                this->allrect.back().setTexture("./rsc/textures/bubble.png");
+                this->allrect.back().setAscii('o');
+                this->allrect.back().setPos(static_cast<float>(k * 2), static_cast<float>(i * 2));
+                this->allrect.back().setSize(2, 2);
+                this->allrect.back().setColor(255, 255, 255);
+            }
+//             if (this->map[i][k] == 'o') {
+//                 this->allrect.emplace_back(arcDisplay::RectInfo());
+// //                this->allrect.back().setTexture("./rsc/textures/big_bubble.png");
+//                 this->allrect.back().setAscii('o');
+//                 this->allrect.back().setPos(static_cast<float>(k * 3), static_cast<float>(i * 3));
+//                 this->allrect.back().setSize(3, 3);
+//                 this->allrect.back().setColor(255, 255, 255);
+//             }
+//             if (this->map[i][k] == 'F') {
+//                 this->allrect.emplace_back(arcDisplay::RectInfo());
+//                 this->allrect.back().setAscii(' ');
+//                 this->allrect.back().setPos(static_cast<float>(k * 3), static_cast<float>(i * 3));
+//                 this->allrect.back().setSize(3, 3);
+//                 this->allrect.back().setColor(255, 0, 255);
+//             }
+//             if (this->map[i][k] == 'P') {
+//                 this->allrect.emplace_back(arcDisplay::RectInfo());
+// //                this->allrect.back().setTexture("./rsc/textures/pacman.png");
+//                 this->allrect.back().setAscii('0');
+//                 this->allrect.back().setPos(static_cast<float>(k * 3), static_cast<float>(i * 3));
+//                 this->allrect.back().setSize(3, 3);
+//                 this->allrect.back().setColor(255, 255, 50);
+//             }
         }
     }
     return (true);
@@ -67,12 +95,10 @@ const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Pacma
 {
     // this->infos.clear();
     // infos.emplace_back(std::ref(this->usage));
-    for (auto &rect : this->allrect)
+    for (const auto &rect : this->allrect)
         infos.emplace_back(std::ref(rect));
-    //     infos.emplace_back(std::ref(game.getText()));
-    // }
-    // for (auto &lib : this->libs) {
-    //     infos.emplace_back(std::ref(lib.getRect()));
+    for (const auto &bubble : this->allbubble)
+        infos.emplace_back(std::ref(bubble));
     //     infos.emplace_back(std::ref(lib.getText()));
     // }
     return (infos);

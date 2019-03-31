@@ -6,6 +6,8 @@
 */
 
 #include "allegroDisplayModule.hpp"
+#include <iostream>
+#include <string>
 
 extern "C" {
     arcDisplay::allegroDisplayModule *entryPoint()
@@ -49,6 +51,8 @@ bool arcDisplay::allegroDisplayModule::display(const std::vector<std::reference_
     al_clear_to_color(al_map_rgb(0, 0, 0));
     for (auto &entity : info) {
         type = entity.get().getType();
+        if (!this->window)
+            break;
         drawType(type, entity.get());
     }
     if (this->window)
@@ -108,7 +112,7 @@ void arcDisplay::allegroDisplayModule::drawType(TypeInfoDisplay type, std::refer
 void arcDisplay::allegroDisplayModule::draw(const WindowInfo &info)
 {
     if (info.isClosed())
-        al_destroy_display(this->window);
+        close();
 }
 
 void arcDisplay::allegroDisplayModule::draw(const SoundInfo& sound)
@@ -146,6 +150,7 @@ void arcDisplay::allegroDisplayModule::draw(const SpriteInfo& sprite)
         std::pair<int, int> posRect = sprite.getPosRect();
         std::pair<int, int> sizeRect = sprite.getSizeRect();
         al_draw_bitmap_region(bitmap, posRect.first * CHAR_SIZE, posRect.second * CHAR_SIZE, sizeRect.first * CHAR_SIZE, sizeRect.second * CHAR_SIZE, pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, 0);
+        return;
     }
     al_draw_filled_rectangle(pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, (pos.first + size.first) * CHAR_SIZE,\
     (pos.second + size.second) * CHAR_SIZE, al_map_rgb(color[0], color[1], color[2]));
@@ -157,7 +162,7 @@ void arcDisplay::allegroDisplayModule::draw(const CircleInfo& circle)
     std::pair<float, float> size = circle.getSize();
     std::vector<unsigned char> color = circle.getColor();
 
-    al_draw_circle(pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, size.first * CHAR_SIZE, al_map_rgb(color[0], color[1], color[2]), 1);
+    al_draw_filled_circle(pos.first * CHAR_SIZE + (size.first * CHAR_SIZE / 2), pos.second * CHAR_SIZE + (size.first * CHAR_SIZE / 2), size.first * CHAR_SIZE / 2, al_map_rgb(color[0], color[1], color[2]));
 }
 
 void arcDisplay::allegroDisplayModule::draw(const RectInfo& rect)
@@ -168,7 +173,10 @@ void arcDisplay::allegroDisplayModule::draw(const RectInfo& rect)
 
     if (rect.getTexture() != "" && al_load_bitmap(rect.getTexture().c_str()) == NULL) {
         ALLEGRO_BITMAP *bitmap = al_load_bitmap(rect.getTexture().c_str());
-        al_draw_bitmap_region(bitmap, 0, 0, size.first * CHAR_SIZE, size.second * CHAR_SIZE, pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, 0);
+        if (bitmap != NULL) {
+            al_draw_bitmap_region(bitmap, 0, 0, size.first * CHAR_SIZE, size.second * CHAR_SIZE, pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, 0);
+            return;
+        }
     }
     al_draw_filled_rectangle(pos.first * CHAR_SIZE, pos.second * CHAR_SIZE, (pos.first + size.first) * CHAR_SIZE,\
     (pos.second + size.second) * CHAR_SIZE, al_map_rgb(color[0], color[1], color[2]));
@@ -191,7 +199,6 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::allegroDisplayModule::ge
 
     inputs.clear();
     for (;check_event(event);) {
-        printf("YOLO\n");
         if (event.type == ALLEGRO_EVENT_KEY_DOWN)
             input.isPressed = true;
         else if (event.type == ALLEGRO_EVENT_KEY_UP)
@@ -215,7 +222,6 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::allegroDisplayModule::ge
                 continue;}
             if (event.keyboard.keycode  == ALLEGRO_KEY_D) {
                 input.id = arcDisplay::KeyBoard::D;
-                printf("OHOHOH\n");
                 inputs.push_back(input);
                 continue;}
             if (event.keyboard.keycode  == ALLEGRO_KEY_E) {
