@@ -71,7 +71,7 @@ CXX 			= 	g++ -shared
 
 MAKE 			= 	make -C
 
-all:		lib1 lib2 lib3
+all:		clean lib1 lib2 lib3
 
 lib1:		$(OBJECTS_LIB1)
 			$(CXX) -o $(NAME_LIB1) $(OBJECTS_LIB1)	$(SFML)
