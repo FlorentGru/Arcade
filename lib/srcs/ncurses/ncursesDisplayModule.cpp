@@ -46,12 +46,26 @@ bool arcDisplay::ncursesDisplayModule::initScreen(const InitWindow &info)
     keypad(stdscr, true);
     noecho();
     curs_set(0);
+    start_color();
+    init_pair(1, COLOR_WHITE, COLOR_BLACK);
+    init_pair(2, COLOR_WHITE, COLOR_WHITE);
+    init_pair(3, COLOR_RED, COLOR_BLACK);
+    init_pair(4, COLOR_RED, COLOR_RED);
+    init_pair(5, COLOR_GREEN, COLOR_BLACK);
+    init_pair(6, COLOR_GREEN, COLOR_GREEN);
+    init_pair(7, COLOR_BLUE, COLOR_BLACK);
+    init_pair(8, COLOR_BLUE, COLOR_BLUE);
+    init_pair(9, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(10, COLOR_YELLOW, COLOR_YELLOW);
+    init_pair(11, COLOR_MAGENTA, COLOR_BLACK);
+    init_pair(12, COLOR_MAGENTA, COLOR_MAGENTA);
+    init_pair(13, COLOR_CYAN, COLOR_BLACK);
+    init_pair(14, COLOR_CYAN, COLOR_CYAN);
     if(has_colors() == FALSE) {	
 	    endwin();
 	    printf("Your terminal does not support color\n");
 	exit(1);
 	}
-    start_color();
     return (true);
 }
 
@@ -107,11 +121,8 @@ void arcDisplay::ncursesDisplayModule::draw(const SoundInfo &info)
 
 void arcDisplay::ncursesDisplayModule::draw(const TextInfo &info)
 {
-    std::vector<unsigned char> color = info.getColor();
-
-    init_color(iterator, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
-    init_pair(iterator, iterator, COLOR_BLACK);
-    attron(COLOR_PAIR(iterator));
+    short nb = convertColor(info.getColor().at(0), info.getColor().at(1), info.getColor().at(2)) + 1;
+    attron(COLOR_PAIR(nb));
     move(static_cast<int> (info.getPos().second), static_cast<int> (info.getPos().first));
     printw(info.getText().c_str());
 }
@@ -126,9 +137,11 @@ void arcDisplay::ncursesDisplayModule::draw(const CircleInfo &info)
 {
     std::vector<unsigned char> color = info.getColor();
 
-    init_color(iterator, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
-    init_pair(iterator, COLOR_BLACK, iterator);
-    attron(COLOR_PAIR(iterator));
+    short nb = convertColor(color.at(0), color.at(1), color.at(2)) + 1;
+    if (info.getAscii() != ' ')
+        attron(COLOR_PAIR(nb));
+    else
+        attron(COLOR_PAIR(nb + 1));
     for (int i = 0; i < info.getSize().second; i++) {
         for (int j = 0; j < info.getSize().first; j++)
             mvprintw(static_cast<int> (info.getPos().second) + i, static_cast<int> (info.getPos().first) + j, "%c", info.getAscii());
@@ -139,9 +152,11 @@ void arcDisplay::ncursesDisplayModule::draw(const RectInfo &info)
 {
     std::vector<unsigned char> color = info.getColor();
 
-    init_color(iterator, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
-    init_pair(iterator, COLOR_BLACK, iterator);
-    attron(COLOR_PAIR(iterator));
+    short nb = convertColor(color.at(0), color.at(1), color.at(2)) + 1;
+    if (info.getAscii() != ' ')
+        attron(COLOR_PAIR(nb));
+    else
+        attron(COLOR_PAIR(nb + 1));
     for (int i = 0; i < info.getSize().second; i++) {
         for (int j = 0; j < info.getSize().first; j++)
             mvprintw(static_cast<int> (info.getPos().second) + i, static_cast<int> (info.getPos().first) + j, "%c", info.getAscii());
@@ -152,9 +167,11 @@ void arcDisplay::ncursesDisplayModule::draw(const LineInfo &info)
 {
     std::vector<unsigned char> color = info.getColor();
 
-    init_color(iterator, color.at(0) * 3, color.at(1) * 3, color.at(2) * 3);
-    init_pair(iterator, COLOR_BLACK, iterator);
-    attron(COLOR_PAIR(iterator));
+    short nb = convertColor(color.at(0), color.at(1), color.at(2)) + 1;
+    if (info.getAscii() != ' ')
+        attron(COLOR_PAIR(nb));
+    else
+        attron(COLOR_PAIR(nb + 1));
     for (int i = 0; i < info.getSize().second; i++) {
         for (int j = 0; j < info.getSize().first; j++)
             mvprintw(static_cast<int> (info.getPos().second) + i, static_cast<int> (info.getPos().first) + j, "%c", info.getAscii());
@@ -407,4 +424,21 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::ncursesDisplayModule::ge
             break;
         }
     return (inputs);
+}
+
+short arcDisplay::ncursesDisplayModule::convertColor(unsigned char R, unsigned char G, unsigned char B)
+{
+    if (R > 200 && G < 100 && B < 100)
+        return arcDisplay::ncursesDisplayModule::RED;
+    if (R < 100 && G > 200 && B < 100)
+        return arcDisplay::ncursesDisplayModule::GREEN;
+    if (R < 100 && G < 100 && B > 200)
+        return arcDisplay::ncursesDisplayModule::BLUE;
+    if (R > 200 && G > 200 && B < 100)
+        return arcDisplay::ncursesDisplayModule::YELLOW;
+    if (R < 100 && G > 200 && B > 200)
+        return arcDisplay::ncursesDisplayModule::CYAN;
+    if (R > 200 && G < 100 && B > 200)
+        return arcDisplay::ncursesDisplayModule::MAGENTA;
+    return arcDisplay::ncursesDisplayModule::WHITE;
 }

@@ -50,6 +50,25 @@ namespace arcDisplay
             bool close();
             bool display(const std::vector<std::reference_wrapper<const IInfoDisplay>> &) override;
             const std::vector<t_InfoInput> &getInput() override;
+            short convertColor(unsigned char R, unsigned char G, unsigned char B);
+
+            enum NCURSESCOLOR
+            {
+                WHITE,
+                WHITE_BACK,
+                RED,
+                RED_BACK,
+                GREEN,
+                GREEN_BACK,
+                BLUE,
+                BLUE_BACK,
+                YELLOW,
+                YELLOW_BACK,
+                MAGENTA,
+                MAGENTA_BACK,
+                CYAN,
+                CYAN_BACK
+            };
     };
 }
 

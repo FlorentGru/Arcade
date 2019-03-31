@@ -241,7 +241,6 @@ void Menu::down()
 
 const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Menu::getInfoDisplay()
 {
-
     this->infos.clear();
     infos.emplace_back(std::ref(this->usage));
     infos.emplace_back(std::ref(this->score.getScore()));

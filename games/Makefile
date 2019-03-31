@@ -50,7 +50,7 @@ CXX 			= 	g++ -shared
 
 MAKE 			= 	make -C
 
-all:		game2 ##game1
+all:		game2 game1
 
 game1:		$(OBJECTS_GAME1)
 			$(CXX) -o $(NAME_GAME1) $(OBJECTS_GAME1)
