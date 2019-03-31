@@ -48,12 +48,18 @@ Pacman::Pacman() : window(960, 540)
     for (size_t i = 0; i < this->map.size(); i++) {
         for (size_t k = 0; k < this->map[i].length(); k++) {
             if (this->map[i][k] == 'X') {
-                printf("Yolo\n");
                 this->allrect.emplace_back(arcDisplay::RectInfo());
                 this->allrect.back().setAscii(' ');
-                this->allrect.back().setPos(static_cast<float>(k * 3), static_cast<float>(i * 3));
-                this->allrect.back().setSize(3, 3);
+                this->allrect.back().setPos(static_cast<float>(k), static_cast<float>(i));
+                this->allrect.back().setSize(1, 1);
                 this->allrect.back().setColor(255, 0, 0);
+            }
+            else if (this->map[i][k] == 'P') {
+                this->pac.emplace_back(arcDisplay::CircleInfo());
+                this->pac.back().setAscii('0');
+                this->pac.back().setPos(static_cast<float>(k * 3), static_cast<float>(i));
+                this->pac.back().setSize(1, 1);
+                this->pac.back().setColor(255, 255, 50);
             }
         }
     }
@@ -110,12 +116,12 @@ size_t Pacman::get_move_pac()
     return (this->move_pac);
 }
 
-void Pacman::set_key(arcDisplay::KeyBoard::KeyID _key)
+void Pacman::set_key(arcDisplay::KeyBoard::KeyID key)
 {
-    this->key = _key;
+    this->_key = key;
 }
 
 arcDisplay::KeyBoard::KeyID Pacman::get_key()
 {
-    return (this->key);
+    return (this->_key);
 }

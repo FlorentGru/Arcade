@@ -31,10 +31,11 @@ class Pacman : public IGameModule
         long int score;
         size_t move_pac;
         size_t move_ghost;
-        arcDisplay::KeyBoard::KeyID key;
+        arcDisplay::KeyBoard::KeyID _key;
         std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> infos;
         std::vector<arcDisplay::RectInfo> allrect;
         std::vector<arcDisplay::CircleInfo> allbubble;
+        std::vector<arcDisplay::CircleInfo> pac;
         InitWindow window;
     public:
         Pacman();
@@ -57,8 +58,9 @@ class Pacman : public IGameModule
         void set_move_ghost(size_t);
         void set_move_pac(size_t);
         void set_key(arcDisplay::KeyBoard::KeyID);
-};
 
-void check_move_pac(arcDisplay::KeyBoard::KeyID key);
+        void show_case();
+        void check_move_pac(arcDisplay::KeyBoard::KeyID key);
+};
 
 #endif
