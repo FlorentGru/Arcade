@@ -18,14 +18,19 @@ private:
     std::vector<arcDisplay::RectInfo> body;
     std::vector<std::pair<int, int>> nextMove;
 
-    unsigned int width;
-    unsigned int height;
+    unsigned int _width;
+    unsigned int _height;
 
 public:
     Snake();
 
     bool eatItself(int x, int y);
     bool move(int x, int y);
+    int getWidth();
+    int getHeight();
+    void setWidth(unsigned int width);
+    void setHeight(unsigned int height);
+    void setPosSnake(int x, int y);
 
     const std::vector<arcDisplay::RectInfo> &getSnake() const;
 };

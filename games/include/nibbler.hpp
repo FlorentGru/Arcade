@@ -28,9 +28,11 @@ class Nibbler : public IGameModule
         int score;
         char direction;
         bool food;
-        int widht;
+        int width;
         int height;
         int delay;
+        int x;
+        int y;
         arcDisplay::KeyBoard::KeyID key;
         Snake snake;
         InitWindow window;
