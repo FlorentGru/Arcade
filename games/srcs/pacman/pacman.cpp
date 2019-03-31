@@ -64,6 +64,9 @@ const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Pacma
     for (const auto &pacm : this->pac) {
         infos.emplace_back(std::ref(pacm));
     }
+    for (const auto &ghost : this->ghosts) {
+        infos.emplace_back(std::ref(ghost.getRect()));
+    }
     infos.emplace_back(lifeDisplay);
     infos.emplace_back(scoreDisplay);
 
@@ -78,7 +81,6 @@ long int Pacman::getScore() const
 void Pacman::show_case()
 {
     allbubble.clear();
-    ghosts.clear();
     for (size_t i = 0; i < this->map.size(); i++) {
         for (size_t k = 0; k < this->map[i].length(); k++) {
             if (this->map[i][k] == '.') {
@@ -94,13 +96,6 @@ void Pacman::show_case()
                 this->allbubble.back().setPos(static_cast<float>(k + 0.2 + 20), static_cast<float>(i + 0.2 + 20));
                 this->allbubble.back().setSize(0.6, 0.6);
                 this->allbubble.back().setColor(255, 255, 255);
-            }
-            else if (this->map[i][k] == 'F') {
-                this->ghosts.emplace_back(arcDisplay::CircleInfo());
-                this->ghosts.back().setAscii(' ');
-                this->ghosts.back().setPos(static_cast<float>(k + 20), static_cast<float>(i + 20));
-                this->ghosts.back().setSize(1, 1);
-                this->ghosts.back().setColor(255, 0, 255);
             }
         }
     }
@@ -131,7 +126,15 @@ void Pacman::check_move_pac()
     count++;
     if (count > 10)
         count = 10;
-    this->pac.back().setPos(this->pac.back().getPos().first, this->pac.back().getPos().second); 
+    this->pac.back().setPos(this->pac.back().getPos().first, this->pac.back().getPos().second);
+
+    if (counter == 10) {
+        counter = 0;
+    }
+    for (auto &ghost: ghosts) {
+        ghost.move(counter, this->map);
+    }
+    counter++;
 }
 
 void Pacman::move_pac(int x, int y, int *count)

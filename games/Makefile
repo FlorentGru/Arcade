@@ -7,6 +7,7 @@
 
 SRC_GAME1		=	$(SRC_DIR_GAME1)pacman_setter_getter.cpp	\
 					$(SRC_DIR_GAME1)pacman.cpp	\
+					$(SRC_DIR_GAME1)Ghost.cpp	\
 					../core/srcs/InfoDisplay/CircleInfo.cpp	\
 					../core/srcs/InfoDisplay/LineInfo.cpp	\
 					../core/srcs/InfoDisplay/SoundInfo.cpp	\

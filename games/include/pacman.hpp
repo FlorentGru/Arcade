@@ -16,6 +16,7 @@
 #include "CircleInfo.hpp"
 #include "RectInfo.hpp"
 #include "LineInfo.hpp"
+#include "Ghost.hpp"
 #include <functional>
 #include <iostream>
 #include <fstream>
@@ -36,7 +37,10 @@ class Pacman : public IGameModule
         std::vector<arcDisplay::RectInfo> allrect;
         std::vector<arcDisplay::CircleInfo> allbubble;
         std::vector<arcDisplay::CircleInfo> pac;
-        std::vector<arcDisplay::CircleInfo> ghosts;
+
+        int counter;
+        std::vector<Ghost> ghosts;
+
         InitWindow window;
         arcDisplay::WindowInfo close;
 

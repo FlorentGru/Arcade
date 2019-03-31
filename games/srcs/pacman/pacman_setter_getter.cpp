@@ -58,11 +58,14 @@ Pacman::Pacman() : window(960, 540), close(true)
                 this->pos_pac = std::make_pair(k + 20, i + 20);
                 this->pac.back().setSize(1, 1);
                 this->pac.back().setColor(255, 255, 50);
+            } else if (this->map[i][k] == 'F') {
+                this->ghosts.emplace_back(Ghost(static_cast<float>(k + 20), static_cast<float>(i + 20)));
             }
             if (this->map[i][k] == '.')
                 this->nb_bubble++;
         }
     }
+    this->counter = 0;
 
     this->life = 3;
     this->lifeDisplay.setSize(30);
