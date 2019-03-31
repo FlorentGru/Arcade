@@ -22,7 +22,6 @@
 #include <functional>
 #include <unistd.h>
 
-
 class Nibbler : public IGameModule
 {
     private:
@@ -43,7 +42,6 @@ class Nibbler : public IGameModule
         Food fruits;
 
         std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> infos;
-
     public:
         Nibbler();
 

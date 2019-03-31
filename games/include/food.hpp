@@ -29,7 +29,7 @@ public:
     int getHeight();
     void setWidth(unsigned int width);
     void setHeight(unsigned int height);
-    void setPosFood();
+    void setPosFood(const Snake &snake);
 
     const std::vector<arcDisplay::RectInfo> &getFruits() const;
 };

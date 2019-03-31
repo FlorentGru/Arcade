@@ -34,7 +34,7 @@ CXX 			= 	g++
 
 MAKE 			= 	make -C
 
-all:		core game graphicals
+all:		core graphicals game
 
 core:		$(OBJECTS_CORE)
 			$(CXX) -o $(NAME_CORE) $(OBJECTS_CORE) -ldl -lstdc++fs

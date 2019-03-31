@@ -51,11 +51,12 @@ void Food::setHeight(unsigned int height)
     this->_height = height;
 }
 
-void Food::setPosFood()
+void Food::setPosFood(const Snake &snake)
 {
     for (size_t i = 0; i < _fruits.size(); ++i) {
         int x = 1 + std::rand() % (_width - 1);
         int y = 1 + std::rand() % (_height - 1);
-        _fruits.at(i).setPos(x, y);
+        if (x != snake.getSnake().at(0).getPos().first && y != snake.getSnake().at(0).getPos().second)
+            _fruits.at(i).setPos(x, y);
     }
 }

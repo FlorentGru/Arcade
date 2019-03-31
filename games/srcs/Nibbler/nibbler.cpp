@@ -35,7 +35,7 @@ Nibbler::Nibbler() : window(PIXEL_TO_MAP(960), PIXEL_TO_MAP(650))
 
     this->fruits.setWidth(width);
     this->fruits.setHeight(height);
-    this->fruits.setPosFood();
+    this->fruits.setPosFood(snake);
 
     int i = 0;
 
@@ -70,11 +70,12 @@ Nibbler::Nibbler() : window(PIXEL_TO_MAP(960), PIXEL_TO_MAP(650))
         this->edges.at(i).setPos(width, j);
         i++;
     }
+    
 }
 
 const InitWindow &Nibbler::initWindow()
 {
-    this->window.setFrame(30);
+    this->window.setFrame(15);
     this->window.setName("Nibbler");
     return (window);
 }
@@ -87,7 +88,7 @@ bool    Nibbler::playGame(const std::vector<arcDisplay::t_InfoInput> &inputs)
 
 void Nibbler::moveNibbler(const std::vector<arcDisplay::t_InfoInput> &inputs)
 {
-    for(auto input : inputs) {
+    for(auto &input : inputs) {
         if (input.isPressed) {
             switch (input.id) {
                 case arcDisplay::KeyBoard::Z:
@@ -125,7 +126,7 @@ void Nibbler::moveNibbler(const std::vector<arcDisplay::t_InfoInput> &inputs)
     if (fruits.eatFruits(snake) == true) {
         score += 10;
         snake.grow();
-        fruits.setPosFood();
+        fruits.setPosFood(snake);
     }
     if (fruits.getFruits().empty()) {
         score += 50;
@@ -144,12 +145,14 @@ const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Nibbl
         infos.emplace_back(std::ref(rect));
     for (auto &food : this->fruits.getFruits())
         infos.emplace_back(std::ref(food));
-    for (auto &wall : this->edges)
+    for (auto &wall : this->edges) {
         infos.emplace_back(std::ref(wall));
+    }
+
     return (this->infos);
 }
 
 long int Nibbler::getScore() const
 {
-    return (score);
+    return (this->score);
 }
