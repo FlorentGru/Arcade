@@ -43,12 +43,12 @@ void Score::readScores(std::string game)
 
     file.open(game, std::ios_base::in);
     if (!file.is_open()) {
-        scores.setText("Error: '" + game + "' score file not found");
+        scores.setText("No score yet for " + game);
         scores.setPos(width / 2 - scores.getText().size() / 2, height / 2 - 3);
         return;
     }
 
-    score = "Top Highscores: ";
+    score = "Scores: ";
     for (size_t i = 0; std::getline(file, game); i++) {
         if (!isLineValid(game)) {
             scores.setText("Error: invalid file format (line " + std::to_string(i) + ")");
@@ -86,11 +86,11 @@ bool Score::write(long int score, std::string filePath)
     std::ofstream out;
     std::string username = _username.getText();
 
-    username = username.substr(username.find(' '));
+    username = username.substr(username.rfind(' ') + 1);
     if (filePath.empty())
         return (false);
     if (username.empty()) {
-        username = "Player 1";
+        username = "Player one";
     }
     filePath = std::string("./games/score/").append(filePath);
     file = getFile(filePath);
@@ -110,6 +110,9 @@ bool Score::write(long int score, std::string filePath)
             return (true);
         }
     }
+    if (file.size() > 3) {
+        return (true);
+    }
     out.open(filePath, std::ios_base::app);
     if (!out.is_open())
         return (false);
@@ -125,9 +128,9 @@ bool Score::isHigherScore(const std::string &line, const std::string &username, 
     long int otherScore = 0;
     size_t otherPos = 0;
 
-    if (line.substr(0, line.find('=')) == username && lineScore < score)
+    if (line.substr(0, line.find('=')) == username && lineScore <= score)
         return (true);
-    if (file.size() >= 5 && lineScore < score) {
+    if (file.size() >= 4 && lineScore < score) {
         for (auto &other : file) {
             otherPos = other.find('=') + 1;
             otherScore = std::stoi(&other[otherPos]);

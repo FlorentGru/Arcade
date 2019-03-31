@@ -135,7 +135,7 @@ Outcome Core::gameLoop()
             break;
         game->playGame(inputs);
         if (!graphical->display(game->getInfoDisplay())) {
-            outcome = QUIT;
+            outcome = MENU;
             menu.setScore(game->getScore());
         }
     }

@@ -15,36 +15,44 @@ extern "C" {
     }
 }
 
-const InitWindow &Nibbler::initWindow()
+
+Nibbler::Nibbler() : window(PIXEL_TO_MAP(960), PIXEL_TO_MAP(960))
 {
-    return (window);
+    this->score = 100;
+    this->food = 0;
+    this->die = false;
+
+    this->x = 1;
+    this->y = 0;
+
+    this->height = window.getHeight() - 1;
+    this->width = window.getWidth() - 1;
+    this->delay = window.getFrame();
+    this->closeWindow.setClose(true);
+
+    this->snake.setWidth(width);
+    this->snake.setHeight(height);
+    this->snake.setPosSnake(width / 2, height / 2);
 }
 
-Nibbler::Nibbler() : window(960, 540)
+const InitWindow &Nibbler::initWindow()
 {
-    this->direction = 'l';
-    this->score = 0;
-    this->food = 0;
-    this->height = window.getHeight() - 1;
-    this->widht = window.getWidth() - 1;
-    this->window.setHeight(PIXEL_TO_MAP(960));
-    this->window.setWidth(PIXEL_TO_MAP(960));
     this->window.setFrame(30);
     this->window.setName("Nibbler");
-    this->delay = window.getFrame() / 110000;
+    return (window);
 }
 
 bool    Nibbler::playGame(const std::vector<arcDisplay::t_InfoInput> &inputs)
 {
-    // while(1){
-    //     // if (collision()) {
-    //     //     info.setPos(width / 2, height / 2);
-    //     //     info.setText("Game Over");
-    //     //     break;
-    //     // }
-    //     moveNibbler(inputs);
-    //     usleep(delay);
+    //while(1){
+    // if (collision()) {
+    //     info.setPos(width / 2, height / 2);
+    //     info.setText("Game Over");
+    //     break;
     // }
+    moveNibbler(inputs);
+    //usleep(delay);
+    //}
     return (true);
 }
 
@@ -76,43 +84,62 @@ void Nibbler::moveNibbler(const std::vector<arcDisplay::t_InfoInput> &inputs)
         if (input.isPressed) {
             switch (input.id) {
                 case arcDisplay::KeyBoard::Z:
-                    if (direction != 'd')
-                        direction = 'u';
+                    if (y != 1) {
+                        x = 0;
+                        y = -1;
+                    }
                     break;
                 case arcDisplay::KeyBoard::Q:
-                    if (direction != 'l')
-                        direction = 'r';
+                    if (x != 1) {
+                        x = -1;
+                        y = 0;
+                    }
                     break;
                 case arcDisplay::KeyBoard::S:
-                    if (direction != 'u')
-                        direction = 'd';
+                    if (y != -1) {
+                        x = 0;
+                        y = 1;
+                    }
                     break;
                 case arcDisplay::KeyBoard::D:
-                    if (direction != 'r')
-                        direction = 'l';
+                    if (x != -1) {
+                        x = 1;
+                        y = 0;
+                    }
                     break;
                 default:
                     break;
             }
         }
     }
-    if (direction == 'l') {
-        snake.move(-1, 0);
-    } else if(direction == 'r') {
-        snake.move(1, 0);
-    } else if(direction == 'u') {
-        snake.move(0, 1);
-    } else if (direction == 'd') {
-        snake.move(0, -1);
-    } 
+    if (snake.move(x, y) == false) {
+        die = true;
+    }
+    // if (direction == 'l') {
+    //     snake.move(-1, 0);
+    // } else if(direction == 'r') {
+    //     snake.move(1, 0);
+    // } else if(direction == 'u') {
+    //     snake.move(0, -1);
+    // } else if (direction == 'd') {
+    //     snake.move(0, 1);
+    // } 
 }
 
 const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Nibbler::getInfoDisplay()
 {
-
+    infos.clear();
+    if (die == true) {
+        infos.emplace_back(std::ref(closeWindow));
+        return (infos);
+    }
+    for (auto &rect : this->snake.getSnake())
+        infos.emplace_back(std::ref(rect));
+    
+    return (this->infos);
 }
 
 long int Nibbler::getScore() const
 {
-
+    return (score);
 }

@@ -34,6 +34,7 @@ const InitWindow Menu::initWindow()
     window.setFrame(10);
     window.setName("Menu");
 
+    score.readScores(getLibName(select()));
     return (window);
 }
 
@@ -64,7 +65,6 @@ void Menu::initGames(const std::vector<std::string> &_games)
         x += _width;
     }
     this->gamesNames = _games;
-    score.readScores(getLibName(select()));
 }
 
 void Menu::initLibs(const std::vector<std::string> &_libs)
