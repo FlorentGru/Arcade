@@ -29,6 +29,7 @@ class Pacman : public IGameModule
         bool isGhostRun;
         bool isPacInv;
         long int score;
+        size_t nb_bubble;
         size_t move_ghost;
         arcDisplay::KeyBoard::KeyID next_key;
         arcDisplay::KeyBoard::KeyID actual_key;
@@ -36,7 +37,9 @@ class Pacman : public IGameModule
         std::vector<arcDisplay::RectInfo> allrect;
         std::vector<arcDisplay::CircleInfo> allbubble;
         std::vector<arcDisplay::CircleInfo> pac;
+        std::vector<arcDisplay::CircleInfo> ghosts;
         InitWindow window;
+        arcDisplay::WindowInfo close;
     public:
         Pacman();
 

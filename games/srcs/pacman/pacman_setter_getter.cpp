@@ -7,7 +7,7 @@
 
 #include "pacman.hpp"
 
-Pacman::Pacman() : window(960, 540)
+Pacman::Pacman() : window(960, 540), close(true)
 {
     map.push_back("XXXXXXXXXXXXXXXXXXX\n");
     map.push_back("X........X........X\n");
@@ -38,29 +38,30 @@ Pacman::Pacman() : window(960, 540)
     this->pos_ghost.push_back(std::make_pair(static_cast<float>(10), static_cast<float>(11)));
     this->pos_ghost.push_back(std::make_pair(static_cast<float>(11), static_cast<float>(11)));
     this->score = 0;
+    this->nb_bubble = 0;
     this->move_ghost = 0;
     this->window.setWidth(PIXEL_TO_MAP(960));
     this->window.setHeight(PIXEL_TO_MAP(960));
-    this->window.setFrame(30);
-    std::cout << map.size() << std::endl;
+    this->window.setFrame(60);
     for (size_t i = 0; i < this->map.size(); i++) {
         for (size_t k = 0; k < this->map[i].length(); k++) {
             if (this->map[i][k] == 'X') {
                 this->allrect.emplace_back(arcDisplay::RectInfo());
                 this->allrect.back().setAscii(' ');
-                this->allrect.back().setPos(static_cast<float>(k), static_cast<float>(i));
+                this->allrect.back().setPos(static_cast<float>(k + 20), static_cast<float>(i + 20));
                 this->allrect.back().setSize(1, 1);
                 this->allrect.back().setColor(0, 0, 255);
             }
             else if (this->map[i][k] == 'P') {
                 this->pac.emplace_back(arcDisplay::CircleInfo());
-                this->pac.back().setAscii('0');
-                this->pac.back().setPos(static_cast<float>(k), static_cast<float>(i));
-                this->pos_pac = std::make_pair(k, i);
-                std::cout << this->pac.back().getPos().first << " " << this->pac.back().getPos().second << std::endl;
+                this->pac.back().setAscii(' ');
+                this->pac.back().setPos(static_cast<float>(k + 20), static_cast<float>(i + 20));
+                this->pos_pac = std::make_pair(k + 20, i + 20);
                 this->pac.back().setSize(1, 1);
                 this->pac.back().setColor(255, 255, 50);
             }
+            if (this->map[i][k] == '.')
+                this->nb_bubble++;
         }
     }
 }
