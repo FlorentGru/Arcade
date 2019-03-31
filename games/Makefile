@@ -17,7 +17,17 @@ SRC_GAME1		=	$(SRC_DIR_GAME1)pacman_setter_getter.cpp	\
 					../core/srcs/InfoDisplay/ADrawableInfo.cpp	\
 					../core/srcs/InitWindow.cpp			\
 
-SRC_GAME2		=	$(SRC_DIR_GAME2)games.cpp	\
+SRC_GAME2		=	$(SRC_DIR_GAME2)snake.cpp	\
+					$(SRC_DIR_GAME2)nibbler.cpp	\
+					../core/srcs/InfoDisplay/CircleInfo.cpp	\
+					../core/srcs/InfoDisplay/LineInfo.cpp	\
+					../core/srcs/InfoDisplay/SoundInfo.cpp	\
+					../core/srcs/InfoDisplay/RectInfo.cpp	\
+					../core/srcs/InfoDisplay/TextInfo.cpp	\
+					../core/srcs/InfoDisplay/WindowInfo.cpp	\
+					../core/srcs/InfoDisplay/SpriteInfo.cpp	\
+					../core/srcs/InfoDisplay/ADrawableInfo.cpp	\
+					../core/srcs/InitWindow.cpp			\
 
 NAME_GAME1		=	lib_arcade_pacman.so
 
@@ -29,7 +39,7 @@ OBJECTS_GAME2 	= 	$(SRC_GAME2:%.cpp=%.o)
 
 SRC_DIR_GAME1	=	./srcs/pacman/
 
-SRC_DIR_GAME2	=	./srcs/game2/
+SRC_DIR_GAME2	=	./srcs/Nibbler/
 
 INC_GAME		=	-I ./include/ -I ./../core/include/ -I ./../core/include/InfoDisplay/
 
@@ -39,7 +49,7 @@ CXX 			= 	g++ -shared
 
 MAKE 			= 	make -C
 
-all:		game1 ##game2
+all:		game1 game2
 
 game1:		$(OBJECTS_GAME1)
 			$(CXX) -o $(NAME_GAME1) $(OBJECTS_GAME1)

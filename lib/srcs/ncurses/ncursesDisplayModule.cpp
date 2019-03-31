@@ -292,7 +292,7 @@ const std::vector<arcDisplay::t_InfoInput> &arcDisplay::ncursesDisplayModule::ge
             input.id = arcDisplay::KeyBoard::ENTER;
             inputs.emplace_back(input);
             break;
-        case 127:
+        case KEY_BACKSPACE:
             input.id = arcDisplay::KeyBoard::DELETE;
             inputs.emplace_back(input);
             break;
