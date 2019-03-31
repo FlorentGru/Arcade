@@ -28,7 +28,6 @@ class Pacman : public IGameModule
         std::vector<std::pair<float, float>> pos_ghost;
         bool isGhostRun;
         bool isPacInv;
-        long int score;
         size_t nb_bubble;
         size_t move_ghost;
         arcDisplay::KeyBoard::KeyID next_key;
@@ -40,7 +39,12 @@ class Pacman : public IGameModule
         std::vector<arcDisplay::CircleInfo> ghosts;
         InitWindow window;
         arcDisplay::WindowInfo close;
-    public:
+
+        long int score;
+        arcDisplay::TextInfo scoreDisplay;
+        int life;
+        arcDisplay::TextInfo lifeDisplay;
+public:
         Pacman();
 
         const InitWindow &initWindow();

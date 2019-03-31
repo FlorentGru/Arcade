@@ -5,7 +5,7 @@
 ** pacman_setter_getter.cpp
 */
 
-#include "pacman.hpp"
+#include "../../games/include/pacman.hpp"
 
 Pacman::Pacman() : window(960, 540), close(true)
 {
@@ -37,7 +37,6 @@ Pacman::Pacman() : window(960, 540), close(true)
     this->pos_ghost.push_back(std::make_pair(static_cast<float>(9), static_cast<float>(11)));
     this->pos_ghost.push_back(std::make_pair(static_cast<float>(10), static_cast<float>(11)));
     this->pos_ghost.push_back(std::make_pair(static_cast<float>(11), static_cast<float>(11)));
-    this->score = 0;
     this->nb_bubble = 0;
     this->move_ghost = 0;
     this->window.setWidth(PIXEL_TO_MAP(960));
@@ -64,6 +63,18 @@ Pacman::Pacman() : window(960, 540), close(true)
                 this->nb_bubble++;
         }
     }
+
+    this->life = 3;
+    this->lifeDisplay.setSize(30);
+    this->lifeDisplay.setFont("./rsc/font/WC_RoughTrad.ttf");
+    this->lifeDisplay.setText("Life: " + std::to_string(this->life));
+    this->lifeDisplay.setPos(this->window.getWidth() / 3 - 5, this->window.getHeight() - 20);
+
+    this->score = 0;
+    this->scoreDisplay.setSize(30);
+    this->scoreDisplay.setFont("./rsc/font/WC_RoughTrad.ttf");
+    this->scoreDisplay.setText("Score: " + std::to_string(this->score));
+    this->scoreDisplay.setPos(this->window.getWidth() * (2.0 / 3.0) - 5, this->window.getHeight() - 20);
 }
 
 std::pair<float, float> Pacman::get_pos_pac()

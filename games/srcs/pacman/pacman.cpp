@@ -5,7 +5,7 @@
 ** games.cpp
 */
 
-#include "pacman.hpp"
+#include "../../games/include/pacman.hpp"
 
 extern "C" {
     Pacman *gameInstance()
@@ -43,6 +43,8 @@ bool Pacman::playGame(const std::vector<arcDisplay::t_InfoInput> &inputs)
     }
     check_move_pac();
     show_case();
+    this->scoreDisplay.setText("Score: " + std::to_string(this->score));
+    this->lifeDisplay.setText("Life: " + std::to_string(this->life));
     return (true);
 }
 
@@ -62,6 +64,9 @@ const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Pacma
     for (const auto &pacm : this->pac) {
         infos.emplace_back(std::ref(pacm));
     }
+    infos.emplace_back(lifeDisplay);
+    infos.emplace_back(scoreDisplay);
+
     return (infos);
 }
 
@@ -77,7 +82,7 @@ void Pacman::show_case()
     for (size_t i = 0; i < this->map.size(); i++) {
         for (size_t k = 0; k < this->map[i].length(); k++) {
             if (this->map[i][k] == '.') {
-                this->allbubble.push_back(arcDisplay::CircleInfo());
+                this->allbubble.emplace_back(arcDisplay::CircleInfo());
                 this->allbubble.back().setAscii('o');
                 this->allbubble.back().setPos(static_cast<float>(k + 0.4 + 20), static_cast<float>(i + 0.4 + 20));
                 this->allbubble.back().setSize(0.2, 0.2);
@@ -142,7 +147,7 @@ void Pacman::move_pac(int x, int y, int *count)
             map[pos_pac.second - 20][pos_pac.first - 20] = ' ';
             this->isPacInv = true;
             this->isGhostRun = true;
-            score++;
+            score += 15;
         }
         this->pac.back().setPos(pos_pac.first, pos_pac.second);
         pos_pac.second += x;
