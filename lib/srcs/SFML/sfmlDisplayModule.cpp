@@ -157,7 +157,7 @@ void arcDisplay::sfmlDisplayModule::draw(const CircleInfo &info)
         circle.setTexture(&texture.at(info.getTexture()), true);
     else
         circle.setTexture(nullptr, true);
-    circle.setRadius(info.getSize().first * CHAR_SIZE);
+    circle.setRadius(info.getSize().first * CHAR_SIZE / 2);
     circle.setPosition(info.getPos().first * CHAR_SIZE, info.getPos().second * CHAR_SIZE);
     circle.setFillColor(sf::Color(color.at(0), color.at(1), color.at(2)));
     window.draw(circle);

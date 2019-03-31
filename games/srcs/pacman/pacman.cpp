@@ -25,28 +25,32 @@ bool Pacman::playGame(const std::vector<arcDisplay::t_InfoInput> &inputs)
         if (input.isPressed) {
             switch (input.id) {
                 case arcDisplay::KeyBoard::Z:
+                    next_key = arcDisplay::KeyBoard::Z;
 //                    set_pos_pac(get_pos_pac().first, get_pos_pac().second);
-                    check_move_pac(arcDisplay::KeyBoard::Z);
+//                    check_move_pac(arcDisplay::KeyBoard::Z);
                     break;
                 case arcDisplay::KeyBoard::Q:
+                    next_key = arcDisplay::KeyBoard::Q;
 //                    set_pos_pac(get_pos_pac().first - (1/15), get_pos_pac().second);
-                    check_move_pac(arcDisplay::KeyBoard::Q);
+//                    check_move_pac(arcDisplay::KeyBoard::Q);
                     break;
                 case arcDisplay::KeyBoard::S:
+                    next_key = arcDisplay::KeyBoard::S;
 //                    set_pos_pac(get_pos_pac().first, get_pos_pac().second + (1/15));
-                    check_move_pac(arcDisplay::KeyBoard::S);
+//                    check_move_pac(arcDisplay::KeyBoard::S);
                     break;
                 case arcDisplay::KeyBoard::D:
+                    next_key = arcDisplay::KeyBoard::D;
 //                    set_pos_pac(get_pos_pac().first + (1/15), get_pos_pac().second);
-                    check_move_pac(arcDisplay::KeyBoard::D);
+//                    check_move_pac(arcDisplay::KeyBoard::D);
                     break;
                 default:
                     break;
             }
         }
     }
+    check_move_pac();
     show_case();
-    this->pac.back().setPos(static_cast<float>(pos_pac.first), static_cast<float>(pos_pac.second));
     return (true);
 }
 
@@ -54,12 +58,15 @@ const std::vector<std::reference_wrapper<const arcDisplay::IInfoDisplay>> &Pacma
 {
     this->infos.clear();
     // infos.emplace_back(std::ref(this->usage));
-    for (const auto &rect : this->allrect)
+    for (const auto &rect : this->allrect) {
         infos.emplace_back(std::ref(rect));
-    for (const auto &bubble : this->allbubble)
+    }
+    for (const auto &bubble : this->allbubble) {
         infos.emplace_back(std::ref(bubble));
-    for (const auto &pacm : this->pac)
+    }
+    for (const auto &pacm : this->pac) {
         infos.emplace_back(std::ref(pacm));
+    }
     return (infos);
 }
 
@@ -70,6 +77,7 @@ long int Pacman::getScore() const
 
 void Pacman::show_case()
 {
+    allbubble.clear();
     for (size_t i = 0; i < this->map.size(); i++) {
         for (size_t k = 0; k < this->map[i].length(); k++) {
             if (this->map[i][k] == '.') {
@@ -86,30 +94,56 @@ void Pacman::show_case()
                 this->allbubble.back().setSize(0.6, 0.6);
                 this->allbubble.back().setColor(255, 255, 255);
             }
-            else if (this->map[i][k] == 'F') {
-                this->allrect.emplace_back(arcDisplay::RectInfo());
-                this->allrect.back().setAscii(' ');
-                this->allrect.back().setPos(static_cast<float>(k), static_cast<float>(i));
-                this->allrect.back().setSize(1, 1);
-                this->allrect.back().setColor(255, 0, 255);
-            }
+            // else if (this->map[i][k] == 'F') {
+            //     this->allrect.emplace_back(arcDisplay::RectInfo());
+            //     this->allrect.back().setAscii(' ');
+            //     this->allrect.back().setPos(static_cast<float>(k), static_cast<float>(i));
+            //     this->allrect.back().setSize(1, 1);
+            //     this->allrect.back().setColor(255, 0, 255);
+            //}
         }
     }
 }
 
-void Pacman::check_move_pac(arcDisplay::KeyBoard::KeyID key)
+void Pacman::check_move_pac()
 {
-    // if ((this->pos_pac.first % 15) == 0)
-        
-    std::cout << pos_pac.first << " & " << pos_pac.second << std::endl;
-    if (key == arcDisplay::KeyBoard::S)
-        if ((pac.second - static_cast<int>pac.second) == 0)
-        this->pos_pac.second += 0.1;
-    if (key == arcDisplay::KeyBoard::Z)
-        this->pos_pac.second -= 0.1;
-    if (key == arcDisplay::KeyBoard::Q)
-        this->pos_pac.first -= 0.1;
-    if (key == arcDisplay::KeyBoard::D)
-        this->pos_pac.first += 0.1;
-    this->pac.back().setPos(static_cast<float>(pos_pac.first), static_cast<float>(pos_pac.second)); 
+    static int count = 0;
+
+    if ((count % 10) == 0 ) {
+        if (next_key == arcDisplay::KeyBoard::S && map[pos_pac.second + 1][pos_pac.first] != 'X')
+            actual_key = next_key;
+        if (next_key == arcDisplay::KeyBoard::Z && map[pos_pac.second - 1][pos_pac.first] != 'X')
+            actual_key = next_key;
+        if (next_key == arcDisplay::KeyBoard::D && map[pos_pac.second][pos_pac.first + 1] != 'X')
+            actual_key = next_key;
+        if (next_key == arcDisplay::KeyBoard::Q && map[pos_pac.second][pos_pac.first - 1] != 'X')
+            actual_key = next_key;
+    }
+    if (actual_key == arcDisplay::KeyBoard::S)
+        move_pac(1, 0, &count);
+    if (actual_key == arcDisplay::KeyBoard::Z)
+        move_pac(-1, 0, &count);
+    if (actual_key == arcDisplay::KeyBoard::Q)
+        move_pac(0, -1, &count);
+    if (actual_key == arcDisplay::KeyBoard::D)
+        move_pac(0, 1, &count);
+    count++;
+    if (count > 10)
+        count = 10;
+    this->pac.back().setPos(this->pac.back().getPos().first, this->pac.back().getPos().second); 
+}
+
+void Pacman::move_pac(int x, int y, int *count)
+{
+    if (*count % 10 == 0 && map[pos_pac.second + x][pos_pac.first + y] == 'X')
+            return;
+    if (*count % 10 == 0) {
+        if (map[pos_pac.second][pos_pac.first] == '.')
+            map[pos_pac.second][pos_pac.first] = ' ';
+        this->pac.back().setPos(pos_pac.first, pos_pac.second);
+        pos_pac.second += x;
+        pos_pac.first += y;
+        *count = 0;
+    }
+    this->pac.back().setPos(this->pac.back().getPos().first + static_cast<float>(y / 10), this->pac.back().getPos().second + static_cast<float>(x / 10));
 }
